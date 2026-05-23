@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contact Box It Up — reach out for store partnerships, early collaboration, or general inquiries." />
+  <title>Box It Up | Contact</title>
+  <link rel="icon" type="image/png" href="logo_icon.png" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body.contact-page {
+      background: linear-gradient(160deg, #ffffff 0%, #f4f4f4 52%, #d9d9d9 100%);
+    }
+
+    .contact-hero {
+      padding-top: calc(var(--navbar-h) + 4rem);
+      padding-bottom: 2.5rem;
+    }
+
+    .contact-hero__inner {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .contact-hero__content {
+      animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+    }
+
+    .contact-eyebrow {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--clr-muted);
+      margin-bottom: 1.1rem;
+      padding: 0.38rem 0.85rem;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-pill);
+    }
+
+    .contact-title {
+      font-size: clamp(2.5rem, 5vw, 4.2rem);
+      line-height: 1.04;
+      letter-spacing: -0.045em;
+      color: var(--clr-heading);
+      margin-bottom: 1.2rem;
+      max-width: 720px;
+    }
+
+    .contact-subtitle {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--clr-body);
+      max-width: 620px;
+    }
+
+    .contact-hero__aside {
+      background: rgba(255,255,255,0.68);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-sm);
+      padding: 1.5rem;
+      backdrop-filter: blur(8px);
+      animation: fade-in-up 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+    }
+
+    .contact-hero__aside-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--clr-heading);
+      margin-bottom: 0.9rem;
+    }
+
+    .contact-hero__aside-list {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .contact-hero__aside-item {
+      padding: 0.9rem 1rem;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: var(--radius-md);
+    }
+
+    .contact-hero__aside-item strong {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--clr-heading);
+      margin-bottom: 0.25rem;
+    }
+
+    .contact-hero__aside-item span {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--clr-body);
+    }
+
+    .contact-entry {
+      padding-top: 1rem;
+      padding-bottom: 2rem;
+    }
+
+    .contact-entry__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+    }
+
+    .contact-card {
+      background: rgba(255,255,255,0.74);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-xl);
+      padding: 2rem 1.7rem;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(8px);
+      transition: transform var(--trans-med), box-shadow var(--trans-med);
+    }
+
+    .contact-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .contact-card__label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--clr-muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .contact-card__title {
+      font-size: 1.18rem;
+      color: var(--clr-heading);
+      margin-bottom: 0.8rem;
+    }
+
+    .contact-card__desc {
+      font-size: 0.94rem;
+      line-height: 1.72;
+      color: var(--clr-body);
+      margin-bottom: 1.2rem;
+    }
+
+    .contact-card__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      color: var(--clr-heading);
+      transition: opacity var(--trans-fast), transform var(--trans-fast);
+    }
+
+    .contact-card__link:hover {
+      opacity: 0.7;
+      transform: translateX(2px);
+    }
+
+    .contact-main {
+      padding-top: 1rem;
+      padding-bottom: 5rem;
+    }
+
+    .contact-main__grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .contact-form-wrap,
+    .contact-info-wrap {
+      background: rgba(255,255,255,0.74);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(8px);
+      padding: 2rem;
+    }
+
+    .contact-block-title {
+      font-size: 1.35rem;
+      color: var(--clr-heading);
+      margin-bottom: 0.7rem;
+    }
+
+    .contact-block-subtitle {
+      font-size: 0.96rem;
+      line-height: 1.72;
+      color: var(--clr-body);
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-form {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .contact-form__row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .contact-field {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .contact-field label {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--clr-heading);
+    }
+
+    .contact-field input,
+    .contact-field select,
+    .contact-field textarea {
+      width: 100%;
+      border: 1px solid var(--clr-border);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.86);
+      color: var(--clr-heading);
+      padding: 0.95rem 1rem;
+      font: inherit;
+      outline: none;
+      transition: border-color var(--trans-fast), box-shadow var(--trans-fast);
+    }
+
+    .contact-field textarea {
+      min-height: 156px;
+      resize: vertical;
+    }
+
+    .contact-field input:focus,
+    .contact-field select:focus,
+    .contact-field textarea:focus {
+      border-color: #c8c8c8;
+      box-shadow: 0 0 0 4px rgba(0,0,0,0.04);
+    }
+
+    .contact-note {
+      font-size: 0.8rem;
+      line-height: 1.65;
+      color: var(--clr-muted);
+      margin-top: 0.2rem;
+    }
+
+    .contact-submit {
+      margin-top: 0.3rem;
+    }
+
+    .contact-info-list {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 1.35rem;
+    }
+
+    .contact-info-item {
+      padding: 1rem 1.05rem;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: var(--radius-md);
+    }
+
+    .contact-info-item strong {
+      display: block;
+      font-size: 0.86rem;
+      color: var(--clr-heading);
+      margin-bottom: 0.28rem;
+    }
+
+    .contact-info-item span,
+    .contact-info-item a {
+      font-size: 0.93rem;
+      line-height: 1.65;
+      color: var(--clr-body);
+    }
+
+    .contact-info-item a:hover {
+      color: var(--clr-heading);
+    }
+
+    .contact-faq {
+      margin-top: 1.7rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--clr-border);
+    }
+
+    .contact-faq__item + .contact-faq__item {
+      margin-top: 1rem;
+    }
+
+    .contact-faq__item strong {
+      display: block;
+      font-size: 0.88rem;
+      color: var(--clr-heading);
+      margin-bottom: 0.35rem;
+    }
+
+    .contact-faq__item p {
+      font-size: 0.9rem;
+      line-height: 1.68;
+      color: var(--clr-body);
+    }
+
+    .contact-socials {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 1.2rem;
+    }
+
+    .contact-socials a {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--clr-heading);
+      opacity: 0.7;
+      transition: opacity var(--trans-fast), transform var(--trans-fast);
+    }
+
+    .contact-socials a:hover {
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 1024px) {
+      .contact-hero__inner,
+      .contact-main__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-entry__grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .contact-hero {
+        padding-top: calc(var(--navbar-h) + 3rem);
+      }
+
+      .contact-form__row {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-hero__aside,
+      .contact-form-wrap,
+      .contact-info-wrap,
+      .contact-card {
+        padding: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body class="contact-page">
+
+  <header class="navbar" id="navbar">
+    <div class="navbar__inner container">
+      <a href="en.html" class="navbar__logo">
+        <img src="logo.png" alt="Box It Up Logo" class="navbar__logo-img" />
+      </a>
+      <nav class="navbar__nav" id="navMenu">
+        <a href="en.html#about" class="navbar__link">About</a>
+        <a href="en.html#how-it-works" class="navbar__link">How It Works</a>
+        <a href="careers_en.html" class="navbar__link">Careers</a>
+        <a href="contact_en.html" class="navbar__link">Contact</a>
+        <a href="en.html#signup" class="navbar__btn">Sign Up</a>
+
+        <div class="navbar__lang" id="langDropdown">
+          <button
+            class="navbar__lang-toggle"
+            id="langToggle"
+            type="button"
+            aria-label="Change language"
+            aria-expanded="false"
+            aria-haspopup="true"
+          >
+            <span class="navbar__lang-text">EN</span>
+          </button>
+
+          <div class="navbar__lang-menu" id="langMenu">
+            <div class="navbar__lang-panel">
+              <div class="navbar__lang-column">
+                <p class="navbar__lang-heading">English</p>
+                <button class="navbar__lang-option is-active" type="button" data-lang="en" data-label="EN" data-url="contact_en.html">United States</button>
+                <button class="navbar__lang-option" type="button" data-label="GB" data-url="contact_gb.html">United Kingdom</button>
+                <button class="navbar__lang-option" type="button" data-label="AU" data-url="contact_au.html">Australia</button>
+              </div>
+
+              <div class="navbar__lang-column">
+                <p class="navbar__lang-heading">中文</p>
+                <button class="navbar__lang-option" type="button" data-lang="zh" data-label="TW" data-url="contact_tw.html">繁體中文</button>
+                <button class="navbar__lang-option" type="button" data-label="CN" data-url="contact_cn.html">简体中文</button>
+              </div>
+
+              <div class="navbar__lang-column">
+                <p class="navbar__lang-heading">日本語</p>
+                <button class="navbar__lang-option" type="button" data-label="JP" data-url="contact_jp.html">日本</button>
+              </div>
+
+              <div class="navbar__lang-column">
+                <p class="navbar__lang-heading">More</p>
+                <button class="navbar__lang-option" type="button" data-label="FR" data-url="contact_fr.html">Français</button>
+                <button class="navbar__lang-option" type="button" data-label="DE" data-url="contact_de.html">Deutsch</button>
+                <button class="navbar__lang-option" type="button" data-label="IT" data-url="contact_it.html">Italiano</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <button class="navbar__hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="contact-hero">
+      <div class="container">
+        <div class="contact-hero__inner">
+          <div class="contact-hero__content">
+            <div class="contact-eyebrow">Get in touch</div>
+            <h1 class="contact-title">Let’s talk about what Box It Up can build next</h1>
+            <p class="contact-subtitle">
+              Whether you’re a store interested in partnering, a student who wants to help build with us,
+              or someone with feedback or ideas, we’d love to hear from you.
+            </p>
+          </div>
+
+          <aside class="contact-hero__aside">
+            <h2 class="contact-hero__aside-title">Best reasons to reach out</h2>
+            <div class="contact-hero__aside-list">
+              <div class="contact-hero__aside-item">
+                <strong>Store partnerships</strong>
+                <span>Explore how Box It Up can help your business create visibility and better-value offers.</span>
+              </div>
+              <div class="contact-hero__aside-item">
+                <strong>Early collaboration</strong>
+                <span>Students and builders can reach out if they want hands-on startup experience and ownership.</span>
+              </div>
+              <div class="contact-hero__aside-item">
+                <strong>Product feedback</strong>
+                <span>Share ideas, user pain points, or opportunities that could shape the platform early.</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-entry">
+      <div class="container">
+        <div class="contact-entry__grid">
+          <article class="contact-card">
+            <div class="contact-card__label">For stores</div>
+            <h3 class="contact-card__title">Partner with Box It Up</h3>
+            <p class="contact-card__desc">
+              Want to turn surplus inventory into an opportunity and reach new customers through curated offers?
+            </p>
+            <a href="mailto:boxitupofficial@gmail.com?subject=Store%20Partnership%20Inquiry" class="contact-card__link">Contact our partnership team →</a>
+          </article>
+
+          <article class="contact-card">
+            <div class="contact-card__label">For builders</div>
+            <h3 class="contact-card__title">Build with us</h3>
+            <p class="contact-card__desc">
+              We’re looking for early collaborators and motivated students who want to help shape Box It Up from the ground up.
+            </p>
+            <a href="mailto:boxitupofficial@gmail.com?subject=Early%20Collaboration%20with%20Box%20It%20Up" class="contact-card__link">Tell us about yourself →</a>
+          </article>
+
+          <article class="contact-card">
+            <div class="contact-card__label">General</div>
+            <h3 class="contact-card__title">Questions, ideas, or feedback</h3>
+            <p class="contact-card__desc">
+              Reach out for product feedback, user questions, media opportunities, or anything else worth discussing.
+            </p>
+            <a href="mailto:boxitupofficial@gmail.com?subject=General%20Inquiry%20for%20Box%20It%20Up" class="contact-card__link">Send a message →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-main">
+      <div class="container">
+        <div class="contact-main__grid">
+          <div class="contact-form-wrap">
+            <h2 class="contact-block-title">Send us a message</h2>
+            <p class="contact-block-subtitle">
+              This form is ready for your layout and content. To make it functional, you can later connect it to Formspree,
+              EmailJS, a backend endpoint, or your own database.
+            </p>
+
+            <form class="contact-form">
+              <div class="contact-form__row">
+                <div class="contact-field">
+                  <label for="name">Name</label>
+                  <input type="text" id="name" name="name" placeholder="Your name" />
+                </div>
+                <div class="contact-field">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" placeholder="you@example.com" />
+                </div>
+              </div>
+
+              <div class="contact-form__row">
+                <div class="contact-field">
+                  <label for="inquiry-type">I’m reaching out about</label>
+                  <select id="inquiry-type" name="inquiry-type">
+                    <option value="">Select a topic</option>
+                    <option value="store">Store partnership</option>
+                    <option value="builder">Early collaboration / student role</option>
+                    <option value="user">General inquiry</option>
+                    <option value="feedback">Product feedback</option>
+                  </select>
+                </div>
+                <div class="contact-field">
+                  <label for="organization">Organization / School</label>
+                  <input type="text" id="organization" name="organization" placeholder="Optional" />
+                </div>
+              </div>
+
+              <div class="contact-field">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Tell us a bit more about your interest, idea, or question."></textarea>
+              </div>
+
+              <div class="contact-note">
+                Current note: this page includes a visual form only. Until a backend or service is connected, messages are not submitted automatically.
+              </div>
+
+              <div class="contact-submit">
+                <button type="button" class="btn btn--primary btn--large">Send message</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="contact-info-wrap">
+            <h2 class="contact-block-title">Direct contact</h2>
+            <p class="contact-block-subtitle">
+              Prefer email instead? Use the direct details below and we’ll route your message to the right place.
+            </p>
+
+            <div class="contact-info-list">
+              <div class="contact-info-item">
+                <strong>Email</strong>
+                <a href="mailto:boxitupofficial@gmail.com">boxitupofficial@gmail.com</a>
+              </div>
+
+              <div class="contact-info-item">
+                <strong>Phone</strong>
+                <span>+886 123 456 789</span>
+              </div>
+
+              <div class="contact-info-item">
+                <strong>Location</strong>
+                <span>Taipei, Taiwan</span>
+              </div>
+            </div>
+
+            <div class="contact-faq">
+              <div class="contact-faq__item">
+                <strong>Are you hiring paid roles right now?</strong>
+                <p>
+                  We’re currently focused on early collaboration and building traction. Some roles may begin as unpaid, project-based,
+                  or exploratory opportunities while we grow.
+                </p>
+              </div>
+
+              <div class="contact-faq__item">
+                <strong>Who should apply to build with Box It Up?</strong>
+                <p>
+                  Students and early builders who want meaningful startup exposure, ownership, and resume depth are especially encouraged to reach out.
+                </p>
+              </div>
+
+              <div class="contact-faq__item">
+                <strong>How quickly do you reply?</strong>
+                <p>
+                  We aim to respond within a few business days depending on the type of inquiry and the current stage of the project.
+                </p>
+              </div>
+            </div>
+
+            <div class="contact-socials">
+              <a href="#">Instagram</a>
+              <a href="#">LinkedIn</a>
+              <a href="#">Email</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

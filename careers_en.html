@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Box It Up | Careers</title>
+  <link rel="icon" type="image/png" href="logo_icon.png" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body.careers-page {
+      background: linear-gradient(180deg, #111111 0%, #1a1a1a 100%);
+      color: rgba(255,255,255,0.92);
+    }
+
+    .careers-page .navbar {
+      background: rgba(17,17,17,0.82);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .careers-page .navbar.scrolled {
+      background: rgba(17,17,17,0.94);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.28);
+    }
+
+    .careers-page .navbar__link,
+    .careers-page .navbar__lang-toggle,
+    .careers-page .navbar__lang-text {
+      color: rgba(255,255,255,0.9);
+    }
+
+    .careers-page .navbar__link:hover,
+    .careers-page .navbar__lang-toggle:hover {
+      background: rgba(255,255,255,0.08);
+      color: #ffffff;
+    }
+
+    .careers-page .navbar__btn {
+      background: #ffffff;
+      color: #111111;
+      box-shadow: none;
+    }
+
+    .careers-page .navbar__btn:hover {
+      background: #f2f2f2;
+    }
+
+    .careers-hero {
+      padding-top: calc(var(--navbar-h) + 4.5rem);
+      padding-bottom: 2rem;
+      text-align: center;
+    }
+
+    .careers-hero__content {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+
+    .careers-eyebrow {
+      display: inline-block;
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #bdbdbd;
+      margin-bottom: 1rem;
+    }
+
+    .careers-title {
+      font-size: clamp(2.8rem, 6vw, 5.2rem);
+      line-height: 1.03;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      color: #ffffff;
+      text-transform: uppercase;
+      max-width: 900px;
+      margin: 0 auto 1.25rem;
+    }
+
+    .careers-subtitle {
+      max-width: 760px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.72);
+    }
+
+    .careers-filter-wrap {
+      margin-top: 3rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 1.75rem;
+    }
+
+    .careers-filter-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto auto;
+      gap: 1rem;
+      align-items: end;
+    }
+
+    .career-field label {
+      display: block;
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 0.6rem;
+      text-align: left;
+    }
+
+    .career-field select {
+      width: 100%;
+      height: 56px;
+      padding: 0 1rem;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.42);
+      color: rgba(255,255,255,0.92);
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .career-field select option {
+      color: #111111;
+    }
+
+    .careers-search-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 56px;
+      padding: 0 2rem;
+      border-radius: var(--radius-pill);
+      background: #ffffff;
+      color: #111111;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .careers-clear-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 56px;
+      padding: 0 1rem;
+      color: rgba(255,255,255,0.88);
+      font-weight: 600;
+      background: transparent;
+      border: none;
+    }
+
+    .careers-result-summary {
+      text-align: center;
+      margin: 2.5rem 0 3rem;
+      font-size: 1.02rem;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .careers-list {
+      padding-bottom: 5rem;
+    }
+
+    .career-row {
+      display: grid;
+      grid-template-columns: 2.2fr 0.9fr 0.9fr 0.8fr 40px;
+      gap: 1rem;
+      align-items: center;
+      padding: 2rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.18);
+      color: #ffffff;
+      transition: transform var(--trans-fast), background var(--trans-fast);
+    }
+
+    .career-row:hover {
+      transform: translateX(4px);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .career-role {
+      font-size: 1.1rem;
+      font-weight: 800;
+      line-height: 1.45;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+    }
+
+    .career-meta {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.82);
+    }
+
+    .career-arrow {
+      text-align: right;
+      font-size: 2rem;
+      line-height: 1;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .careers-footer-note {
+      padding-bottom: 5rem;
+      text-align: center;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 1100px) {
+      .careers-filter-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .career-row {
+        grid-template-columns: 1.8fr 1fr 1fr 1fr 32px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .careers-filter-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .career-row {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+
+      .career-arrow {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body class="careers-page">
+
+  <header class="navbar" id="navbar">
+    <div class="navbar__inner container">
+      <a href="en.html" class="navbar__logo">
+        <img src="logo_w.png" alt="Box It Up Logo" class="navbar__logo-img" />
+      </a>
+
+      <nav class="navbar__nav" id="navMenu">
+        <a href="en.html#about" class="navbar__link">About</a>
+        <a href="en.html#how-it-works" class="navbar__link">How It Works</a>
+        <a href="careers_en.html" class="navbar__link">Careers</a>
+        <a href="contact_en.html" class="navbar__link">Contact</a>
+        <a href="en.html#signup" class="navbar__btn">Sign Up</a>
+      
+    <div class="navbar__lang" id="langDropdown">
+        <button
+            class="navbar__lang-toggle"
+            id="langToggle"
+            type="button"
+            aria-label="Change language"
+            aria-expanded="false"
+            aria-haspopup="true"
+          >
+            <span class="navbar__lang-text">EN</span>
+        </button>
+
+        <div class="navbar__lang-menu" id="langMenu">
+            <div class="navbar__lang-panel">
+                <div class="navbar__lang-column">
+                <p class="navbar__lang-heading">English</p>
+                <button class="navbar__lang-option  is-active" type="button" data-lang="en" data-label="EN" data-url="careers_en.html">
+                    United States
+                </button>
+                <button class="navbar__lang-option" type="button" data-label="GB" data-url="careers_gb.html">
+                    United Kingdom
+                </button>
+                <button class="navbar__lang-option" type="button" data-label="AU" data-url="careers_au.html">
+                    Australia
+                </button>
+                </div>
+
+                <div class="navbar__lang-column">
+                <p class="navbar__lang-heading">中文</p>
+                <button class="navbar__lang-option" type="button" data-lang="zh" data-label="TW" data-url="careers_tw.html">
+                    繁體中文
+                </button>
+                <button class="navbar__lang-option" type="button" data-label="CN" data-url="careers_cn.html">
+                    简体中文
+                </button>
+                </div>
+
+                <div class="navbar__lang-column">
+                <p class="navbar__lang-heading">日本語</p>
+                <button class="navbar__lang-option" type="button" data-label="JP" data-url="careers_jp.html">
+                    日本
+                </button>
+                </div>
+
+                <div class="navbar__lang-column">
+                <p class="navbar__lang-heading">More</p>
+                <button class="navbar__lang-option" type="button" data-label="FR" data-url="careers_fr.html">
+                    Français
+                </button>
+                <button class="navbar__lang-option" type="button" data-label="DE" data-url="careers_de.html">
+                    Deutsch
+                </button>
+                <button class="navbar__lang-option" type="button" data-label="IT" data-url="careers_it.html">
+                    Italiano
+                </button>
+                </div>
+            </div>
+        </div>
+        </div>
+      </nav>
+
+      <button class="navbar__hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="careers-hero">
+      <div class="container">
+        <div class="careers-hero__content">
+          <div class="careers-eyebrow">Open Positions</div>
+          <h1 class="careers-title">Join us in building<br />Box It Up</h1>
+          <p class="careers-subtitle">
+            We’re an early-stage project looking for driven students and builders 
+            who want to </br>grow something from the ground up — and grow with it.
+          </p>
+
+          <div class="careers-filter-wrap">
+            <div class="careers-filter-grid">
+              <div class="career-field">
+                <label for="department">Department</label>
+                <select id="department">
+                  <option>Filter by department</option>
+                  <option>Product</option>
+                  <option>Engineering</option>
+                  <option>Marketing</option>
+                  <option>Operations</option>
+                  <option>Finance</option>
+                </select>
+              </div>
+
+              <div class="career-field">
+                <label for="location">Location</label>
+                <select id="location">
+                  <option>Filter by location</option>
+                  <option>Taiwan</option>
+                  <option>Remote</option>
+                </select>
+              </div>
+
+              <div class="career-field">
+                <label for="city">City</label>
+                <select id="city">
+                  <option>Filter by city</option>
+                  <option>Taipei</option>
+                  <option>Hsinchu</option>
+                  <option>Remote</option>
+                </select>
+              </div>
+
+              <a href="#open-roles" class="careers-search-btn">Search</a>
+              <button class="careers-clear-btn" type="button">Clear results</button>
+            </div>
+          </div>
+        </div>
+       </div>
+    </section>
+
+    <section class="careers-list" id="open-roles">
+      <div class="container">
+        <p class="careers-result-summary">Search result: 3 jobs across Engineering, Finance, and Marketing</p>
+
+        <a href="#" class="career-row">
+          <div class="career-role">Software Engineer</div>
+          <div class="career-meta">Engineering</div>
+          <div class="career-meta">Remote</div>
+          <div class="career-meta">Remote</div>
+          <div class="career-arrow">›</div>
+        </a>
+        
+        <a href="#" class="career-row">
+          <div class="career-role">Financial Analyst</div>
+          <div class="career-meta">Finance</div>
+          <div class="career-meta">Remote</div>
+          <div class="career-meta">Remote</div>
+          <div class="career-arrow">›</div>
+        </a>
+
+        </a>
+
+        <a href="#" class="career-row">
+          <div class="career-role">Social Media / Brand Marketing</div>
+          <div class="career-meta">Marketing</div>
+          <div class="career-meta">Remote</div>
+          <div class="career-meta">Remote</div>
+          <div class="career-arrow">›</div>
+        </a>
+      </div>
+    </section>
+
+    <div class="careers-footer-note">
+      We’re looking for thoughtful people who want to build real value for users and businesses.
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

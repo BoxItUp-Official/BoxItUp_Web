@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Box It Up — 連結消費者與折扣驚喜食物箱，減少食物浪費，提升店家曝光。" />
+  <title>Box It Up | 節省更多，體驗更多。</title>
+  <link rel="icon" type="image/png" href="logo_icon.png" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* 針對中文排版的微調 */
+    body {
+      font-family: "PingFang TC", "Heiti TC", "Microsoft JhengHei",
+                  "Noto Sans TC", system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+    }
+    .hero__headline {
+      letter-spacing: 0.02em;
+      line-height: 1.3;
+    }
+    .section-title {
+      letter-spacing: 0.03em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header class="navbar" id="navbar">
+    <div class="navbar__inner container">
+      <a href="#" class="navbar__logo">
+        <img src="logo.png" alt="Box It Up Logo" class="navbar__logo-img" />
+      </a>
+      <nav class="navbar__nav" id="navMenu">
+        <a href="#about" class="navbar__link">關於我們</a>
+        <a href="#how-it-works" class="navbar__link">運作方式</a>
+        <a href="#contact" class="navbar__link">聯絡我們</a>
+        <a href="#signup" class="navbar__btn">立即註冊</a>
+
+        <div class="navbar__lang" id="langDropdown">
+        <button
+            class="navbar__lang-toggle"
+            id="langToggle"
+            type="button"
+            aria-label="切換語言"
+            aria-expanded="false"
+            aria-haspopup="true"
+        >
+            <span class="navbar__lang-text">TW</span>
+        </button>
+
+        <div class="navbar__lang-menu" id="langMenu">
+            <div class="navbar__lang-panel">
+                <div class="navbar__lang-column">
+                <p class="navbar__lang-heading">English</p>
+                <button class="navbar__lang-option" type="button" data-lang="en" data-label="EN" data-url="en.html">
+                    United States
+                </button>
+                <button class="navbar__lang-option" type="button" data-label="GB" data-url="gb.html">
+                    United Kingdom
+                </button>
+                <button class="navbar__lang-option" type="button" data-label="AU" data-url="au.html">
+                    Australia
+                </button>
+                </div>
+
+                <div class="navbar__lang-column">
+                <p class="navbar__lang-heading">中文</p>
+                <button class="navbar__lang-option is-active" type="button" data-lang="zh" data-label="TW" data-url="tw.html">
+                    繁體中文
+                </button>
+                <button class="navbar__lang-option" type="button" data-label="CN" data-url="cn.html">
+                    简体中文
+                </button>
+                </div>
+
+                <div class="navbar__lang-column">
+                <p class="navbar__lang-heading">日本語</p>
+                <button class="navbar__lang-option" type="button" data-label="JP" data-url="jp.html">
+                    日本
+                </button>
+                </div>
+
+                <div class="navbar__lang-column">
+                <p class="navbar__lang-heading">More</p>
+                <button class="navbar__lang-option" type="button" data-label="FR" data-url="fr.html">
+                    Français
+                </button>
+                <button class="navbar__lang-option" type="button" data-label="DE" data-url="de.html">
+                    Deutsch
+                </button>
+                <button class="navbar__lang-option" type="button" data-label="IT" data-url="it.html">
+                    Italiano
+                </button>
+                </div>
+            </div>
+        </div>
+        </div>
+      </nav>
+      <button class="navbar__hamburger" id="hamburger" aria-label="切換導覽列" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="home">
+    <div class="hero__inner container">
+      <div class="hero__content">
+        <span class="hero__badge">減少食物浪費，從每一個盒子開始</span>
+        <h1 class="hero__headline">
+          珍惜食物。<br />
+          節省開支。<br />
+          守護地球。
+        </h1>
+        <p class="hero__subtext">
+          Box It Up 連結消費者與在地店家的折扣驚喜食物箱 —— 減少浪費、提升店家知名度，並為每個人創造真實價值。
+        </p>
+        <div class="hero__cta-group">
+          <a href="#signup" class="btn btn--primary">立即開始</a>
+          <a href="#about" class="btn btn--secondary">商家註冊</a>
+        </div>
+        <div class="hero__stats">
+          <div class="hero__stat">
+            <span class="hero__stat-number">2,400+</span>
+            <span class="hero__stat-label">已拯救食物箱</span>
+          </div>
+          <div class="hero__stat-divider"></div>
+          <div class="hero__stat">
+            <span class="hero__stat-number">340+</span>
+            <span class="hero__stat-label">合作夥伴商家</span>
+          </div>
+          <div class="hero__stat-divider"></div>
+          <div class="hero__stat">
+            <span class="hero__stat-number">18k kg</span>
+            <span class="hero__stat-label">減少 CO₂ 排放</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero__visual hero__visual--product">
+        <img
+          src="box_rm.png"
+          alt="Box It Up takeaway boxes"
+          class="hero__product-img"
+        />
+      </div>
+    </div>
+    <div class="hero__scroll-indicator" id="scrollIndicator">
+      <span>向下探索</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section class="about section" id="about">
+    <div class="container">
+      <div class="section-label">關於我們</div>
+      <div class="about__inner">
+        <div class="about__text">
+          <h2 class="section-title">更聰明的方式<br />對抗食物浪費。</h2>
+          <p class="about__body">
+            每年有數百萬噸完好無損的食物被丟棄，僅僅是因為店家無法及時售出。Box It Up 的誕生就是為了改變現狀。我們與餐廳、烘焙坊、咖啡廳和超市合作，將剩餘物資包裝成實惠的驚喜箱 —— 讓資源不再浪費，創造多贏局面。
+          </p>
+          <p class="about__body">
+            我們的平台讓商家能輕鬆上架剩餘物資，也讓消費者能發現附近的超值優惠。這就是簡單而純粹的永續生活。
+          </p>
+          <a href="#how-it-works" class="btn btn--primary" style="margin-top:2rem;">了解運作方式</a>
+        </div>
+        <div class="about__metrics">
+          <div class="metric-card">
+            <span class="metric-card__number">1/3</span>
+            <span class="metric-card__desc">全球生產的食物中有三分之一被浪費</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-card__number">8–10%</span>
+            <span class="metric-card__desc">全球溫室氣體排放量來自食物浪費</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-card__number">$1T+</span>
+            <span class="metric-card__desc">每年因食物浪費造成的全球經濟損失</span>
+          </div>
+          <div class="metric-card metric-card--highlight">
+            <span class="metric-card__number">Box It Up</span>
+            <span class="metric-card__desc">致力於改變現狀 —— 從每一個盒子開始。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HOW IT WORKS ===================== -->
+  <section class="how-it-works section" id="how-it-works">
+    <div class="container">
+      <div class="section-label">運作方式</div>
+      <h2 class="section-title section-title--center">簡單三步驟<br />創造大不同。</h2>
+      <p class="section-subtitle">無論您是商家還是消費者，只需幾分鐘即可開始。</p>
+      <div class="steps">
+        <div class="step-card" data-step="01">
+          <div class="step-card__icon-wrap">
+            <svg class="step-card__icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="8" y="20" width="32" height="22" rx="4" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M16 20V14a8 8 0 0116 0v6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="24" cy="31" r="3" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="step-card__number">01</div>
+          <h3 class="step-card__title">商家建立驚喜箱</h3>
+          <p class="step-card__desc">
+            合作商家在每天結束前將剩餘食物整理成精選驚喜箱 —— 在兩分鐘內設定數量、價格和取貨時段。
+          </p>
+        </div>
+        <div class="step-connector">
+          <svg viewBox="0 0 60 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 10 Q30 0 60 10" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/>
+          </svg>
+        </div>
+        <div class="step-card" data-step="02">
+          <div class="step-card__icon-wrap">
+            <svg class="step-card__icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="14" width="36" height="26" rx="4" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M6 22h36" stroke="currentColor" stroke-width="2.5"/>
+              <rect x="14" y="6" width="4" height="12" rx="2" fill="currentColor"/>
+              <rect x="30" y="6" width="4" height="12" rx="2" fill="currentColor"/>
+              <path d="M14 30h8M14 36h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="step-card__number">02</div>
+          <h3 class="step-card__title">用戶以折扣價購買</h3>
+          <p class="step-card__desc">
+            消費者在 App 上瀏覽附近的驚喜箱，一鍵預訂並支付原價的一小部分 —— 通常可節省高達 70%。
+          </p>
+        </div>
+        <div class="step-connector">
+          <svg viewBox="0 0 60 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 10 Q30 20 60 10" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/>
+          </svg>
+        </div>
+        <div class="step-card" data-step="03">
+          <div class="step-card__icon-wrap">
+            <svg class="step-card__icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 6C14.06 6 6 14.06 6 24s8.06 18 18 18 18-8.06 18-18S33.94 6 24 6z" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M24 14v10l6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="step-card__number">03</div>
+          <h3 class="step-card__title">用戶取貨並享用</h3>
+          <p class="step-card__desc">
+            在指定的取貨時間，用戶直接前往店家領取。每個盒子都是一份驚喜 —— 每次取貨都拯救了食物免於進入掩埋場。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== VALUE PROPOSITION ===================== -->
+  <section class="value section" id="value">
+    <div class="container">
+      <div class="section-label">為什麼選擇 Box It Up</div>
+      <h2 class="section-title section-title--center">為食物鏈中的<br />每個人而設計。</h2>
+      <p class="section-subtitle">我們的平台在各個層面創造深遠價值。</p>
+      <div class="value__grid">
+        <div class="value-card">
+          <div class="value-card__icon-wrap value-card__icon-wrap--customer">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="16" r="8" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M8 40c0-8.837 7.163-16 16-16s16 7.163 16 16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="value-card__title">對消費者</h3>
+          <ul class="value-card__list">
+            <li>節省高達 70% 的優質食物開支</li>
+            <li>探索新的在地餐廳與咖啡廳</li>
+            <li>享受每一次驚喜帶來的樂趣</li>
+            <li>為減少食物浪費做出貢獻</li>
+            <li>輕鬆取貨 —— 無需等待外送</li>
+          </ul>
+        </div>
+        <div class="value-card value-card--featured">
+          <div class="value-card__icon-wrap value-card__icon-wrap--business">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="22" width="36" height="20" rx="3" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M14 22V16a10 10 0 0120 0v6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M18 32h12M24 28v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="value-card__featured-badge">最受歡迎</div>
+          <h3 class="value-card__title">對商家</h3>
+          <ul class="value-card__list">
+            <li>從未售出的庫存中回收營收</li>
+            <li>為您的店面吸引新客群</li>
+            <li>提升品牌的永續發展形象</li>
+            <li>零額外負擔 —— 2 分鐘內上架</li>
+            <li>即時數據分析與洞察</li>
+          </ul>
+        </div>
+        <div class="value-card">
+          <div class="value-card__icon-wrap value-card__icon-wrap--planet">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="16" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M8 24c4-6 8-10 16-10s12 4 16 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M8 24c4 6 8 10 16 10s12-4 16-10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M24 8v32M8 24h32" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+            </svg>
+          </div>
+          <h3 class="value-card__title">對永續發展</h3>
+          <ul class="value-card__list">
+            <li>減少數噸食物進入掩埋場</li>
+            <li>降低廢棄物產生的甲烷排放</li>
+            <li>減少食物系統的碳足跡</li>
+            <li>支持循環食物經濟</li>
+            <li>可衡量的環境影響力</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FEATURED BOXES ===================== -->
+  <section class="featured section" id="featured">
+    <div class="container">
+      <div class="section-label">今日精選</div>
+      <div class="featured__header">
+        <h2 class="section-title">您附近的<br />驚喜食物箱。</h2>
+        <a href="#signup" class="btn btn--outline">查看所有盒子</a>
+      </div>
+      <div class="featured__grid">
+
+        <div class="feat-card">
+          <div class="feat-card__img feat-card__img--1">
+            <span class="feat-card__category">烘焙坊</span>
+            <span class="feat-card__discount">3.3 折</span>
+          </div>
+          <div class="feat-card__body">
+            <div class="feat-card__store-row">
+              <div class="feat-card__avatar feat-card__avatar--1">GC</div>
+              <div>
+                <p class="feat-card__store-name">The Golden Crust</p>
+                <p class="feat-card__distance">距離 0.3 km</p>
+              </div>
+            </div>
+            <h3 class="feat-card__title">晨間驚喜箱</h3>
+            <p class="feat-card__desc">精選今日未售出的新鮮麵包、糕點與可頌。</p>
+            <div class="feat-card__footer">
+              <div class="feat-card__pricing">
+                <span class="feat-card__price">$6.00</span>
+                <span class="feat-card__price-old">$18.00</span>
+              </div>
+              <div class="feat-card__pickup">取貨時間 6–8 PM</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-card__img feat-card__img--2">
+            <span class="feat-card__category">日式料理</span>
+            <span class="feat-card__discount">3.3 折</span>
+          </div>
+          <div class="feat-card__body">
+            <div class="feat-card__store-row">
+              <div class="feat-card__avatar feat-card__avatar--2">SK</div>
+              <div>
+                <p class="feat-card__store-name">Sakura Kitchen</p>
+                <p class="feat-card__distance">距離 0.8 km</p>
+              </div>
+            </div>
+            <h3 class="feat-card__title">主廚精選箱</h3>
+            <p class="feat-card__desc">主廚每日親自挑選的壽司捲、握壽司與味噌湯。</p>
+            <div class="feat-card__footer">
+              <div class="feat-card__pricing">
+                <span class="feat-card__price">$8.00</span>
+                <span class="feat-card__price-old">$24.00</span>
+              </div>
+              <div class="feat-card__pickup">取貨時間 8–9 PM</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-card__img feat-card__img--3">
+            <span class="feat-card__category">咖啡廳</span>
+            <span class="feat-card__discount">3.3 折</span>
+          </div>
+          <div class="feat-card__body">
+            <div class="feat-card__store-row">
+              <div class="feat-card__avatar feat-card__avatar--3">BC</div>
+              <div>
+                <p class="feat-card__store-name">Bloom Coffee Co.</p>
+                <p class="feat-card__distance">距離 1.2 km</p>
+              </div>
+            </div>
+            <h3 class="feat-card__title">午後驚喜箱</h3>
+            <p class="feat-card__desc">今日新鮮製作的三明治、捲餅與甜點。</p>
+            <div class="feat-card__footer">
+              <div class="feat-card__pricing">
+                <span class="feat-card__price">$5.00</span>
+                <span class="feat-card__price-old">$15.00</span>
+              </div>
+              <div class="feat-card__pickup">取貨時間 5–7 PM</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-card__img feat-card__img--4">
+            <span class="feat-card__category">義式料理</span>
+            <span class="feat-card__discount">4 折</span>
+          </div>
+          <div class="feat-card__body">
+            <div class="feat-card__store-row">
+              <div class="feat-card__avatar feat-card__avatar--4">NP</div>
+              <div>
+                <p class="feat-card__store-name">Napoli Pronto</p>
+                <p class="feat-card__distance">距離 1.5 km</p>
+              </div>
+            </div>
+            <h3 class="feat-card__title">義大利麵與配菜箱</h3>
+            <p class="feat-card__desc">份量十足的手工義大利麵、普切塔與提拉米蘇。</p>
+            <div class="feat-card__footer">
+              <div class="feat-card__pricing">
+                <span class="feat-card__price">$9.00</span>
+                <span class="feat-card__price-old">$22.00</span>
+              </div>
+              <div class="feat-card__pickup">取貨時間 9–10 PM</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TESTIMONIALS ===================== -->
+  <section class="testimonials section" id="testimonials">
+    <div class="container">
+      <div class="section-label">用戶評價</div>
+      <h2 class="section-title section-title--center">深受消費者<br />與商家的喜愛。</h2>
+      <div class="testimonials__grid">
+        <div class="testimonial-card">
+          <div class="testimonial-card__stars">★★★★★</div>
+          <p class="testimonial-card__quote">「透過 Box It Up，我發現了許多超棒的在地店家。驚喜感讓整個過程非常有趣 —— 而且真的省了很多錢。」</p>
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar">SL</div>
+            <div>
+              <p class="testimonial-card__name">Sophie L.</p>
+              <p class="testimonial-card__role">忠實用戶</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card testimonial-card--featured">
+          <div class="testimonial-card__stars">★★★★★</div>
+          <p class="testimonial-card__quote">「我們以前每天要丟掉近 20% 的烘焙品。自從加入 Box It Up 後，這個數字幾乎降到了零 —— 而且我們還獲得了許多新常客。」</p>
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar">MR</div>
+            <div>
+              <p class="testimonial-card__name">Marco R.</p>
+              <p class="testimonial-card__role">The Golden Crust 店主</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-card__stars">★★★★★</div>
+          <p class="testimonial-card__quote">「作為一個重視永續發展的人，Box It Up 完全符合我的價值觀。知道我買的每個盒子都拯救了食物免於浪費，感覺真的很棒。」</p>
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar">AK</div>
+            <div>
+              <p class="testimonial-card__name">Aiko K.</p>
+              <p class="testimonial-card__role">環保意識消費者</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="cta-section section" id="signup">
+    <div class="container">
+      <div class="cta-section__inner">
+        <div class="cta-section__badge">加入行動</div>
+        <h2 class="cta-section__headline">
+          加入減少食物浪費的<br />全球行動。
+        </h2>
+        <p class="cta-section__subtext">
+          無論您是飢腸轆轆的消費者，還是具有前瞻性的商家，Box It Up 都有您的位置。立即註冊，開始創造改變 —— 從每一個盒子開始。
+        </p>
+        <div class="cta-section__actions">
+          <a href="#" class="btn btn--primary btn--large">立即開始</a>
+          <a href="#" class="btn btn--ghost btn--large">商家註冊</a>
+        </div>
+        <p class="cta-section__note">免費加入。無需任何承諾。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer" id="contact">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <a href="#" class="footer__logo">
+            <img src="logo-footer.png" alt="Box It Up Logo" class="footer__logo-img" />
+          </a>
+          <p class="footer__tagline">
+            連結剩餘食物與在乎的人 —— 減少浪費、創造價值，從每一個盒子開始。
+          </p>
+          <div class="footer__socials">
+            <a href="#" class="footer__social" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
+              </svg>
+            </a>
+            <a href="#" class="footer__social" aria-label="Twitter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 3a10.9 10.9 0 01-3.14 1.53A4.48 4.48 0 0016 2a4.48 4.48 0 00-4.48 4.48c0 .35.04.69.11 1.02A12.72 12.72 0 013 3.8a4.48 4.48 0 001.39 5.98A4.46 4.46 0 012.8 9v.06a4.48 4.48 0 003.59 4.39 4.5 4.5 0 01-2.02.08 4.48 4.48 0 004.18 3.11A8.98 8.98 0 012 19.54a12.72 12.72 0 006.88 2.02c8.26 0 12.78-6.84 12.78-12.78 0-.19 0-.39-.01-.58A9.14 9.14 0 0023 3z"/>
+              </svg>
+            </a>
+            <a href="#" class="footer__social" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+                <rect x="2" y="9" width="4" height="12"/>
+                <circle cx="4" cy="4" r="2"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer__links-group">
+          <h4 class="footer__links-title">平台</h4>
+          <ul class="footer__links">
+            <li><a href="#how-it-works">運作方式</a></li>
+            <li><a href="#featured">瀏覽盒子</a></li>
+            <li><a href="#about">商家專區</a></li>
+            <li><a href="#signup">立即註冊</a></li>
+          </ul>
+        </div>
+        <div class="footer__links-group">
+          <h4 class="footer__links-title">公司</h4>
+          <ul class="footer__links">
+            <li><a href="#about">關於我們</a></li>
+            <li><a href="#">社會影響力</a></li>
+            <li><a href="#">加入我們</a></li>
+            <li><a href="#">合作夥伴</a></li>
+          </ul>
+        </div>
+        <div class="footer__links-group">
+          <h4 class="footer__links-title">聯絡我們</h4>
+          <ul class="footer__links footer__links--contact">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              boxitupofficial@gmail.com
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.02 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/>
+              </svg>
+              +886 123 456 789
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              台北，台灣
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 Box It Up. 保留所有權利。</p>
+        <div class="footer__legal">
+          <a href="#">隱私權政策</a>
+          <a href="#">服務條款</a>
+          <a href="#">Cookie 政策</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

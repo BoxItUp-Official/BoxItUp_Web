@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Box It Up — Connect with discounted surprise food boxes to reduce food waste and increase store exposure." />
+  <title>Box It Up | Spend Less. Experience More.</title>
+  <link rel="icon" type="image/png" href="logo_icon_or.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="home-page">
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header class="navbar" id="navbar">
+    <div class="navbar__inner container">
+      <a href="#" class="navbar__logo">
+        <img src="logo.png" alt="Box It Up Logo" class="navbar__logo-img" id="navbarLogo" />
+      </a>
+      <nav class="navbar__nav" id="navMenu">
+        <a href="#about" class="navbar__link">About</a>
+        <a href="#how-it-works" class="navbar__link">How It Works</a>
+        <a href="careers_en.html" class="navbar__link">Careers</a>
+        <a href="contact_en.html" class="navbar__link">Contact</a>
+        <a href="#signup" class="navbar__btn">Sign Up</a>
+
+        <div class="navbar__lang" id="langDropdown">
+        <button
+            class="navbar__lang-toggle"
+            id="langToggle"
+            type="button"
+            aria-label="Change language"
+            aria-expanded="false"
+            aria-haspopup="true"
+          >
+            <span class="navbar__lang-text">EN</span>
+        </button>
+
+        <div class="navbar__lang-menu" id="langMenu">
+            <div class="navbar__lang-panel">
+                <div class="navbar__lang-column">
+                <p class="navbar__lang-heading">English</p>
+                <button class="navbar__lang-option  is-active" type="button" data-lang="en" data-label="EN" data-url="en.html">
+                    United States
+                </button>
+                <button class="navbar__lang-option" type="button" data-label="GB" data-url="gb.html">
+                    United Kingdom
+                </button>
+                <button class="navbar__lang-option" type="button" data-label="AU" data-url="au.html">
+                    Australia
+                </button>
+                </div>
+
+                <div class="navbar__lang-column">
+                <p class="navbar__lang-heading">中文</p>
+                <button class="navbar__lang-option" type="button" data-lang="zh" data-label="TW" data-url="tw.html">
+                    繁體中文
+                </button>
+                <button class="navbar__lang-option" type="button" data-label="CN" data-url="cn.html">
+                    简体中文
+                </button>
+                </div>
+
+                <div class="navbar__lang-column">
+                <p class="navbar__lang-heading">日本語</p>
+                <button class="navbar__lang-option" type="button" data-label="JP" data-url="jp.html">
+                    日本
+                </button>
+                </div>
+
+                <div class="navbar__lang-column">
+                <p class="navbar__lang-heading">More</p>
+                <button class="navbar__lang-option" type="button" data-label="FR" data-url="fr.html">
+                    Français
+                </button>
+                <button class="navbar__lang-option" type="button" data-label="DE" data-url="de.html">
+                    Deutsch
+                </button>
+                <button class="navbar__lang-option" type="button" data-label="IT" data-url="it.html">
+                    Italiano
+                </button>
+                </div>
+            </div>
+        </div>
+        </div>
+      </nav>
+      <button class="navbar__hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="home">
+    <div class="hero__inner container">
+      <div class="hero__content">
+        <span class="hero__badge">Reducing food waste, one box at a time</span>
+        <h1 class="hero__headline">
+          Spend <span class="hero__headline-accent">less.</span><br />
+          Get <span class="hero__headline-accent">better value.</span><br />
+          Experience <span class="hero__headline-accent">more.</span>
+        </h1>
+        <p class="hero__subtext">
+          Box It Up connects you with curated surprise boxes from local stores, 
+          turning excess inventory into great-value meals you can discover every day.
+        </p>
+        <div class="hero__cta-group">
+          <a href="#signup" class="btn btn--primary">Get Started</a>
+          <a href="#about" class="btn btn--secondary">Sign up as a Business</a>
+        </div>
+        <div class="hero__stats">
+          <div class="hero__stat">
+            <span class="hero__stat-number">10k +</span>
+            <span class="hero__stat-label">Boxes sold</span>
+          </div>
+          <div class="hero__stat-divider"></div>
+          <div class="hero__stat">
+            <span class="hero__stat-number">100 +</span>
+            <span class="hero__stat-label">Partner stores</span>
+          </div>
+          <div class="hero__stat-divider"></div>
+          <div class="hero__stat">
+            <span class="hero__stat-number">150 NTD</span>
+            <span class="hero__stat-label">Per surprise box</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero__visual hero__visual--product">
+        <div class="hero__showcase">
+          <div class="hero__bg-orb hero__bg-orb--1"></div>
+          <div class="hero__bg-orb hero__bg-orb--2"></div>
+
+          <div class="hero__floating-card hero__floating-card--offer">
+            <span class="hero__floating-label">Today’s Deal</span>
+            <strong>Up to 30% off</strong>
+            <span>Surprise boxes from nearby stores</span>
+          </div>
+
+          <div class="hero__floating-card hero__floating-card--mini">
+            <span class="hero__mini-dot"></span>
+            <div>
+              <strong>12 stores nearby</strong>
+              <span>Fresh picks around you</span>
+            </div>
+          </div>
+
+          <div class="hero__phone">
+            <div class="hero__phone-notch"></div>
+            <div class="hero__phone-screen">
+              <div class="hero__app-header">
+                <span class="hero__app-brand">Box It Up</span>
+                <span class="hero__app-pill">Surprise Box</span>
+              </div>
+
+              <div class="hero__app-card hero__app-card--primary">
+                <div class="hero__app-card-top">
+                  <span class="hero__app-tag">Featured</span>
+                  <span class="hero__app-rating">★ 4.9</span>
+                </div>
+                <h3>Bakery Rescue Box</h3>
+                <p>Fresh pastries and bread saved from today’s batch.</p>
+                <div class="hero__app-meta">
+                  <span>NT$150</span>
+                  <span>Pickup 18:30</span>
+                </div>
+              </div>
+
+              <div class="hero__app-list">
+                <div class="hero__app-list-item">
+                  <div class="hero__app-icon">☕</div>
+                  <div>
+                    <strong>Café Set</strong>
+                    <span>Drinks + dessert</span>
+                  </div>
+                  <b>NT$120</b>
+                </div>
+                <div class="hero__app-list-item">
+                  <div class="hero__app-icon">🍱</div>
+                  <div>
+                    <strong>Lunch Box</strong>
+                    <span>Chef’s daily selection</span>
+                  </div>
+                  <b>NT$150</b>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero__floating-card hero__floating-card--impact">
+            <span class="hero__impact-number">10k+</span>
+            <span class="hero__impact-text">Boxes sold with less waste</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero__scroll-indicator" id="scrollIndicator">
+      <span>Scroll to explore</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section class="about section" id="about">
+    <div class="container">
+      <div class="section-label">About Us</div>
+      <div class="about__inner">
+        <div class="about__text">
+          <h2 class="section-title">A smarter way to<br />fight food waste.</h2>
+          <p class="about__body">
+            Box It Up is a marketplace that connects local businesses with consumers through discounted surprise food boxes.
+            Instead of letting unsold items go to waste, stores can turn them into a new revenue stream,
+            while customers get access to high-value meals at lower prices.
+          </p>
+          <p class="about__body">
+            Our platform helps businesses increase visibility, attract new customers,
+            and monetize surplus inventory — all with minimal effort.
+            For consumers, it’s a smarter way to explore food, save money, and enjoy something new every day.
+          </p>
+          <a href="#how-it-works" class="btn btn--primary" style="margin-top:2rem;">See How It Works</a>
+        </div>
+        <div class="about__metrics">
+          <div class="metric-card">
+            <span class="metric-card__number">1 in 3</span>
+            <span class="metric-card__desc">food items produced globally is wasted</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-card__number">8–10%</span>
+            <span class="metric-card__desc">of global greenhouse gas emissions come from food waste</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-card__number">$1T+</span>
+            <span class="metric-card__desc">in economic losses from food waste annually</span>
+          </div>
+          <div class="metric-card metric-card--highlight">
+            <span class="metric-card__number">Box It Up</span>
+            <span class="metric-card__desc">is here to turn this around — one box at a time.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HOW IT WORKS ===================== -->
+  <section class="how-it-works section" id="how-it-works">
+    <div class="container">
+      <div class="section-label">How It Works</div>
+      <h2 class="section-title section-title--center">Three simple steps<br />to make a difference.</h2>
+      <p class="section-subtitle">Whether you're a store or a shopper, getting started takes minutes.</p>
+      <div class="steps">
+        <div class="step-card" data-step="01">
+          <div class="step-card__icon-wrap">
+            <svg class="step-card__icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="8" y="20" width="32" height="22" rx="4" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M16 20V14a8 8 0 0116 0v6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="24" cy="31" r="3" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="step-card__number">01</div>
+          <h3 class="step-card__title">Stores drop surprise deals</h3>
+          <p class="step-card__desc">
+            Partner stores regularly release curated boxes 
+            with great value — giving customers access to 
+            quality items at a better price.
+          </p>
+        </div>
+        <div class="step-connector">
+          <svg viewBox="0 0 60 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 10 Q30 0 60 10" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/>
+          </svg>
+        </div>
+        <div class="step-card" data-step="02">
+          <div class="step-card__icon-wrap">
+            <svg class="step-card__icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="14" width="36" height="26" rx="4" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M6 22h36" stroke="currentColor" stroke-width="2.5"/>
+              <rect x="14" y="6" width="4" height="12" rx="2" fill="currentColor"/>
+              <rect x="30" y="6" width="4" height="12" rx="2" fill="currentColor"/>
+              <path d="M14 30h8M14 36h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="step-card__number">02</div>
+          <h3 class="step-card__title">Users purchase at a discount</h3>
+          <p class="step-card__desc">
+            Customers browse nearby boxes on the app, reserve one with a single
+            tap, and pay a fraction of the original price — typically saving
+            up to 70%.
+          </p>
+        </div>
+        <div class="step-connector">
+          <svg viewBox="0 0 60 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 10 Q30 20 60 10" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/>
+          </svg>
+        </div>
+        <div class="step-card" data-step="03">
+          <div class="step-card__icon-wrap">
+            <svg class="step-card__icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 6C14.06 6 6 14.06 6 24s8.06 18 18 18 18-8.06 18-18S33.94 6 24 6z" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M16 24l6 6 10-12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="step-card__number">03</div>
+          <h3 class="step-card__title">Users pick up and enjoy</h3>
+          <p class="step-card__desc">
+            At the designated pick-up time, customers collect their box directly
+            from the store. Every box is a delightful surprise — and every
+            pick-up saves food from landfill.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== VALUE PROPOSITION ===================== -->
+  <section class="value section" id="value">
+    <div class="container">
+      <div class="section-label">Why Box It Up</div>
+      <h2 class="section-title section-title--center">Built for everyone<br />in the food chain.</h2>
+      <p class="section-subtitle">Our platform creates meaningful value at every level.</p>
+      <div class="value__grid">
+        <div class="value-card">
+          <div class="value-card__icon-wrap value-card__icon-wrap--customer">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="16" r="8" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M8 40c0-8.837 7.163-16 16-16s16 7.163 16 16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="value-card__title">For Customers</h3>
+          <ul class="value-card__list">
+            <li>Save up to 70% on quality food</li>
+            <li>Discover new local restaurants and cafés</li>
+            <li>Enjoy the thrill of a surprise every time</li>
+            <li>Contribute to reducing food waste</li>
+            <li>Easy pick-up — no delivery wait</li>
+          </ul>
+        </div>
+        <div class="value-card value-card--featured">
+          <div class="value-card__icon-wrap value-card__icon-wrap--business">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="22" width="36" height="20" rx="3" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M14 22V16a10 10 0 0120 0v6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M18 32h12M24 28v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="value-card__featured-badge">Most Popular</div>
+          <h3 class="value-card__title">For Businesses</h3>
+          <ul class="value-card__list">
+            <li>Turn unsold inventory into revenue</li>
+            <li>Increase store visibility and foot traffic</li>
+            <li>Boost your brand's sustainability image</li>
+            <li>Zero extra effort — list in 2 minutes</li>
+            <li>Data insights on demand and customer behavior</li>
+          </ul>
+        </div>
+        <div class="value-card">
+          <div class="value-card__icon-wrap value-card__icon-wrap--planet">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="16" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M8 24c4-6 8-10 16-10s12 4 16 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M8 24c4 6 8 10 16 10s12-4 16-10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M24 8v32M8 24h32" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+            </svg>
+          </div>
+          <h3 class="value-card__title">For Sustainability</h3>
+          <ul class="value-card__list">
+            <li>Reduce unnecessary food waste</li>
+            <li>Divert tonnes of food from landfills</li>
+            <li>Lower the carbon footprint of food systems</li>
+            <li>Support a more efficient food system</li>
+            <li>Measurable environmental impact</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FEATURED BOXES ===================== -->
+  <section class="featured section" id="featured">
+    <div class="container">
+      <div class="section-label">Featured Today</div>
+      <div class="featured__header">
+        <h2 class="section-title">Boxes available<br />near you.</h2>
+        <a href="#signup" class="btn btn--outline">View All Boxes</a>
+      </div>
+      <div class="featured__grid">
+
+        <div class="feat-card">
+          <div class="feat-card__img feat-card__img--1">
+            <span class="feat-card__category">Bakery</span>
+            <span class="feat-card__discount">-67%</span>
+          </div>
+          <div class="feat-card__body">
+            <div class="feat-card__store-row">
+              <div class="feat-card__avatar feat-card__avatar--1">GC</div>
+              <div>
+                <p class="feat-card__store-name">The Golden Crust</p>
+                <p class="feat-card__distance">0.3 km away</p>
+              </div>
+            </div>
+            <h3 class="feat-card__title">Morning Surprise Box</h3>
+            <p class="feat-card__desc">A selection of freshly baked breads, pastries, and croissants from today's unsold stock.</p>
+            <div class="feat-card__footer">
+              <div class="feat-card__pricing">
+                <span class="feat-card__price">$6.00</span>
+                <span class="feat-card__price-old">$18.00</span>
+              </div>
+              <div class="feat-card__pickup">Pick up 6–8 PM</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-card__img feat-card__img--2">
+            <span class="feat-card__category">Japanese</span>
+            <span class="feat-card__discount">-67%</span>
+          </div>
+          <div class="feat-card__body">
+            <div class="feat-card__store-row">
+              <div class="feat-card__avatar feat-card__avatar--2">SK</div>
+              <div>
+                <p class="feat-card__store-name">Sakura Kitchen</p>
+                <p class="feat-card__distance">0.8 km away</p>
+              </div>
+            </div>
+            <h3 class="feat-card__title">Chef's Pick Box</h3>
+            <p class="feat-card__desc">A curated selection of sushi rolls, nigiri, and miso soup from the chef's daily preparation.</p>
+            <div class="feat-card__footer">
+              <div class="feat-card__pricing">
+                <span class="feat-card__price">$8.00</span>
+                <span class="feat-card__price-old">$24.00</span>
+              </div>
+              <div class="feat-card__pickup">Pick up 8–9 PM</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-card__img feat-card__img--3">
+            <span class="feat-card__category">Café</span>
+            <span class="feat-card__discount">-67%</span>
+          </div>
+          <div class="feat-card__body">
+            <div class="feat-card__store-row">
+              <div class="feat-card__avatar feat-card__avatar--3">BC</div>
+              <div>
+                <p class="feat-card__store-name">Bloom Coffee Co.</p>
+                <p class="feat-card__distance">1.2 km away</p>
+              </div>
+            </div>
+            <h3 class="feat-card__title">Afternoon Delight Box</h3>
+            <p class="feat-card__desc">Sandwiches, wraps, and sweet treats from our afternoon menu — all freshly made today.</p>
+            <div class="feat-card__footer">
+              <div class="feat-card__pricing">
+                <span class="feat-card__price">$5.00</span>
+                <span class="feat-card__price-old">$15.00</span>
+              </div>
+              <div class="feat-card__pickup">Pick up 5–7 PM</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-card__img feat-card__img--4">
+            <span class="feat-card__category">Italian</span>
+            <span class="feat-card__discount">-60%</span>
+          </div>
+          <div class="feat-card__body">
+            <div class="feat-card__store-row">
+              <div class="feat-card__avatar feat-card__avatar--4">NP</div>
+              <div>
+                <p class="feat-card__store-name">Napoli Pronto</p>
+                <p class="feat-card__distance">1.5 km away</p>
+              </div>
+            </div>
+            <h3 class="feat-card__title">Pasta & Sides Box</h3>
+            <p class="feat-card__desc">Generous portions of handmade pasta, bruschetta, and tiramisu — a full Italian experience.</p>
+            <div class="feat-card__footer">
+              <div class="feat-card__pricing">
+                <span class="feat-card__price">$9.00</span>
+                <span class="feat-card__price-old">$22.00</span>
+              </div>
+              <div class="feat-card__pickup">Pick up 9–10 PM</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TESTIMONIALS ===================== -->
+  <section class="testimonials section" id="testimonials">
+    <div class="container">
+      <div class="section-label">What People Say</div>
+      <h2 class="section-title section-title--center">Loved by customers<br />and businesses alike.</h2>
+      <div class="testimonials__grid">
+        <div class="testimonial-card">
+          <div class="testimonial-card__stars">★★★★★</div>
+          <p class="testimonial-card__quote">"I've discovered so many amazing local spots through Box It Up. The surprise element makes it genuinely exciting — and the savings are real."</p>
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar">SL</div>
+            <div>
+              <p class="testimonial-card__name">Sophie L.</p>
+              <p class="testimonial-card__role">Regular Customer</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card testimonial-card--featured">
+          <div class="testimonial-card__stars">★★★★★</div>
+          <p class="testimonial-card__quote">"We used to throw away nearly 20% of our daily bakes. Since joining Box It Up, that number is almost zero — and we've gained dozens of new regulars."</p>
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar">MR</div>
+            <div>
+              <p class="testimonial-card__name">Marco R.</p>
+              <p class="testimonial-card__role">Owner, The Golden Crust</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-card__stars">★★★★★</div>
+          <p class="testimonial-card__quote">"As someone who cares about sustainability, Box It Up aligns perfectly with my values. It feels good knowing every box I buy keeps food out of landfill."</p>
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar">AK</div>
+            <div>
+              <p class="testimonial-card__name">Aiko K.</p>
+              <p class="testimonial-card__role">Eco-conscious Shopper</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="cta-section section" id="signup">
+    <div class="container">
+      <div class="cta-section__inner">
+        <div class="cta-section__badge">Join the movement</div>
+        <h2 class="cta-section__headline">
+          Join the movement to<br />reduce food waste.
+        </h2>
+        <p class="cta-section__subtext">
+          Whether you're a hungry customer or a forward-thinking business,
+          Box It Up has a place for you. Sign up today and start making
+          a difference — one box at a time.
+        </p>
+        <div class="cta-section__actions">
+          <a href="#" class="btn btn--primary btn--large">Download App</a>
+          <a href="#" class="btn btn--ghost btn--large">Learn More</a>
+        </div>
+        <p class="cta-section__note">Free to join. No commitment required.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer" id="contact">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <a href="#" class="footer__logo">
+            <img src="app_logo.png" alt="Box It Up Logo" class="footer__logo-img" />
+          </a>
+          <p class="footer__tagline">
+            Connecting surplus food with people who care — reducing waste,
+            creating value, one box at a time.
+          </p>
+          <div class="footer__socials">
+            <a href="#" class="footer__social" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
+              </svg>
+            </a>
+            <a href="#" class="footer__social" aria-label="Twitter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 3a10.9 10.9 0 01-3.14 1.53A4.48 4.48 0 0016 2a4.48 4.48 0 00-4.48 4.48c0 .35.04.69.11 1.02A12.72 12.72 0 013 3.8a4.48 4.48 0 001.39 5.98A4.46 4.46 0 012.8 9v.06a4.48 4.48 0 003.59 4.39 4.5 4.5 0 01-2.02.08 4.48 4.48 0 004.18 3.11A8.98 8.98 0 012 19.54a12.72 12.72 0 006.88 2.02c8.26 0 12.78-6.84 12.78-12.78 0-.19 0-.39-.01-.58A9.14 9.14 0 0023 3z"/>
+              </svg>
+            </a>
+            <a href="#" class="footer__social" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+                <rect x="2" y="9" width="4" height="12"/>
+                <circle cx="4" cy="4" r="2"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer__links-group">
+          <h4 class="footer__links-title">Platform</h4>
+          <ul class="footer__links">
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#featured">Browse Boxes</a></li>
+            <li><a href="#about">For Businesses</a></li>
+            <li><a href="#signup">Sign Up</a></li>
+          </ul>
+        </div>
+        <div class="footer__links-group">
+          <h4 class="footer__links-title">Company</h4>
+          <ul class="footer__links">
+            <li><a href="#about">About Us</a></li>
+            <li><a href="careers_en.html">Careers</a></li>
+            <li><a href="#">Partners</a></li>
+          </ul>
+        </div>
+        <div class="footer__links-group">
+          <h4 class="footer__links-title">Contact</h4>
+          <ul class="footer__links footer__links--contact">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              boxitupofficial@gmail.com
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.02 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/>
+              </svg>
+              +886 123 456 789
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              Taipei, Taiwan
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 Box It Up. All rights reserved.</p>
+        <div class="footer__legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
