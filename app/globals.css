@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Dark navbar variant — used on careers page */
+.navbar--dark {
+  background: rgba(17, 17, 17, 0.82) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.navbar--dark.scrolled {
+  background: rgba(17, 17, 17, 0.94) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28) !important;
+}
+
+.navbar--dark .navbar__link,
+.navbar--dark .navbar__lang-toggle,
+.navbar--dark .navbar__lang-text {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.navbar--dark .navbar__link:hover,
+.navbar--dark .navbar__lang-toggle:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+}
+
+.navbar--dark .navbar__btn {
+  background: #ffffff !important;
+  color: #111111 !important;
+  box-shadow: none !important;
+}
+
+.navbar--dark .navbar__btn:hover {
+  background: #f2f2f2 !important;
+}
+
+/* Active nav link — injected by ScrollAnimations in original script.js */
+.navbar__link.active {
+  color: var(--clr-heading);
+  background: rgba(170, 174, 127, 0.15);
+}
