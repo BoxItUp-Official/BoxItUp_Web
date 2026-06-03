@@ -7,7 +7,7 @@ import { usePathname, useRouter } from 'next/navigation'
 interface LangOption {
   label: string
   code: string
-  url: string
+  base: string
 }
 
 interface LangGroup {
@@ -19,31 +19,33 @@ const langGroups: LangGroup[] = [
   {
     heading: 'English',
     options: [
-      { label: 'United States', code: 'EN', url: '/' },
-      { label: 'United Kingdom', code: 'GB', url: '/' },
-      { label: 'Australia', code: 'AU', url: '/' },
+      { label: 'United States', code: 'EN', base: '' },
+      { label: 'United Kingdom', code: 'GB', base: '' },
+      { label: 'Australia', code: 'AU', base: '' },
     ],
   },
   {
     heading: '中文',
     options: [
-      { label: '繁體中文', code: 'TW', url: '/tw' },
-      { label: '简体中文', code: 'CN', url: '/cn' },
+      { label: '繁體中文', code: 'TW', base: '/tw' },
+      { label: '简体中文', code: 'CN', base: '/cn' },
     ],
   },
   {
     heading: '日本語',
-    options: [{ label: '日本', code: 'JP', url: '/' }],
+    options: [{ label: '日本', code: 'JP', base: '' }],
   },
   {
     heading: 'More',
     options: [
-      { label: 'Français', code: 'FR', url: '/' },
-      { label: 'Deutsch', code: 'DE', url: '/' },
-      { label: 'Italiano', code: 'IT', url: '/' },
+      { label: 'Français', code: 'FR', base: '' },
+      { label: 'Deutsch', code: 'DE', base: '' },
+      { label: 'Italiano', code: 'IT', base: '' },
     ],
   },
 ]
+
+type PageType = 'home' | 'careers' | 'contact'
 
 function getLocale(pathname: string) {
   if (pathname.startsWith('/tw')) return 'tw'
@@ -57,6 +59,19 @@ function getHomeBase(locale: string) {
   return ''
 }
 
+function getPageType(pathname: string): PageType {
+  const stripped = pathname.replace(/^\/(tw|cn)/, '')
+  if (stripped === '/careers' || stripped.startsWith('/careers/')) return 'careers'
+  if (stripped === '/contact' || stripped.startsWith('/contact/')) return 'contact'
+  return 'home'
+}
+
+function buildLocaleUrl(base: string, pageType: PageType): string {
+  if (pageType === 'careers') return `${base}/careers`
+  if (pageType === 'contact') return `${base}/contact`
+  return base || '/'
+}
+
 interface NavbarProps {
   dark?: boolean
 }
@@ -66,6 +81,7 @@ export default function Navbar({ dark = false }: NavbarProps) {
   const router = useRouter()
   const locale = getLocale(pathname)
   const homeBase = getHomeBase(locale)
+  const pageType = getPageType(pathname)
 
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -144,7 +160,7 @@ export default function Navbar({ dark = false }: NavbarProps) {
           { href: `${homeBase}#about`, label: 'About' },
           { href: `${homeBase}#how-it-works`, label: 'How It Works' },
           { href: '/careers', label: 'Careers' },
-          { href: '/contact', label: 'Contact' },
+          { href: `${homeBase}#contact`, label: 'Contact' },
         ]
 
   const signUpLabel =
@@ -198,7 +214,7 @@ export default function Navbar({ dark = false }: NavbarProps) {
                         data-label={opt.code}
                         onClick={() => {
                           closeLangMenu()
-                          router.push(opt.url)
+                          router.push(buildLocaleUrl(opt.base, pageType))
                         }}
                       >
                         {opt.label}

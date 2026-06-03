@@ -328,6 +328,47 @@
   }
 }
 
+/* ── Form states ── */
+.contact-form__error {
+  color: #c0392b;
+  font-size: 0.875rem;
+  padding: 0.6rem 0.9rem;
+  background: #fdf0ef;
+  border: 1px solid #f5c6c0;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.5rem;
+}
+
+.contact-success {
+  text-align: center;
+  padding: 3rem 1.5rem;
+}
+
+.contact-success__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: #d4edda;
+  color: #27ae60;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.contact-success__title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--clr-text);
+}
+
+.contact-success__body {
+  color: var(--clr-muted);
+}
+
 @media (max-width: 768px) {
   .contact-hero {
     padding-top: calc(var(--navbar-h) + 3rem);

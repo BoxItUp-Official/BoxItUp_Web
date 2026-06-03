@@ -1,4 +1,14 @@
 import type { Metadata } from 'next'
+import HeroStats from '@/components/HeroStats'
+import HeroParallax from '@/components/HeroParallax'
+import ContactFormTw from '@/app/tw/contact/ContactFormTw'
+import '@/app/contact/contact.css'
+
+const TW_STATS = [
+  { target: 2400, suffix: '+', label: '已拯救食物箱' },
+  { target: 340, suffix: '+', label: '合作夥伴商家' },
+  { target: 18, suffix: 'k kg', label: '減少 CO₂ 排放' },
+]
 
 export const metadata: Metadata = {
   title: 'Box It Up | 節省更多，體驗更多。',
@@ -34,24 +44,10 @@ export default function TWPage() {
               <a href="#signup" className="btn btn--primary">立即開始</a>
               <a href="#about" className="btn btn--secondary">商家註冊</a>
             </div>
-            <div className="hero__stats">
-              <div className="hero__stat">
-                <span className="hero__stat-number">2,400+</span>
-                <span className="hero__stat-label">已拯救食物箱</span>
-              </div>
-              <div className="hero__stat-divider" />
-              <div className="hero__stat">
-                <span className="hero__stat-number">340+</span>
-                <span className="hero__stat-label">合作夥伴商家</span>
-              </div>
-              <div className="hero__stat-divider" />
-              <div className="hero__stat">
-                <span className="hero__stat-number">18k kg</span>
-                <span className="hero__stat-label">減少 CO₂ 排放</span>
-              </div>
-            </div>
+            <HeroStats stats={TW_STATS} />
           </div>
 
+          <HeroParallax>
           <div className="hero__visual hero__visual--product">
             <div className="hero__showcase">
               <div className="hero__bg-orb hero__bg-orb--1" />
@@ -113,6 +109,7 @@ export default function TWPage() {
               </div>
             </div>
           </div>
+          </HeroParallax>
         </div>
 
         <div className="hero__scroll-indicator" id="scrollIndicator">
@@ -422,8 +419,51 @@ export default function TWPage() {
         </div>
       </section>
 
+      {/* ── CONTACT ── */}
+      <section className="home-contact section" id="contact">
+        <div className="container">
+          <div className="home-contact__inner">
+            <div>
+              <div className="section-label">聯絡我們</div>
+              <h2 className="home-contact__heading">
+                有問題或想與我們<br />合作嗎？
+              </h2>
+              <p className="home-contact__sub">
+                無論您是有興趣合作的商店、想加入我們的學生，還是對平台有想法——都歡迎傳訊息給我們。
+              </p>
+              <div className="home-contact__reasons">
+                <div className="home-contact__reason">
+                  <div className="home-contact__reason-icon">🏪</div>
+                  <div className="home-contact__reason-body">
+                    <strong>商店合作</strong>
+                    <span>將剩餘庫存轉化為新的收入來源，並觸及更多新客群。</span>
+                  </div>
+                </div>
+                <div className="home-contact__reason">
+                  <div className="home-contact__reason-icon">🛠</div>
+                  <div className="home-contact__reason-body">
+                    <strong>早期協作</strong>
+                    <span>學生與開發者可以獲得真實的創業經歷與專案主導機會。</span>
+                  </div>
+                </div>
+                <div className="home-contact__reason">
+                  <div className="home-contact__reason-icon">💬</div>
+                  <div className="home-contact__reason-body">
+                    <strong>回饋與想法</strong>
+                    <span>分享使用者痛點或產品建議，協助我們打造更好的平台。</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="contact-form-wrap">
+              <ContactFormTw />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── FOOTER ── */}
-      <footer className="footer" id="contact">
+      <footer className="footer">
         <div className="container">
           <div className="footer__top">
             <div className="footer__brand">

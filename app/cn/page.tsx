@@ -1,4 +1,14 @@
 import type { Metadata } from 'next'
+import HeroStats from '@/components/HeroStats'
+import HeroParallax from '@/components/HeroParallax'
+import ContactFormCn from '@/app/cn/contact/ContactFormCn'
+import '@/app/contact/contact.css'
+
+const CN_STATS = [
+  { target: 2400, suffix: '+', label: '已拯救食物箱' },
+  { target: 340, suffix: '+', label: '合作伙伴商家' },
+  { target: 18, suffix: 'k kg', label: '减少 CO₂ 排放' },
+]
 
 export const metadata: Metadata = {
   title: 'Box It Up | 节省更多，体验更多。',
@@ -34,24 +44,10 @@ export default function CNPage() {
               <a href="#signup" className="btn btn--primary">立即开始</a>
               <a href="#about" className="btn btn--secondary">商家注册</a>
             </div>
-            <div className="hero__stats">
-              <div className="hero__stat">
-                <span className="hero__stat-number">2,400+</span>
-                <span className="hero__stat-label">已拯救食物箱</span>
-              </div>
-              <div className="hero__stat-divider" />
-              <div className="hero__stat">
-                <span className="hero__stat-number">340+</span>
-                <span className="hero__stat-label">合作伙伴商家</span>
-              </div>
-              <div className="hero__stat-divider" />
-              <div className="hero__stat">
-                <span className="hero__stat-number">18k kg</span>
-                <span className="hero__stat-label">减少 CO₂ 排放</span>
-              </div>
-            </div>
+            <HeroStats stats={CN_STATS} />
           </div>
 
+          <HeroParallax>
           <div className="hero__visual hero__visual--product">
             <div className="hero__showcase">
               <div className="hero__bg-orb hero__bg-orb--1" />
@@ -113,6 +109,7 @@ export default function CNPage() {
               </div>
             </div>
           </div>
+          </HeroParallax>
         </div>
 
         <div className="hero__scroll-indicator" id="scrollIndicator">
@@ -422,8 +419,51 @@ export default function CNPage() {
         </div>
       </section>
 
+      {/* ── CONTACT ── */}
+      <section className="home-contact section" id="contact">
+        <div className="container">
+          <div className="home-contact__inner">
+            <div>
+              <div className="section-label">联系我们</div>
+              <h2 className="home-contact__heading">
+                有问题或想与我们<br />合作吗？
+              </h2>
+              <p className="home-contact__sub">
+                无论您是有兴趣合作的商店、想加入我们的学生，还是对平台有想法——都欢迎发消息给我们。
+              </p>
+              <div className="home-contact__reasons">
+                <div className="home-contact__reason">
+                  <div className="home-contact__reason-icon">🏪</div>
+                  <div className="home-contact__reason-body">
+                    <strong>商店合作</strong>
+                    <span>将多余库存转化为新的收入来源，并触及更多新客群。</span>
+                  </div>
+                </div>
+                <div className="home-contact__reason">
+                  <div className="home-contact__reason-icon">🛠</div>
+                  <div className="home-contact__reason-body">
+                    <strong>早期协作</strong>
+                    <span>学生与开发者可以获得真实的创业经历与项目主导机会。</span>
+                  </div>
+                </div>
+                <div className="home-contact__reason">
+                  <div className="home-contact__reason-icon">💬</div>
+                  <div className="home-contact__reason-body">
+                    <strong>反馈与想法</strong>
+                    <span>分享用户痛点或产品建议，帮助我们打造更好的平台。</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="contact-form-wrap">
+              <ContactFormCn />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── FOOTER ── */}
-      <footer className="footer" id="contact">
+      <footer className="footer">
         <div className="container">
           <div className="footer__top">
             <div className="footer__brand">

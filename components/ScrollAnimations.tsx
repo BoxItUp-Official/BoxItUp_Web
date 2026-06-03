@@ -15,7 +15,7 @@ const ANIMATED_SELECTORS = [
   '.section-subtitle',
   '.section-label',
   '.featured__header',
-  '.hero__stats',
+  // .hero__stats is intentionally excluded — HeroStats component owns its own entrance animation
 ].join(', ')
 
 export default function ScrollAnimations() {

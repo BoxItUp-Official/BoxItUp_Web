@@ -1,3 +1,14 @@
+import HeroStats from '@/components/HeroStats'
+import HeroParallax from '@/components/HeroParallax'
+import ContactForm from '@/app/contact/ContactForm'
+import '@/app/contact/contact.css'
+
+const EN_STATS = [
+  { target: 10, suffix: 'k +', label: 'Boxes sold' },
+  { target: 100, suffix: ' +', label: 'Partner stores' },
+  { target: 150, suffix: ' NTD', label: 'Per surprise box' },
+]
+
 export default function HomePage() {
   return (
     <>
@@ -21,24 +32,10 @@ export default function HomePage() {
               <a href="#signup" className="btn btn--primary">Get Started</a>
               <a href="#about" className="btn btn--secondary">Sign up as a Business</a>
             </div>
-            <div className="hero__stats">
-              <div className="hero__stat">
-                <span className="hero__stat-number">10k +</span>
-                <span className="hero__stat-label">Boxes sold</span>
-              </div>
-              <div className="hero__stat-divider" />
-              <div className="hero__stat">
-                <span className="hero__stat-number">100 +</span>
-                <span className="hero__stat-label">Partner stores</span>
-              </div>
-              <div className="hero__stat-divider" />
-              <div className="hero__stat">
-                <span className="hero__stat-number">150 NTD</span>
-                <span className="hero__stat-label">Per surprise box</span>
-              </div>
-            </div>
+            <HeroStats stats={EN_STATS} />
           </div>
 
+          <HeroParallax>
           <div className="hero__visual hero__visual--product">
             <div className="hero__showcase">
               <div className="hero__bg-orb hero__bg-orb--1" />
@@ -104,6 +101,7 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+          </HeroParallax>
         </div>
 
         <div className="hero__scroll-indicator" id="scrollIndicator">
@@ -486,8 +484,51 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── CONTACT ── */}
+      <section className="home-contact section" id="contact">
+        <div className="container">
+          <div className="home-contact__inner">
+            <div>
+              <div className="section-label">Get in touch</div>
+              <h2 className="home-contact__heading">
+                Have a question or<br />want to work together?
+              </h2>
+              <p className="home-contact__sub">
+                Whether you&apos;re a store interested in partnering, a student who wants to build with us, or just curious — drop us a message.
+              </p>
+              <div className="home-contact__reasons">
+                <div className="home-contact__reason">
+                  <div className="home-contact__reason-icon">🏪</div>
+                  <div className="home-contact__reason-body">
+                    <strong>Store partnerships</strong>
+                    <span>Turn surplus inventory into a new revenue stream and reach new customers.</span>
+                  </div>
+                </div>
+                <div className="home-contact__reason">
+                  <div className="home-contact__reason-icon">🛠</div>
+                  <div className="home-contact__reason-body">
+                    <strong>Early collaboration</strong>
+                    <span>Students and builders can get hands-on startup experience and ownership.</span>
+                  </div>
+                </div>
+                <div className="home-contact__reason">
+                  <div className="home-contact__reason-icon">💬</div>
+                  <div className="home-contact__reason-body">
+                    <strong>Feedback &amp; ideas</strong>
+                    <span>Share user pain points or product ideas that could shape Box It Up early.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="contact-form-wrap">
+              <ContactForm />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── FOOTER ── */}
-      <footer className="footer" id="contact">
+      <footer className="footer">
         <div className="container">
           <div className="footer__top">
             <div className="footer__brand">

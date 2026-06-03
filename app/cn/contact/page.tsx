@@ -1,15 +1,14 @@
 import type { Metadata } from 'next'
-import './contact.css'
-import ContactForm from './ContactForm'
+import '@/app/contact/contact.css'
+import ContactFormCn from './ContactFormCn'
 
 export const metadata: Metadata = {
-  title: 'Box It Up | Contact',
-  description:
-    'Contact Box It Up — reach out for store partnerships, early collaboration, or general inquiries.',
+  title: 'Box It Up | 联系我们',
+  description: '联系 Box It Up — 商店合作、早期协作或一般咨询，欢迎来信。',
   icons: { icon: '/logo_icon.png' },
 }
 
-export default function ContactPage() {
+export default function CnContactPage() {
   return (
     <div
       style={{
@@ -23,39 +22,34 @@ export default function ContactPage() {
           <div className="container">
             <div className="contact-hero__inner">
               <div className="contact-hero__content">
-                <div className="contact-eyebrow">Get in touch</div>
+                <div className="contact-eyebrow">联系我们</div>
                 <h1 className="contact-title">
-                  Let&apos;s talk about what Box It Up can build next
+                  让我们聊聊 Box It Up 接下来能创造什么
                 </h1>
                 <p className="contact-subtitle">
-                  Whether you&apos;re a store interested in partnering, a student who wants to help
-                  build with us, or someone with feedback or ideas, we&apos;d love to hear from
-                  you.
+                  无论您是有兴趣合作的商店、想参与建设的学生，还是有意见与想法的用户，我们都很乐意听您分享。
                 </p>
               </div>
 
               <aside className="contact-hero__aside">
-                <h2 className="contact-hero__aside-title">Best reasons to reach out</h2>
+                <h2 className="contact-hero__aside-title">最好的联系理由</h2>
                 <div className="contact-hero__aside-list">
                   <div className="contact-hero__aside-item">
-                    <strong>Store partnerships</strong>
+                    <strong>商店合作</strong>
                     <span>
-                      Explore how Box It Up can help your business create visibility and
-                      better-value offers.
+                      探索 Box It Up 如何帮助您的商店提升曝光度，并创造更有价值的优惠方案。
                     </span>
                   </div>
                   <div className="contact-hero__aside-item">
-                    <strong>Early collaboration</strong>
+                    <strong>早期协作</strong>
                     <span>
-                      Students and builders can reach out if they want hands-on startup experience
-                      and ownership.
+                      学生与开发者可以联系我们，获得真实的创业经历与项目主导机会。
                     </span>
                   </div>
                   <div className="contact-hero__aside-item">
-                    <strong>Product feedback</strong>
+                    <strong>产品反馈</strong>
                     <span>
-                      Share ideas, user pain points, or opportunities that could shape the platform
-                      early.
+                      分享您的想法、用户痛点或建议，帮助我们在早期就打造更好的平台。
                     </span>
                   </div>
                 </div>
@@ -69,47 +63,44 @@ export default function ContactPage() {
           <div className="container">
             <div className="contact-entry__grid">
               <article className="contact-card">
-                <div className="contact-card__label">For stores</div>
-                <h3 className="contact-card__title">Partner with Box It Up</h3>
+                <div className="contact-card__label">商店专区</div>
+                <h3 className="contact-card__title">与 Box It Up 建立合作</h3>
                 <p className="contact-card__desc">
-                  Want to turn surplus inventory into an opportunity and reach new customers through
-                  curated offers?
+                  想将多余库存转化为商机，并通过精选优惠吸引新客群吗？
                 </p>
                 <a
-                  href="mailto:boxitupofficial@gmail.com?subject=Store%20Partnership%20Inquiry"
+                  href="mailto:boxitupofficial@gmail.com?subject=商店合作咨询"
                   className="contact-card__link"
                 >
-                  Contact our partnership team →
+                  联系合作团队 →
                 </a>
               </article>
 
               <article className="contact-card">
-                <div className="contact-card__label">For builders</div>
-                <h3 className="contact-card__title">Build with us</h3>
+                <div className="contact-card__label">开发者专区</div>
+                <h3 className="contact-card__title">与我们一起打造</h3>
                 <p className="contact-card__desc">
-                  We&apos;re looking for early collaborators and motivated students who want to help
-                  shape Box It Up from the ground up.
+                  我们正在寻找有动力的早期协作者与学生，一起从零建立 Box It Up。
                 </p>
                 <a
-                  href="mailto:boxitupofficial@gmail.com?subject=Early%20Collaboration%20with%20Box%20It%20Up"
+                  href="mailto:boxitupofficial@gmail.com?subject=Box It Up 早期协作申请"
                   className="contact-card__link"
                 >
-                  Tell us about yourself →
+                  介绍您自己 →
                 </a>
               </article>
 
               <article className="contact-card">
-                <div className="contact-card__label">General</div>
-                <h3 className="contact-card__title">Questions, ideas, or feedback</h3>
+                <div className="contact-card__label">一般咨询</div>
+                <h3 className="contact-card__title">问题、想法或反馈</h3>
                 <p className="contact-card__desc">
-                  Reach out for product feedback, user questions, media opportunities, or anything
-                  else worth discussing.
+                  欢迎提供产品反馈、用户问题、媒体合作机会，或任何值得讨论的事项。
                 </p>
                 <a
-                  href="mailto:boxitupofficial@gmail.com?subject=General%20Inquiry%20for%20Box%20It%20Up"
+                  href="mailto:boxitupofficial@gmail.com?subject=Box It Up 一般咨询"
                   className="contact-card__link"
                 >
-                  Send a message →
+                  发送消息 →
                 </a>
               </article>
             </div>
@@ -121,56 +112,51 @@ export default function ContactPage() {
           <div className="container">
             <div className="contact-main__grid">
               <div className="contact-form-wrap">
-                <h2 className="contact-block-title">Send us a message</h2>
+                <h2 className="contact-block-title">发送消息给我们</h2>
                 <p className="contact-block-subtitle">
-                  Fill out the form below and we&apos;ll route it to the right place.
+                  填写下方表单，我们将为您转介至合适的负责人。
                 </p>
-                <ContactForm />
+                <ContactFormCn />
               </div>
 
               <div className="contact-info-wrap">
-                <h2 className="contact-block-title">Direct contact</h2>
+                <h2 className="contact-block-title">直接联系</h2>
                 <p className="contact-block-subtitle">
-                  Prefer email instead? Use the direct details below and we&apos;ll route your
-                  message to the right place.
+                  更喜欢直接发邮件？请使用以下联系方式，我们会为您转达至正确窗口。
                 </p>
 
                 <div className="contact-info-list">
                   <div className="contact-info-item">
-                    <strong>Email</strong>
+                    <strong>电子邮件</strong>
                     <a href="mailto:boxitupofficial@gmail.com">boxitupofficial@gmail.com</a>
                   </div>
                   <div className="contact-info-item">
-                    <strong>Phone</strong>
+                    <strong>电话</strong>
                     <span>+886 123 456 789</span>
                   </div>
                   <div className="contact-info-item">
-                    <strong>Location</strong>
-                    <span>Taipei, Taiwan</span>
+                    <strong>地点</strong>
+                    <span>台湾台北</span>
                   </div>
                 </div>
 
                 <div className="contact-faq">
                   <div className="contact-faq__item">
-                    <strong>Are you hiring paid roles right now?</strong>
+                    <strong>目前有开放正职职位吗？</strong>
                     <p>
-                      We&apos;re currently focused on early collaboration and building traction.
-                      Some roles may begin as unpaid, project-based, or exploratory opportunities
-                      while we grow.
+                      我们目前以早期协作为主，致力于积累用户与知名度。部分职位可能以无偿、项目制或探索性合作的形式开始。
                     </p>
                   </div>
                   <div className="contact-faq__item">
-                    <strong>Who should apply to build with Box It Up?</strong>
+                    <strong>谁适合加入 Box It Up？</strong>
                     <p>
-                      Students and early builders who want meaningful startup exposure, ownership,
-                      and resume depth are especially encouraged to reach out.
+                      想获得真实创业经历、项目主导机会与作品集深度的学生与早期开发者，特别欢迎主动联系。
                     </p>
                   </div>
                   <div className="contact-faq__item">
-                    <strong>How quickly do you reply?</strong>
+                    <strong>通常多久会回复？</strong>
                     <p>
-                      We aim to respond within a few business days depending on the type of inquiry
-                      and the current stage of the project.
+                      我们会尽力在几个工作日内回复，实际时间视咨询类型与项目进度而定。
                     </p>
                   </div>
                 </div>
