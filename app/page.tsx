@@ -30,7 +30,7 @@ export default function HomePage() {
             </p>
             <div className="hero__cta-group">
               <a href="#signup" className="btn btn--primary">Get Started</a>
-              <a href="#about" className="btn btn--secondary">Sign up as a Business</a>
+              <a href="/merchant/signup" className="btn btn--secondary">Sign up as a Business</a>
             </div>
             <HeroStats stats={EN_STATS} />
           </div>

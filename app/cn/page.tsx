@@ -42,7 +42,7 @@ export default function CNPage() {
             </p>
             <div className="hero__cta-group">
               <a href="#signup" className="btn btn--primary">立即开始</a>
-              <a href="#about" className="btn btn--secondary">商家注册</a>
+              <a href="/merchant/signup" className="btn btn--secondary">商家注册</a>
             </div>
             <HeroStats stats={CN_STATS} />
           </div>

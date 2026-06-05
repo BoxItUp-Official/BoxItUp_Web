@@ -42,7 +42,7 @@ export default function TWPage() {
             </p>
             <div className="hero__cta-group">
               <a href="#signup" className="btn btn--primary">立即開始</a>
-              <a href="#about" className="btn btn--secondary">商家註冊</a>
+              <a href="/merchant/signup" className="btn btn--secondary">商家註冊</a>
             </div>
             <HeroStats stats={TW_STATS} />
           </div>
