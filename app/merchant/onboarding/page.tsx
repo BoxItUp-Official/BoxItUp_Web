@@ -1,6 +1,8 @@
 'use client'
 
-import { useActionState, useState } from 'react'
+import { useActionState, useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase'
 import { saveMerchantProfile, type OnboardingState } from '../actions'
 
 const CATEGORIES = [
@@ -22,8 +24,25 @@ const CITIES = [
 const initial: OnboardingState = { status: 'idle', message: '' }
 
 export default function MerchantOnboardingPage() {
+  const router = useRouter()
   const [step, setStep] = useState(1)
   const [state, action, pending] = useActionState(saveMerchantProfile, initial)
+
+  // If merchant already completed onboarding, go straight to dashboard
+  useEffect(() => {
+    const check = async () => {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) { router.replace('/merchant/login'); return }
+      const { data } = await supabase
+        .from('merchants')
+        .select('onboarding_complete')
+        .eq('id', user.id)
+        .single()
+      if (data?.onboarding_complete) router.replace('/merchant/dashboard')
+    }
+    check()
+  }, [router])
 
   // Client-side field state for review step
   const [fields, setFields] = useState({

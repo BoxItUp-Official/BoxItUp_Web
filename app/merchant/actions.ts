@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase-server'
 import { redirect } from 'next/navigation'
 
 export interface AuthState {
-  status: 'idle' | 'error'
+  status: 'idle' | 'error' | 'success'
   message: string
 }
 
@@ -12,6 +12,8 @@ export interface OnboardingState {
   status: 'idle' | 'error'
   message: string
 }
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
 // ── Sign up with email/password ──
 export async function signUpWithEmail(
@@ -36,14 +38,16 @@ export async function signUpWithEmail(
   const { error } = await supabase.auth.signUp({
     email,
     password,
-    options: { emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/merchant/onboarding` },
+    options: {
+      emailRedirectTo: `${SITE_URL}/auth/callback?next=/merchant/onboarding`,
+    },
   })
 
   if (error) {
     return { status: 'error', message: error.message }
   }
 
-  redirect('/merchant/onboarding')
+  redirect('/merchant/verify-email')
 }
 
 // ── Sign in with email/password ──
@@ -65,7 +69,58 @@ export async function signInWithEmail(
     return { status: 'error', message: 'Invalid email or password.' }
   }
 
-  redirect('/merchant/onboarding')
+  redirect('/merchant/dashboard')
+}
+
+// ── Forgot password ──
+export async function forgotPassword(
+  _prev: AuthState,
+  formData: FormData
+): Promise<AuthState> {
+  const email = (formData.get('email') as string).trim()
+
+  if (!email) {
+    return { status: 'error', message: 'Please enter your email address.' }
+  }
+
+  const supabase = await createClient()
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${SITE_URL}/auth/callback?next=/merchant/reset-password`,
+  })
+
+  if (error) {
+    return { status: 'error', message: error.message }
+  }
+
+  return { status: 'success', message: 'Reset link sent.' }
+}
+
+// ── Reset password ──
+export async function resetPassword(
+  _prev: AuthState,
+  formData: FormData
+): Promise<AuthState> {
+  const password = formData.get('password') as string
+  const confirm = formData.get('confirm') as string
+
+  if (!password) {
+    return { status: 'error', message: 'Please enter a new password.' }
+  }
+  if (password.length < 8) {
+    return { status: 'error', message: 'Password must be at least 8 characters.' }
+  }
+  if (password !== confirm) {
+    return { status: 'error', message: 'Passwords do not match.' }
+  }
+
+  const supabase = await createClient()
+  const { error } = await supabase.auth.updateUser({ password })
+
+  if (error) {
+    return { status: 'error', message: error.message }
+  }
+
+  return { status: 'success', message: 'Password updated.' }
 }
 
 // ── Save merchant profile ──

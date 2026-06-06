@@ -29,7 +29,12 @@ export default function MerchantLoginPage() {
             <input type="email" id="email" name="email" placeholder="you@store.com" required />
           </div>
           <div className="merchant-field">
-            <label htmlFor="password">Password</label>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <label htmlFor="password">Password</label>
+              <Link href="/merchant/forgot-password" style={{ fontSize: '0.82rem', color: 'var(--clr-accent)', fontWeight: 600 }}>
+                Forgot password?
+              </Link>
+            </div>
             <input type="password" id="password" name="password" placeholder="Your password" required />
           </div>
 

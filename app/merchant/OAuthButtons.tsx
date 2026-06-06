@@ -5,8 +5,8 @@ import { createClient } from '@/lib/supabase'
 export default function OAuthButtons() {
   const redirectTo =
     typeof window !== 'undefined'
-      ? `${window.location.origin}/merchant/onboarding`
-      : '/merchant/onboarding'
+      ? `${window.location.origin}/auth/callback?next=/merchant/dashboard`
+      : '/auth/callback?next=/merchant/dashboard'
 
   async function handleOAuth(provider: 'google' | 'apple') {
     const supabase = createClient()
