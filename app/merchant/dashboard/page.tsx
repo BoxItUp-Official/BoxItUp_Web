@@ -1,70 +1,77 @@
 import { createClient } from '@/lib/supabase-server'
-import { redirect } from 'next/navigation'
+import Link from 'next/link'
 
 export default async function MerchantDashboardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  if (!user) redirect('/merchant/login')
-
-  const { data: merchant } = await supabase
-    .from('merchants')
-    .select('store_name, onboarding_complete')
-    .eq('id', user.id)
-    .single()
-
-  if (!merchant?.onboarding_complete) redirect('/merchant/onboarding')
+  const [{ data: merchant }, { count: activeBoxes }, { count: totalBoxes }] = await Promise.all([
+    supabase.from('merchants').select('store_name').eq('id', user!.id).single(),
+    supabase.from('boxes').select('*', { count: 'exact', head: true })
+      .eq('merchant_id', user!.id).eq('is_active', true),
+    supabase.from('boxes').select('*', { count: 'exact', head: true })
+      .eq('merchant_id', user!.id),
+  ])
 
   return (
-    <main style={{ flex: 1, padding: '3rem 2rem' }}>
-      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-        <div className="merchant-auth__eyebrow">Merchant Portal</div>
-        <h1 style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--clr-heading)', marginBottom: '0.5rem' }}>
-          Welcome back, {merchant.store_name} 👋
-        </h1>
-        <p style={{ color: 'var(--clr-muted)', fontSize: '1rem', marginBottom: '2.5rem' }}>
-          Your store is registered. The full dashboard — box listings, orders, and analytics — is coming in Phase 4.
-        </p>
-
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '1rem',
-        }}>
-          {[
-            { label: 'Active Boxes', value: '—', note: 'Coming in Phase 4' },
-            { label: 'Orders Today', value: '—', note: 'Coming in Phase 4' },
-            { label: 'Total Sales', value: '—', note: 'Coming in Phase 4' },
-          ].map((card) => (
-            <div key={card.label} style={{
-              background: '#fff',
-              border: '1px solid var(--clr-border)',
-              borderRadius: 'var(--radius-xl)',
-              padding: '1.5rem',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
-            }}>
-              <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--clr-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
-                {card.label}
-              </div>
-              <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--clr-heading)' }}>
-                {card.value}
-              </div>
-              <div style={{ fontSize: '0.78rem', color: 'var(--clr-muted)', marginTop: '0.25rem' }}>
-                {card.note}
-              </div>
-            </div>
-          ))}
+    <>
+      <div className="merchant-page-header">
+        <div>
+          <h1>Welcome back, {merchant?.store_name}</h1>
+          <p>Here&apos;s a snapshot of your store.</p>
         </div>
+        <Link href="/merchant/dashboard/boxes/new" className="btn btn--primary">
+          + Add a box
+        </Link>
+      </div>
 
-        <div style={{ marginTop: '2.5rem', display: 'flex', gap: '0.75rem' }}>
-          <a href="/merchant/dashboard/profile" className="btn btn--primary">
-            Edit store profile
-          </a>
-          <a href="/" className="btn btn--ghost">
-            Back to Box It Up
-          </a>
+      <div className="merchant-stats-grid">
+        <div className="merchant-stat-card">
+          <div className="merchant-stat-card__label">Active Boxes</div>
+          <div className="merchant-stat-card__value">{activeBoxes ?? 0}</div>
+          <div className="merchant-stat-card__note">Currently listed</div>
+        </div>
+        <div className="merchant-stat-card">
+          <div className="merchant-stat-card__label">Total Listings</div>
+          <div className="merchant-stat-card__value">{totalBoxes ?? 0}</div>
+          <div className="merchant-stat-card__note">All time</div>
+        </div>
+        <div className="merchant-stat-card">
+          <div className="merchant-stat-card__label">Orders Today</div>
+          <div className="merchant-stat-card__value">—</div>
+          <div className="merchant-stat-card__note">Coming in Phase 5</div>
+        </div>
+        <div className="merchant-stat-card">
+          <div className="merchant-stat-card__label">Total Sales</div>
+          <div className="merchant-stat-card__value">—</div>
+          <div className="merchant-stat-card__note">Coming in Phase 5</div>
         </div>
       </div>
-    </main>
+
+      <div className="merchant-dash-links">
+        <Link href="/merchant/dashboard/boxes" className="merchant-dash-quicklink">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73L13 2.27a2 2 0 0 0-2 0L4 6.27A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96" /><line x1="12" y1="22.08" x2="12" y2="12" />
+          </svg>
+          <div>
+            <strong>Manage boxes</strong>
+            <span>View, edit, or pause your listings</span>
+          </div>
+          <span className="merchant-dash-quicklink__arrow">→</span>
+        </Link>
+        <Link href="/merchant/dashboard/profile" className="merchant-dash-quicklink">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+          <div>
+            <strong>Store profile</strong>
+            <span>Update your store info and contact details</span>
+          </div>
+          <span className="merchant-dash-quicklink__arrow">→</span>
+        </Link>
+      </div>
+    </>
   )
 }

@@ -23,14 +23,18 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl
 
-  // Protect onboarding — must be logged in
-  if (pathname.startsWith('/merchant/onboarding') && !user) {
+  // Routes that require auth (but not /complete or /verify-email or /forgot-password etc.)
+  const requiresAuth =
+    pathname.startsWith('/merchant/dashboard') ||
+    (pathname.startsWith('/merchant/onboarding') && pathname !== '/merchant/onboarding/complete')
+
+  if (requiresAuth && !user) {
     return NextResponse.redirect(new URL('/merchant/login', request.url))
   }
 
-  // Logged-in merchants visiting login/signup → send to onboarding
+  // Logged-in merchants visiting login/signup → send straight to dashboard
   if ((pathname === '/merchant/login' || pathname === '/merchant/signup') && user) {
-    return NextResponse.redirect(new URL('/merchant/onboarding', request.url))
+    return NextResponse.redirect(new URL('/merchant/dashboard', request.url))
   }
 
   return response
