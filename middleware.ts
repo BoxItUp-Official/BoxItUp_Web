@@ -24,11 +24,14 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Routes that require auth (but not /complete or /verify-email or /forgot-password etc.)
+  const isDev = process.env.NODE_ENV === 'development'
+
   const requiresAuth =
     pathname.startsWith('/merchant/dashboard') ||
     (pathname.startsWith('/merchant/onboarding') && pathname !== '/merchant/onboarding/complete')
 
-  if (requiresAuth && !user) {
+  // In dev, skip the auth wall so UI can be previewed without a session
+  if (requiresAuth && !user && !isDev) {
     return NextResponse.redirect(new URL('/merchant/login', request.url))
   }
 

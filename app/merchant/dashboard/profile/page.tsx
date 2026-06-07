@@ -1,19 +1,28 @@
 import { createClient } from '@/lib/supabase-server'
-import { redirect } from 'next/navigation'
 import ProfileForm from './ProfileForm'
+
+const MOCK_MERCHANT = {
+  store_name: 'Demo Store',
+  category: 'Bakery',
+  address: '10 Zhongshan N. Rd., Sec. 2',
+  city: 'Taipei',
+  phone: '',
+  line_id: '',
+  description: '',
+}
 
 export default async function ProfilePage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/merchant/login')
 
-  const { data: merchant } = await supabase
-    .from('merchants')
-    .select('store_name, category, address, city, phone, line_id, description')
-    .eq('id', user.id)
-    .single()
-
-  if (!merchant) redirect('/merchant/onboarding')
+  const merchant = user
+    ? (await supabase
+        .from('merchants')
+        .select('store_name, category, address, city, phone, line_id, description')
+        .eq('id', user.id)
+        .single()
+      ).data ?? MOCK_MERCHANT
+    : MOCK_MERCHANT
 
   return (
     <>
