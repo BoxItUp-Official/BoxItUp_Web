@@ -9,6 +9,7 @@ const MOCK_MERCHANT = {
   phone: '',
   line_id: '',
   description: '',
+  photo_url: null,
 }
 
 export default async function ProfilePage() {
@@ -18,7 +19,7 @@ export default async function ProfilePage() {
   const merchant = user
     ? (await supabase
         .from('merchants')
-        .select('store_name, category, address, city, phone, line_id, description')
+        .select('store_name, category, address, city, phone, line_id, description, photo_url')
         .eq('id', user.id)
         .single()
       ).data ?? MOCK_MERCHANT

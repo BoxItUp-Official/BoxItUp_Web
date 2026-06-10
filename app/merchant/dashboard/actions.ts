@@ -30,6 +30,7 @@ export async function updateMerchantProfile(
   const phone      = (formData.get('phone') as string | null)?.trim() || null
   const line_id    = (formData.get('line_id') as string | null)?.trim() || null
   const description = (formData.get('description') as string | null)?.trim() || null
+  const photo_url  = (formData.get('photo_url') as string | null)?.trim() || null
 
   if (!store_name || !category || !address || !city) {
     return { status: 'error', message: 'Please fill in all required fields.' }
@@ -39,7 +40,7 @@ export async function updateMerchantProfile(
   }
 
   const { error } = await supabase.from('merchants').update({
-    store_name, category, address, city, phone, line_id, description,
+    store_name, category, address, city, phone, line_id, description, photo_url,
   }).eq('id', user.id)
 
   if (error) {
@@ -75,10 +76,17 @@ export async function createBox(
   if (isNaN(quantity) || quantity < 1) return { status: 'error', message: 'Quantity must be at least 1.' }
   if (!pickup_start || !pickup_end) return { status: 'error', message: 'Pickup window is required.' }
 
+  const photo_url      = (formData.get('photo_url') as string | null)?.trim() || null
+  const available_days = (formData.getAll('available_days') as string[]).length > 0
+    ? (formData.getAll('available_days') as string[])
+    : ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+  const tags           = formData.getAll('tags') as string[]
+
   const { error } = await supabase.from('boxes').insert({
     merchant_id: user.id,
     name, description, price, original_value, quantity,
-    pickup_start, pickup_end, is_active: true,
+    pickup_start, pickup_end, photo_url, available_days, tags,
+    is_active: true,
   })
 
   if (error) {
@@ -112,8 +120,15 @@ export async function updateBox(
   if (isNaN(price) || price <= 0) return { status: 'error', message: 'Enter a valid price.' }
   if (isNaN(quantity) || quantity < 1) return { status: 'error', message: 'Quantity must be at least 1.' }
 
+  const photo_url      = (formData.get('photo_url') as string | null)?.trim() || null
+  const available_days = (formData.getAll('available_days') as string[]).length > 0
+    ? (formData.getAll('available_days') as string[])
+    : ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+  const tags           = formData.getAll('tags') as string[]
+
   const { error } = await supabase.from('boxes').update({
-    name, description, price, original_value, quantity, pickup_start, pickup_end,
+    name, description, price, original_value, quantity,
+    pickup_start, pickup_end, photo_url, available_days, tags,
   }).eq('id', id).eq('merchant_id', user.id)
 
   if (error) {
