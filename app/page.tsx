@@ -76,7 +76,11 @@ export default function HomePage() {
                   </div>
                   <div className="hero__app-list">
                     <div className="hero__app-list-item">
-                      <div className="hero__app-icon">☕</div>
+                      <div className="hero__app-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>
+                        </svg>
+                      </div>
                       <div>
                         <strong>Café Set</strong>
                         <span>Drinks + dessert</span>
@@ -84,7 +88,11 @@ export default function HomePage() {
                       <b>NT$120</b>
                     </div>
                     <div className="hero__app-list-item">
-                      <div className="hero__app-icon">🍱</div>
+                      <div className="hero__app-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8V5M8 8V6M16 8V6"/>
+                        </svg>
+                      </div>
                       <div>
                         <strong>Lunch Box</strong>
                         <span>Chef&apos;s daily selection</span>
@@ -476,8 +484,8 @@ export default function HomePage() {
               place for you. Sign up today and start making a difference — one box at a time.
             </p>
             <div className="cta-section__actions">
-              <a href="#" className="btn btn--primary btn--large">Download App</a>
-              <a href="#" className="btn btn--ghost btn--large">Learn More</a>
+              <a href="#signup" className="btn btn--primary btn--large">Download App</a>
+              <a href="#how-it-works" className="btn btn--ghost btn--large">Learn More</a>
             </div>
             <p className="cta-section__note">Free to join. No commitment required.</p>
           </div>
@@ -498,21 +506,33 @@ export default function HomePage() {
               </p>
               <div className="home-contact__reasons">
                 <div className="home-contact__reason">
-                  <div className="home-contact__reason-icon">🏪</div>
+                  <div className="home-contact__reason-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M3 9l1-5h16l1 5"/><path d="M3 9h18v11a1 1 0 01-1 1H4a1 1 0 01-1-1V9z"/><path d="M9 21v-6h6v6"/>
+                    </svg>
+                  </div>
                   <div className="home-contact__reason-body">
                     <strong>Store partnerships</strong>
                     <span>Turn surplus inventory into a new revenue stream and reach new customers.</span>
                   </div>
                 </div>
                 <div className="home-contact__reason">
-                  <div className="home-contact__reason-icon">🛠</div>
+                  <div className="home-contact__reason-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                  </div>
                   <div className="home-contact__reason-body">
                     <strong>Early collaboration</strong>
                     <span>Students and builders can get hands-on startup experience and ownership.</span>
                   </div>
                 </div>
                 <div className="home-contact__reason">
-                  <div className="home-contact__reason-icon">💬</div>
+                  <div className="home-contact__reason-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                    </svg>
+                  </div>
                   <div className="home-contact__reason-body">
                     <strong>Feedback &amp; ideas</strong>
                     <span>Share user pain points or product ideas that could shape Box It Up early.</span>
@@ -532,7 +552,7 @@ export default function HomePage() {
         <div className="container">
           <div className="footer__top">
             <div className="footer__brand">
-              <a href="#" className="footer__logo">
+              <a href="/" className="footer__logo">
                 <img src="/app_logo.png" alt="Box It Up Logo" className="footer__logo-img" />
               </a>
               <p className="footer__tagline">
@@ -575,7 +595,7 @@ export default function HomePage() {
               <ul className="footer__links">
                 <li><a href="#about">About Us</a></li>
                 <li><a href="/careers">Careers</a></li>
-                <li><a href="#">Partners</a></li>
+                <li><a href="/contact">Partners</a></li>
               </ul>
             </div>
             <div className="footer__links-group">

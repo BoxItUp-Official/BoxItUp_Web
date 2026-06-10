@@ -85,7 +85,11 @@ export default function CNPage() {
                   </div>
                   <div className="hero__app-list">
                     <div className="hero__app-list-item">
-                      <div className="hero__app-icon">☕</div>
+                      <div className="hero__app-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>
+                        </svg>
+                      </div>
                       <div>
                         <strong>咖啡套餐</strong>
                         <span>饮品 + 甜点</span>
@@ -93,7 +97,11 @@ export default function CNPage() {
                       <b>NT$120</b>
                     </div>
                     <div className="hero__app-list-item">
-                      <div className="hero__app-icon">🍱</div>
+                      <div className="hero__app-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8V5M8 8V6M16 8V6"/>
+                        </svg>
+                      </div>
                       <div>
                         <strong>午餐便当</strong>
                         <span>主厨每日精选</span>
@@ -411,8 +419,8 @@ export default function CNPage() {
               都有您的位置。立即注册，开始创造改变 —— 从每一个盒子开始。
             </p>
             <div className="cta-section__actions">
-              <a href="#" className="btn btn--primary btn--large">立即开始</a>
-              <a href="#" className="btn btn--ghost btn--large">商家注册</a>
+              <a href="#signup" className="btn btn--primary btn--large">立即开始</a>
+              <a href="/merchant/signup" className="btn btn--ghost btn--large">商家注册</a>
             </div>
             <p className="cta-section__note">免费加入。无需任何承诺。</p>
           </div>
@@ -433,21 +441,33 @@ export default function CNPage() {
               </p>
               <div className="home-contact__reasons">
                 <div className="home-contact__reason">
-                  <div className="home-contact__reason-icon">🏪</div>
+                  <div className="home-contact__reason-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M3 9l1-5h16l1 5"/><path d="M3 9h18v11a1 1 0 01-1 1H4a1 1 0 01-1-1V9z"/><path d="M9 21v-6h6v6"/>
+                    </svg>
+                  </div>
                   <div className="home-contact__reason-body">
                     <strong>商店合作</strong>
                     <span>将多余库存转化为新的收入来源，并触及更多新客群。</span>
                   </div>
                 </div>
                 <div className="home-contact__reason">
-                  <div className="home-contact__reason-icon">🛠</div>
+                  <div className="home-contact__reason-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                  </div>
                   <div className="home-contact__reason-body">
                     <strong>早期协作</strong>
                     <span>学生与开发者可以获得真实的创业经历与项目主导机会。</span>
                   </div>
                 </div>
                 <div className="home-contact__reason">
-                  <div className="home-contact__reason-icon">💬</div>
+                  <div className="home-contact__reason-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                    </svg>
+                  </div>
                   <div className="home-contact__reason-body">
                     <strong>反馈与想法</strong>
                     <span>分享用户痛点或产品建议，帮助我们打造更好的平台。</span>
@@ -467,7 +487,7 @@ export default function CNPage() {
         <div className="container">
           <div className="footer__top">
             <div className="footer__brand">
-              <a href="#" className="footer__logo">
+              <a href="/cn" className="footer__logo">
                 <img src="/app_logo.png" alt="Box It Up Logo" className="footer__logo-img" />
               </a>
               <p className="footer__tagline">
@@ -503,9 +523,8 @@ export default function CNPage() {
               <h4 className="footer__links-title">公司</h4>
               <ul className="footer__links">
                 <li><a href="#about">关于我们</a></li>
-                <li><a href="#">社会影响力</a></li>
-                <li><a href="#">加入我们</a></li>
-                <li><a href="#">合作伙伴</a></li>
+                <li><a href="/careers">加入我们</a></li>
+                <li><a href="/contact">合作伙伴</a></li>
               </ul>
             </div>
             <div className="footer__links-group">

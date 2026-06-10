@@ -85,7 +85,11 @@ export default function TWPage() {
                   </div>
                   <div className="hero__app-list">
                     <div className="hero__app-list-item">
-                      <div className="hero__app-icon">☕</div>
+                      <div className="hero__app-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>
+                        </svg>
+                      </div>
                       <div>
                         <strong>咖啡套餐</strong>
                         <span>飲品 + 甜點</span>
@@ -93,7 +97,11 @@ export default function TWPage() {
                       <b>NT$120</b>
                     </div>
                     <div className="hero__app-list-item">
-                      <div className="hero__app-icon">🍱</div>
+                      <div className="hero__app-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8V5M8 8V6M16 8V6"/>
+                        </svg>
+                      </div>
                       <div>
                         <strong>午餐便當</strong>
                         <span>主廚每日精選</span>
@@ -411,8 +419,8 @@ export default function TWPage() {
               都有您的位置。立即註冊，開始創造改變 —— 從每一個盒子開始。
             </p>
             <div className="cta-section__actions">
-              <a href="#" className="btn btn--primary btn--large">立即開始</a>
-              <a href="#" className="btn btn--ghost btn--large">商家註冊</a>
+              <a href="#signup" className="btn btn--primary btn--large">立即開始</a>
+              <a href="/merchant/signup" className="btn btn--ghost btn--large">商家註冊</a>
             </div>
             <p className="cta-section__note">免費加入。無需任何承諾。</p>
           </div>
@@ -433,21 +441,33 @@ export default function TWPage() {
               </p>
               <div className="home-contact__reasons">
                 <div className="home-contact__reason">
-                  <div className="home-contact__reason-icon">🏪</div>
+                  <div className="home-contact__reason-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M3 9l1-5h16l1 5"/><path d="M3 9h18v11a1 1 0 01-1 1H4a1 1 0 01-1-1V9z"/><path d="M9 21v-6h6v6"/>
+                    </svg>
+                  </div>
                   <div className="home-contact__reason-body">
                     <strong>商店合作</strong>
                     <span>將剩餘庫存轉化為新的收入來源，並觸及更多新客群。</span>
                   </div>
                 </div>
                 <div className="home-contact__reason">
-                  <div className="home-contact__reason-icon">🛠</div>
+                  <div className="home-contact__reason-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                  </div>
                   <div className="home-contact__reason-body">
                     <strong>早期協作</strong>
                     <span>學生與開發者可以獲得真實的創業經歷與專案主導機會。</span>
                   </div>
                 </div>
                 <div className="home-contact__reason">
-                  <div className="home-contact__reason-icon">💬</div>
+                  <div className="home-contact__reason-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                    </svg>
+                  </div>
                   <div className="home-contact__reason-body">
                     <strong>回饋與想法</strong>
                     <span>分享使用者痛點或產品建議，協助我們打造更好的平台。</span>
@@ -467,7 +487,7 @@ export default function TWPage() {
         <div className="container">
           <div className="footer__top">
             <div className="footer__brand">
-              <a href="#" className="footer__logo">
+              <a href="/tw" className="footer__logo">
                 <img src="/app_logo.png" alt="Box It Up Logo" className="footer__logo-img" />
               </a>
               <p className="footer__tagline">
@@ -503,9 +523,8 @@ export default function TWPage() {
               <h4 className="footer__links-title">公司</h4>
               <ul className="footer__links">
                 <li><a href="#about">關於我們</a></li>
-                <li><a href="#">社會影響力</a></li>
-                <li><a href="#">加入我們</a></li>
-                <li><a href="#">合作夥伴</a></li>
+                <li><a href="/careers">加入我們</a></li>
+                <li><a href="/contact">合作夥伴</a></li>
               </ul>
             </div>
             <div className="footer__links-group">

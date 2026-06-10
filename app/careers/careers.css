@@ -152,6 +152,104 @@
   color: rgba(255, 255, 255, 0.55);
 }
 
+/* ── Job row as button — reset browser button defaults ── */
+.career-row {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* ── Expanded job detail ── */
+.career-detail {
+  padding: 2rem 0 2.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  animation: fade-in-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.career-detail__desc {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 680px;
+  margin-bottom: 2rem;
+}
+
+.career-detail__cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.career-detail__heading {
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 1rem;
+}
+
+.career-detail__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.career-detail__list li {
+  position: relative;
+  padding-left: 1.25rem;
+  font-size: 0.96rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.career-detail__list li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: #EB6A00;
+}
+
+.career-detail__footer {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.career-detail__note {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.career-meta--type {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .careers-footer-note {
   padding-bottom: 5rem;
   text-align: center;
@@ -166,6 +264,11 @@
 
   .career-row {
     grid-template-columns: 1.8fr 1fr 1fr 1fr 32px;
+  }
+
+  .career-detail__cols {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 }
 
