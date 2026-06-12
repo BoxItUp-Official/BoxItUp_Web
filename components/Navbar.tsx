@@ -56,7 +56,7 @@ function getLocale(pathname: string) {
 function getHomeBase(locale: string) {
   if (locale === 'tw') return '/tw'
   if (locale === 'cn') return '/cn'
-  return ''
+  return '/'
 }
 
 function getPageType(pathname: string): PageType {

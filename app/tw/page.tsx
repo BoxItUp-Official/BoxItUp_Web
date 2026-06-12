@@ -515,7 +515,7 @@ export default function TWPage() {
               <ul className="footer__links">
                 <li><a href="#how-it-works">運作方式</a></li>
                 <li><a href="#featured">瀏覽盒子</a></li>
-                <li><a href="#about">商家專區</a></li>
+                <li><a href="/merchant/signup">商家專區</a></li>
                 <li><a href="#signup">立即註冊</a></li>
               </ul>
             </div>

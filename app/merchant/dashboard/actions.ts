@@ -167,6 +167,40 @@ export async function deleteBox(formData: FormData) {
   revalidatePath('/merchant/dashboard/boxes')
 }
 
+// ── Mark order as picked up ──
+export async function markOrderPickedUp(formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return
+
+  const id = formData.get('id') as string
+  await supabase
+    .from('orders')
+    .update({ status: 'picked_up', picked_up_at: new Date().toISOString() })
+    .eq('id', id)
+    .eq('merchant_id', user.id)
+
+  revalidatePath('/merchant/dashboard/orders')
+  revalidatePath('/merchant/dashboard')
+}
+
+// ── Cancel order ──
+export async function cancelOrder(formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return
+
+  const id = formData.get('id') as string
+  await supabase
+    .from('orders')
+    .update({ status: 'cancelled', cancelled_at: new Date().toISOString() })
+    .eq('id', id)
+    .eq('merchant_id', user.id)
+
+  revalidatePath('/merchant/dashboard/orders')
+  revalidatePath('/merchant/dashboard')
+}
+
 // ── Sign out ──
 export async function signOut() {
   const supabase = await createClient()

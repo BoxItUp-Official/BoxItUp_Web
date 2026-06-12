@@ -5,7 +5,10 @@ export default async function MerchantDashboardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const [merchantResult, activeResult, totalResult] = await Promise.all([
+  const todayStart = new Date()
+  todayStart.setHours(0, 0, 0, 0)
+
+  const [merchantResult, activeResult, totalResult, ordersResult, salesResult] = await Promise.all([
     user
       ? supabase.from('merchants').select('store_name').eq('id', user.id).single()
       : Promise.resolve({ data: { store_name: 'Demo Store' } }),
@@ -15,11 +18,21 @@ export default async function MerchantDashboardPage() {
     user
       ? supabase.from('boxes').select('*', { count: 'exact', head: true }).eq('merchant_id', user.id)
       : Promise.resolve({ count: 0 }),
+    // Orders placed today
+    user
+      ? supabase.from('orders').select('*', { count: 'exact', head: true }).eq('merchant_id', user.id).gte('created_at', todayStart.toISOString())
+      : Promise.resolve({ count: 2 }), // mock: 2 today
+    // All confirmed orders for total revenue
+    user
+      ? supabase.from('orders').select('price').eq('merchant_id', user.id).neq('status', 'cancelled')
+      : Promise.resolve({ data: [{ price: 150 }, { price: 120 }, { price: 130 }, { price: 110 }, { price: 150 }, { price: 120 }, { price: 130 }, { price: 110 }, { price: 150 }, { price: 120 }] }),
   ])
 
   const storeName = merchantResult.data?.store_name ?? 'your store'
   const activeBoxes = activeResult.count ?? 0
   const totalBoxes = totalResult.count ?? 0
+  const ordersToday = ordersResult.count ?? 0
+  const totalSales = ((salesResult.data ?? []) as { price: number }[]).reduce((sum, o) => sum + (o.price ?? 0), 0)
 
   return (
     <>
@@ -44,15 +57,15 @@ export default async function MerchantDashboardPage() {
           <div className="merchant-stat-card__value">{totalBoxes}</div>
           <div className="merchant-stat-card__note">All time</div>
         </div>
-        <div className="merchant-stat-card merchant-stat-card--muted">
+        <div className="merchant-stat-card merchant-stat-card--accent">
           <div className="merchant-stat-card__label">Orders Today</div>
-          <div className="merchant-stat-card__value">—</div>
-          <div className="merchant-stat-card__note">Coming in Phase 5</div>
+          <div className="merchant-stat-card__value">{ordersToday}</div>
+          <div className="merchant-stat-card__note">Since midnight</div>
         </div>
-        <div className="merchant-stat-card merchant-stat-card--muted">
-          <div className="merchant-stat-card__label">Total Sales</div>
-          <div className="merchant-stat-card__value">—</div>
-          <div className="merchant-stat-card__note">Coming in Phase 5</div>
+        <div className="merchant-stat-card merchant-stat-card--accent">
+          <div className="merchant-stat-card__label">Total Revenue</div>
+          <div className="merchant-stat-card__value">NT${totalSales.toLocaleString()}</div>
+          <div className="merchant-stat-card__note">All confirmed orders</div>
         </div>
       </div>
 

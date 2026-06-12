@@ -30,7 +30,6 @@ const links = [
     href: '/merchant/dashboard/orders',
     label: 'Orders',
     exact: false,
-    soon: true,
     icon: (
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
@@ -43,7 +42,6 @@ const links = [
     href: '/merchant/dashboard/analytics',
     label: 'Analytics',
     exact: false,
-    soon: true,
     icon: (
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" />
@@ -78,7 +76,6 @@ export default function DashboardNav() {
           >
             {link.icon}
             <span>{link.label}</span>
-            {link.soon && <span className="merchant-nav__soon">Soon</span>}
           </Link>
         )
       })}

@@ -515,7 +515,7 @@ export default function CNPage() {
               <ul className="footer__links">
                 <li><a href="#how-it-works">运作方式</a></li>
                 <li><a href="#featured">浏览盒子</a></li>
-                <li><a href="#about">商家专区</a></li>
+                <li><a href="/merchant/signup">商家专区</a></li>
                 <li><a href="#signup">立即注册</a></li>
               </ul>
             </div>

@@ -586,7 +586,7 @@ export default function HomePage() {
               <ul className="footer__links">
                 <li><a href="#how-it-works">How It Works</a></li>
                 <li><a href="#featured">Browse Boxes</a></li>
-                <li><a href="#about">For Businesses</a></li>
+                <li><a href="/merchant/signup">For Businesses</a></li>
                 <li><a href="#signup">Sign Up</a></li>
               </ul>
             </div>

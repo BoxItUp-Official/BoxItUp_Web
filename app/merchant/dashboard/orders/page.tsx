@@ -1,49 +1,67 @@
-export default function OrdersPage() {
+import { createClient } from '@/lib/supabase-server'
+import OrdersClient from './OrdersClient'
+
+const MOCK_ORDERS = [
+  {
+    id: 'mock-1',
+    box_name: 'Bakery Surprise Box',
+    customer_name: 'Chen Wei',
+    customer_phone: '0912 345 678',
+    pickup_code: 'ABX42F',
+    scheduled_pickup_start: '17:30:00',
+    scheduled_pickup_end: '19:00:00',
+    price: 150,
+    status: 'pending' as const,
+    created_at: new Date().toISOString(),
+    picked_up_at: null,
+  },
+  {
+    id: 'mock-2',
+    box_name: 'Evening Pastry Mix',
+    customer_name: 'Lin Mei',
+    customer_phone: '0923 456 789',
+    pickup_code: 'GH9K3R',
+    scheduled_pickup_start: '18:00:00',
+    scheduled_pickup_end: '19:30:00',
+    price: 120,
+    status: 'picked_up' as const,
+    created_at: new Date().toISOString(),
+    picked_up_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
+  },
+]
+
+export default async function OrdersPage() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  const isDev = process.env.NODE_ENV === 'development'
+
+  const orders = user
+    ? ((await supabase
+        .from('orders')
+        .select('id, box_name, customer_name, customer_phone, pickup_code, scheduled_pickup_start, scheduled_pickup_end, price, status, created_at, picked_up_at')
+        .eq('merchant_id', user.id)
+        .order('created_at', { ascending: false })
+      ).data ?? [])
+    : (isDev ? MOCK_ORDERS : [])
+
+  const pendingCount = orders.filter(o => o.status === 'pending').length
+
   return (
     <>
       <div className="merchant-page-header">
         <div>
-          <h1>Orders</h1>
+          <h1>
+            Orders
+            {pendingCount > 0 && (
+              <span className="orders-pending-badge">{pendingCount}</span>
+            )}
+          </h1>
           <p>Track customer pickups and manage your daily order flow.</p>
         </div>
       </div>
 
-      <div className="merchant-coming-soon">
-        <div className="merchant-coming-soon__visual">
-          <div className="merchant-coming-soon__mock">
-            {[
-              { name: 'Bakery Surprise Box', time: '17:30', status: 'Picked up' },
-              { name: 'Evening Pastry Mix', time: '18:00', status: 'Confirmed' },
-              { name: 'Bakery Surprise Box', time: '18:45', status: 'Confirmed' },
-            ].map((order, i) => (
-              <div key={i} className="merchant-coming-soon__mock-row">
-                <div className="merchant-coming-soon__mock-dot" />
-                <div className="merchant-coming-soon__mock-info">
-                  <span className="merchant-coming-soon__mock-name">{order.name}</span>
-                  <span className="merchant-coming-soon__mock-time">{order.time}</span>
-                </div>
-                <span className={`merchant-badge merchant-badge--${order.status === 'Picked up' ? 'active' : 'inactive'}`}>
-                  {order.status}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="merchant-coming-soon__content">
-          <div className="merchant-coming-soon__label">Coming in Phase 5</div>
-          <h2 className="merchant-coming-soon__title">Order management</h2>
-          <p className="merchant-coming-soon__body">
-            View real-time orders, confirm customer pickups, track daily sales,
-            and manage your inventory — all from one place.
-          </p>
-          <ul className="merchant-coming-soon__list">
-            <li>Real-time order notifications via LINE</li>
-            <li>One-tap pickup confirmation</li>
-            <li>Daily and weekly order history</li>
-            <li>Automatic inventory countdown</li>
-          </ul>
-        </div>
-      </div>
+      <OrdersClient orders={orders as Parameters<typeof OrdersClient>[0]['orders']} />
     </>
   )
 }
