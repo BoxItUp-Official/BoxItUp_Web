@@ -550,9 +550,9 @@ export default function CNPage() {
           <div className="footer__bottom">
             <p className="footer__copy">© 2026 Box It Up. 保留所有权利。</p>
             <div className="footer__legal">
-              <a href="#">隐私权政策</a>
-              <a href="#">服务条款</a>
-              <a href="#">Cookie 政策</a>
+              <a href="/privacy">隐私权政策</a>
+              <a href="/terms">服务条款</a>
+              <a href="/cookie">Cookie 政策</a>
             </div>
           </div>
         </div>

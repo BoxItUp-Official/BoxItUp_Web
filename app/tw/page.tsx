@@ -550,9 +550,9 @@ export default function TWPage() {
           <div className="footer__bottom">
             <p className="footer__copy">© 2026 Box It Up. 保留所有權利。</p>
             <div className="footer__legal">
-              <a href="#">隱私權政策</a>
-              <a href="#">服務條款</a>
-              <a href="#">Cookie 政策</a>
+              <a href="/privacy">隱私權政策</a>
+              <a href="/terms">服務條款</a>
+              <a href="/cookie">Cookie 政策</a>
             </div>
           </div>
         </div>

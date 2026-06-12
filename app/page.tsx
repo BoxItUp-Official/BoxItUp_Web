@@ -627,9 +627,9 @@ export default function HomePage() {
           <div className="footer__bottom">
             <p className="footer__copy">© 2026 Box It Up. All rights reserved.</p>
             <div className="footer__legal">
-              <a href="#">Privacy Policy</a>
-              <a href="#">Terms of Service</a>
-              <a href="#">Cookie Policy</a>
+              <a href="/privacy">Privacy Policy</a>
+              <a href="/terms">Terms of Service</a>
+              <a href="/cookie">Cookie Policy</a>
             </div>
           </div>
         </div>
