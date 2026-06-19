@@ -30,7 +30,7 @@
   /* Gradient */
   --grad-bg:         linear-gradient(160deg, #ffffff 0%, #FAF2F2 100%);
   --grad-card:       linear-gradient(135deg, #ffffff 0%, #FAF2F2 100%);
-  --grad-btn:        linear-gradient(135deg, #EB6A00 0%, #B94E00 100%);
+  --grad-btn:        linear-gradient(135deg, #F1A71F 0%, #FF7300 100%);
   --grad-featured:   linear-gradient(135deg, #000000 0%, #EB6A00 100%);
 
   /* Typography */
@@ -184,7 +184,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 }
 
 .btn--primary:hover {
-  background: linear-gradient(135deg, #F07A1A 0%, #A84400 100%);
+  background: linear-gradient(135deg, #F1A71F 0%, #FF7300 100%);
   transform: translateY(-2px);
   box-shadow: 0 10px 28px rgba(185,78,0,0.24), 0 4px 12px rgba(235,106,0,0.22);
 }
@@ -243,24 +243,59 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   right: 0;
   z-index: 1000;
   height: var(--navbar-h);
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  
+  /* navbar / language menu 共用顏色 */
+  --nav-bg: rgba(250, 248, 242, 0.85);
+  --nav-border: transparent;
+  --nav-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  --nav-text: var(--clr-body);
+  --nav-lang-heading: rgba(0, 0, 0, 0.45);
+  --nav-lang-option: rgba(0, 0, 0, 0.82);
+  --lang-menu-h: 143px;
+
+  background: var(--nav-bg);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
   border-bottom: none;
   transition: background var(--trans-med), box-shadow var(--trans-med);
 }
 
 .navbar.scrolled {
-  background: rgba(255,255,255,0.92);
+  background: var(--nav-bg);
   backdrop-filter: blur(18px) saturate(180%);
   -webkit-backdrop-filter: blur(18px) saturate(180%);
-  border-bottom: 1px solid rgba(0,0,0,0.08);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  border-bottom: none;
+  transition: background var(--trans-med), box-shadow var(--trans-med);
+}
+
+.navbar::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: var(--navbar-h);
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  pointer-events: none;
+  z-index: -1;
+  transition:
+    height 0.32s ease,
+    background 0.32s ease,
+    backdrop-filter 0.32s ease;
+}
+
+.navbar:has(.navbar__lang.open)::before {
+  height: calc(var(--navbar-h) + var(--lang-menu-h));
+  background: var(--nav-bg);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
 }
 
 .home-page .navbar:not(.scrolled) .navbar__link,
 .home-page .navbar:not(.scrolled) .navbar__lang-toggle {
-  color: var(--clr-body);
+  color: var(--nav-text);
 }
 
 .home-page .navbar:not(.scrolled) .navbar__link:hover {
@@ -271,7 +306,9 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .home-page .navbar:not(.scrolled) .navbar__btn {
   background: var(--grad-btn);
   color: #ffffff;
-}.navbar__inner {
+}
+
+.navbar__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -304,7 +341,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   padding: 0.45rem 0.85rem;
   font-size: 0.88rem;
   font-weight: 500;
-  color: var(--clr-body);
+  color: var(--nav-text);
   border-radius: var(--radius-pill);
   transition: all var(--trans-fast);
 }
@@ -329,7 +366,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 }
 
 .navbar__btn:hover {
-  background: linear-gradient(135deg, #F07A1A 0%, #A84400 100%);
+  background: linear-gradient(135deg, #F1A71F 0%, #FF7300 100%);
   transform: translateY(-1px);
   box-shadow: 0 4px 14px rgba(185,78,0,0.24);
 }
@@ -381,7 +418,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   border-radius: 10px;
   border: 1px solid transparent;
   background: transparent;
-  color: var(--clr-heading);
+  color: var(--nav-text);
   font-size: 0.95rem;
   font-weight: 700;
   line-height: 1;
@@ -417,27 +454,35 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   left: 0;
   width: 100vw;
   padding: 2.25rem 3rem 2.5rem;
-  background: rgba(20, 28, 28, 0.82);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
-  opacity: 0;
+  background: var(--nav-bg);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border-top: none;
+  box-shadow: none;
+  opacity: 1;
   visibility: hidden;
   pointer-events: none;
-  transform: translateY(-10px);
+  transform: none;
+  clip-path: inset(0 0 100% 0);
+  overflow: hidden;
   transition:
-    opacity 0.28s ease,
-    transform 0.28s ease,
-    visibility 0.28s ease;
+    clip-path 0.32s ease,
+    visibility 0s linear 0.32s;
   z-index: 999;
 }
 
 .navbar__lang.open .navbar__lang-menu {
-  opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transform: translateY(0);
+  transform: none;
+  clip-path: inset(0 0 0 0);
+  background: var(--nav-bg);
+  border-top: none;
+  box-shadow: none;
+
+  transition:
+    clip-path 0.32s ease,
+    visibility 0s linear 0s;
 }
 
 .navbar__lang-panel {
@@ -447,6 +492,20 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   grid-template-columns: repeat(4, minmax(180px, 1fr));
   gap: 2.5rem 4rem;
   align-items: start;
+
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity 0.08s ease,
+    transform 0.12s ease;
+}
+
+.navbar__lang.open .navbar__lang-panel {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.18s ease 0.06s,
+    transform 0.22s ease 0.06s;
 }
 
 .navbar__lang-column {
@@ -460,7 +519,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--nav-lang-heading);
   margin-bottom: 0.3rem;
 }
 
@@ -472,7 +531,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   padding: 0.2rem 0;
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--nav-lang-option);
   font-size: 1rem;
   font-weight: 600;
   text-align: left;
@@ -563,7 +622,7 @@ body.lang-menu-open::before {
   align-items: stretch;
   position: relative;
   overflow: hidden;
-  background: #FFFAF3;
+  background: #FAF8F2;
 }
 
 .hero::before {
@@ -633,7 +692,7 @@ body.lang-menu-open::before {
   font-family: "Gloock", serif;
   font-weight: 400;
   letter-spacing: -0.02em;
-  color: #EB6A00;
+  color: #FF7300;
 }
 
 .hero__subtext {
@@ -2558,4 +2617,253 @@ body.lang-menu-open::before {
     bottom: 26px;
     left: 0;
   }
+}
+
+/* ===================== TW PAGE THEME ===================== */
+.tw-page {
+    background: url(background.jpg) no-repeat center center fixed;
+    background-size: cover;
+}
+
+.tw-page .navbar,
+.tw-page .navbar.scrolled {
+  ---nav-bg: transparent;
+  --nav-open-bg: rgba(30, 30, 30, 0.92);
+  --nav-shadow: none;
+  --lang-menu-h: 143px;
+
+  background: transparent;
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border-bottom: none;
+  box-shadow: none;
+}
+
+.tw-page .navbar::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: var(--navbar-h);
+
+  background: rgba(53, 50, 50, 0.01);
+backdrop-filter: blur(18px) saturate(180%);
+-webkit-backdrop-filter: blur(18px) saturate(180%);
+
+  pointer-events: none;
+  z-index: -1;
+
+  transition:
+    height 0.32s ease,
+}
+
+.tw-page .navbar:has(.navbar__lang.open)::before {
+  height: calc(var(--navbar-h) + var(--lang-menu-h));
+  background: var(--nav-bg);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+}
+
+.tw-page .navbar:has(.navbar__lang.open) {
+  --nav-bg: var(--nav-open-bg);
+  --nav-shadow: none;
+
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: none;
+  box-shadow: none;
+}
+
+/* Navbar 上方一般文字改白 */
+.tw-page .navbar__link,
+.tw-page .navbar__lang-toggle {
+  color: #ffffff !important;
+}
+
+/* Navbar 上方一般文字 hover */
+.tw-page .navbar__link:hover,
+.tw-page .navbar__lang-toggle:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* 立即註冊 button：白底 */
+.tw-page .navbar__btn,
+.tw-page.home-page .navbar:not(.scrolled) .navbar__btn,
+.tw-page .navbar.scrolled .navbar__btn {
+  background: #ffffff;
+  color: #FF7300;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+}
+
+/* 立即註冊 button hover */
+.tw-page .navbar__btn:hover,
+.tw-page.home-page .navbar:not(.scrolled) .navbar__btn:hover,
+.tw-page .navbar.scrolled .navbar__btn:hover {
+  background: #ffffff;
+  color: #FF7300;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
+}
+
+.tw-page .navbar__lang-menu {
+  position: fixed;
+  top: var(--navbar-h);
+  left: 0;
+  width: 100vw;
+  height: var(--lang-menu-h);
+  padding: 2.25rem 3rem 2.5rem;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-top: none;
+  box-shadow: none;
+  opacity: 1;
+  visibility: hidden;
+  pointer-events: none;
+  transform: none;
+  clip-path: inset(0 0 100% 0);
+  overflow: hidden;
+  transition:
+    clip-path 0.32s ease,
+    visibility 0s linear 0.32s;
+  z-index: 999;
+}
+
+.tw-page .navbar__lang.open .navbar__lang-menu {
+  visibility: visible;
+  pointer-events: auto;
+
+  transform: none;
+  clip-path: inset(0 0 0 0);
+
+  background: transparent;
+  border-top: none;
+  box-shadow: none;
+
+  transition:
+    clip-path 0.32s ease,
+    visibility 0s linear 0s;
+}
+
+.tw-page .navbar__lang-heading {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  margin-bottom: 0.3rem;
+}
+
+.tw-page .navbar__lang-option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 0.2rem 0;
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: left;
+  line-height: 1.5;
+  transition: opacity var(--trans-fast), transform var(--trans-fast);
+}
+
+.tw-page .hero__headline {
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.5rem;
+}
+
+.tw-page .hero__headline .hero__headline-accent {
+  font-family: var(--clr-accent);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #F1A71F;
+}
+
+.tw-page .hero__subtext {
+  font-size: 1.08rem;
+  color: #FFFFFF;
+  line-height: 1.72;
+  max-width: 480px;
+  margin-bottom: 2.25rem;
+}
+
+.tw-page .hero {
+  position: relative;
+  min-height: 100vh;
+  background: rgba(0,0,0,0.4);
+  padding: 0;
+}
+
+.tw-page .hero__inner {
+  position: relative;
+  min-height: 100vh;
+  display: block;
+}
+
+.tw-page .hero__content {
+  position: absolute;
+  left: 4vw;
+  bottom: 6vh;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0;
+  align-items: flex-start;
+}
+
+.tw-page .hero::before {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.42);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 如果右邊原本的圖片不需要，可以先隱藏 */
+.tw-page .hero__visual {
+  display: none;
+}
+
+.tw-page .hero__stats {
+  display: none;
+}
+
+.tw-page .hero__badge {
+  display: none;
+}
+
+/* ── CONTACT PAGE NAVBAR ─────────────────────────────────── */
+.contact-page .navbar {
+  --nav-bg: rgba(255, 255, 255, 0.72);
+  --nav-border: rgba(0, 0, 0, 0.06);
+  --nav-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  --nav-text: var(--clr-body);
+  --nav-lang-heading: rgba(0, 0, 0, 0.45);
+  --nav-lang-option: rgba(0, 0, 0, 0.82);
+  --lang-menu-h: 143px;
+
+  background: var(--nav-bg);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border-bottom: 1px solid var(--nav-border);
+  box-shadow: var(--nav-shadow);
+}
+
+.contact-page .navbar.scrolled {
+  background: var(--nav-bg);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border-bottom: 1px solid var(--nav-border);
+  box-shadow: var(--nav-shadow);
 }

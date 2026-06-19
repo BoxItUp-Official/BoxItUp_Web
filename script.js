@@ -25,10 +25,10 @@
   function handleNavbarScroll() {
     if (window.scrollY > 20) {
       navbar.classList.add('scrolled');
-      if (logo) logo.src = "logo_or.png";
+      if (logo) logo.src = "logo_gra.png";
     } else {
       navbar.classList.remove('scrolled');
-      if (logo) logo.src = "logo_or.png"; // always dark logo on light hero
+      if (logo) logo.src = "logo_gra.png"; // always dark logo on light hero
     }
   }
 
