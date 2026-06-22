@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase-server'
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 import DashboardNav from './DashboardNav'
 import { signOut } from './actions'
 
@@ -30,17 +31,38 @@ export default async function DashboardLayout({ children }: { children: React.Re
   return (
     <div className="merchant-dashboard">
       <aside className="merchant-sidebar">
+        {/* Brand */}
+        <div className="merchant-sidebar__brand">
+          <Link href="/merchant/dashboard" className="merchant-sidebar__brand-link">
+            <img src="/logo_or.png" alt="Box It Up" className="merchant-sidebar__logo" />
+          </Link>
+        </div>
+
+        {/* Store identity */}
         <div className="merchant-sidebar__store">
           <div className="merchant-sidebar__avatar">{initial}</div>
-          <div className="merchant-sidebar__store-name">{merchantName}</div>
+          <div className="merchant-sidebar__store-meta">
+            <div className="merchant-sidebar__store-name">{merchantName}</div>
+            <div className="merchant-sidebar__store-role">Merchant account</div>
+          </div>
         </div>
 
         <DashboardNav />
 
+        {/* Footer */}
         <div className="merchant-sidebar__footer">
+          <a href="/" className="merchant-sidebar__backlink">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" />
+            </svg>
+            Back to site
+          </a>
           {user && (
             <form action={signOut}>
               <button type="submit" className="merchant-sidebar__signout">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
                 Sign out
               </button>
             </form>
@@ -49,7 +71,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
       </aside>
 
       <main className="merchant-content">
-        {children}
+        <div className="merchant-content__inner">
+          {children}
+        </div>
       </main>
     </div>
   )
