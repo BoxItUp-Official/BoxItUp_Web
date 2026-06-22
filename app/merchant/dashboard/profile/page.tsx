@@ -10,23 +10,40 @@ const MOCK_MERCHANT = {
   line_id: '',
   description: '',
   photo_url: null,
+  avatar_icon: null,
+  contact_name: '',
+  website: '',
+  instagram: '',
+  business_reg_no: '',
+  business_hours: null,
 }
 
 export default async function ProfilePage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const merchant = user
-    ? (await supabase
-        .from('merchants')
-        .select('store_name, category, address, city, phone, line_id, description, photo_url')
-        .eq('id', user.id)
-        .single()
-      ).data ?? MOCK_MERCHANT
-    : MOCK_MERCHANT
+  let merchant = MOCK_MERCHANT
+  if (user) {
+    // Guaranteed columns first so a real store always loads, even if the
+    // 20240106 migration (new fields) hasn't been applied yet.
+    const { data: base } = await supabase
+      .from('merchants')
+      .select('store_name, category, address, city, phone, line_id, description')
+      .eq('id', user.id)
+      .single()
+
+    // New columns are best-effort; merge them in if present.
+    const { data: extra } = await supabase
+      .from('merchants')
+      .select('photo_url, avatar_icon, contact_name, website, instagram, business_reg_no, business_hours')
+      .eq('id', user.id)
+      .single()
+
+    if (base) merchant = { ...MOCK_MERCHANT, ...base, ...(extra ?? {}) }
+  }
 
   return (
-    <>
+    <div className="merchant-form-page">
       <div className="merchant-page-header">
         <div>
           <h1>Store Profile</h1>
@@ -34,7 +51,7 @@ export default async function ProfilePage() {
         </div>
       </div>
 
-      <ProfileForm merchant={merchant} />
-    </>
+      <ProfileForm merchant={merchant} userId={user?.id ?? null} />
+    </div>
   )
 }

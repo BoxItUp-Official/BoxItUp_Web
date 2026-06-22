@@ -1,7 +1,9 @@
 'use client'
 
-import { useActionState, useState } from 'react'
+import { useActionState } from 'react'
 import { updateMerchantProfile, type DashboardState } from '../actions'
+import AvatarPicker from './AvatarPicker'
+import BusinessHours from './BusinessHours'
 
 const CATEGORIES = [
   'Bakery', 'Café', 'Restaurant', 'Convenience Store',
@@ -13,6 +15,7 @@ const CITIES = [
 ]
 
 interface Props {
+  userId: string | null
   merchant: {
     store_name: string
     category: string | null
@@ -22,26 +25,27 @@ interface Props {
     line_id: string | null
     description: string | null
     photo_url?: string | null
+    avatar_icon?: string | null
+    contact_name?: string | null
+    website?: string | null
+    instagram?: string | null
+    business_reg_no?: string | null
+    business_hours?: Record<string, { open: boolean; start: string; end: string }> | null
   }
 }
 
 const initial: DashboardState = { status: 'idle', message: '' }
 
-export default function ProfileForm({ merchant }: Props) {
+export default function ProfileForm({ merchant, userId }: Props) {
   const [state, action, pending] = useActionState(updateMerchantProfile, initial)
-  const [photoUrl, setPhotoUrl] = useState(merchant.photo_url ?? '')
 
   return (
     <form action={action}>
       {state.status === 'success' && (
-        <div className="merchant-success" style={{ maxWidth: 620, marginBottom: '1.25rem' }}>
-          {state.message}
-        </div>
+        <div className="merchant-success" style={{ marginBottom: '1.25rem' }}>{state.message}</div>
       )}
       {state.status === 'error' && (
-        <div className="merchant-error" style={{ maxWidth: 620, marginBottom: '1.25rem' }}>
-          {state.message}
-        </div>
+        <div className="merchant-error" style={{ marginBottom: '1.25rem' }}>{state.message}</div>
       )}
 
       {/* ── Section: Identity ── */}
@@ -52,22 +56,14 @@ export default function ProfileForm({ merchant }: Props) {
         </div>
         <div className="merchant-form-card">
           <div className="merchant-field">
-            <label htmlFor="photo_url">Store photo URL</label>
-            <input
-              id="photo_url"
-              name="photo_url"
-              type="url"
-              value={photoUrl}
-              onChange={e => setPhotoUrl(e.target.value)}
-              placeholder="https://your-cdn.com/store-photo.jpg"
+            <label>Store avatar</label>
+            <AvatarPicker
+              category={merchant.category}
+              storeName={merchant.store_name}
+              userId={userId}
+              initialPhotoUrl={merchant.photo_url}
+              initialAvatarIcon={merchant.avatar_icon}
             />
-            <span className="merchant-field__hint">A banner photo of your store or products shown on your listing.</span>
-            {photoUrl && (
-              <div className="merchant-photo-preview merchant-photo-preview--wide">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={photoUrl} alt="Store preview" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
-              </div>
-            )}
           </div>
 
           <div className="merchant-field">
@@ -116,6 +112,17 @@ export default function ProfileForm({ merchant }: Props) {
         </div>
       </div>
 
+      {/* ── Section: Business hours ── */}
+      <div className="merchant-form-section">
+        <div className="merchant-form-section__header">
+          <div className="merchant-form-section__title">Business hours</div>
+          <div className="merchant-form-section__sub">When your store is open to customers</div>
+        </div>
+        <div className="merchant-form-card">
+          <BusinessHours value={merchant.business_hours} />
+        </div>
+      </div>
+
       {/* ── Section: Contact ── */}
       <div className="merchant-form-section">
         <div className="merchant-form-section__header">
@@ -124,6 +131,10 @@ export default function ProfileForm({ merchant }: Props) {
         </div>
         <div className="merchant-form-card">
           <div className="merchant-field">
+            <label htmlFor="contact_name">Contact person</label>
+            <input id="contact_name" name="contact_name" type="text" defaultValue={merchant.contact_name ?? ''} placeholder="e.g. Owner or manager name" />
+          </div>
+          <div className="merchant-field">
             <label htmlFor="phone">Phone number</label>
             <input id="phone" name="phone" type="tel" defaultValue={merchant.phone ?? ''} placeholder="+886 2 1234 5678" />
           </div>
@@ -131,6 +142,38 @@ export default function ProfileForm({ merchant }: Props) {
             <label htmlFor="line_id">LINE ID</label>
             <input id="line_id" name="line_id" type="text" defaultValue={merchant.line_id ?? ''} placeholder="Your store LINE ID" />
             <span className="merchant-field__hint">Customers will contact you here after purchase.</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Section: Online presence ── */}
+      <div className="merchant-form-section">
+        <div className="merchant-form-section__header">
+          <div className="merchant-form-section__title">Online presence</div>
+          <div className="merchant-form-section__sub">Help customers find and trust your store</div>
+        </div>
+        <div className="merchant-form-card">
+          <div className="merchant-field">
+            <label htmlFor="website">Website</label>
+            <input id="website" name="website" type="url" defaultValue={merchant.website ?? ''} placeholder="https://your-store.com" />
+          </div>
+          <div className="merchant-field">
+            <label htmlFor="instagram">Instagram</label>
+            <input id="instagram" name="instagram" type="text" defaultValue={merchant.instagram ?? ''} placeholder="@yourstore" />
+          </div>
+        </div>
+      </div>
+
+      {/* ── Section: Business details ── */}
+      <div className="merchant-form-section">
+        <div className="merchant-form-section__header">
+          <div className="merchant-form-section__title">Business details</div>
+          <div className="merchant-form-section__sub">Used for invoicing and verification</div>
+        </div>
+        <div className="merchant-form-card">
+          <div className="merchant-field">
+            <label htmlFor="business_reg_no">Business registration no. (統一編號)</label>
+            <input id="business_reg_no" name="business_reg_no" type="text" defaultValue={merchant.business_reg_no ?? ''} placeholder="8-digit tax ID" inputMode="numeric" />
           </div>
         </div>
       </div>

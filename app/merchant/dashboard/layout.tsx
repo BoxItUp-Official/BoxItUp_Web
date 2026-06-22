@@ -2,9 +2,10 @@ import { createClient } from '@/lib/supabase-server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import DashboardNav from './DashboardNav'
+import CategoryIcon, { hasCategoryIcon } from './CategoryIcon'
 import { signOut } from './actions'
 
-const MOCK_MERCHANT = { store_name: 'Demo Store', onboarding_complete: true }
+const MOCK_MERCHANT = { store_name: 'Demo Store', category: 'Bakery', onboarding_complete: true }
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const isDev = process.env.NODE_ENV === 'development'
@@ -14,18 +15,34 @@ export default async function DashboardLayout({ children }: { children: React.Re
   if (!user && !isDev) redirect('/merchant/login')
 
   let merchantName = MOCK_MERCHANT.store_name
+  let merchantCategory: string | null = isDev && !user ? MOCK_MERCHANT.category : null
+  let avatarIcon: string | null = null
+  let photoUrl: string | null = null
 
   if (user) {
+    // Onboarding decision uses only guaranteed columns.
     const { data: merchant } = await supabase
       .from('merchants')
-      .select('store_name, onboarding_complete')
+      .select('store_name, category, onboarding_complete')
       .eq('id', user.id)
       .single()
 
     if (!merchant?.onboarding_complete) redirect('/merchant/onboarding')
     merchantName = merchant?.store_name ?? merchantName
+    merchantCategory = merchant?.category ?? null
+
+    // Avatar columns are best-effort — won't break the page if the
+    // 20240106 migration hasn't been applied yet.
+    const { data: av } = await supabase
+      .from('merchants')
+      .select('avatar_icon, photo_url')
+      .eq('id', user.id)
+      .single()
+    avatarIcon = av?.avatar_icon ?? null
+    photoUrl = av?.photo_url ?? null
   }
 
+  const iconToShow = avatarIcon || merchantCategory
   const initial = merchantName.charAt(0).toUpperCase()
 
   return (
@@ -38,14 +55,24 @@ export default async function DashboardLayout({ children }: { children: React.Re
           </Link>
         </div>
 
-        {/* Store identity */}
-        <div className="merchant-sidebar__store">
-          <div className="merchant-sidebar__avatar">{initial}</div>
+        {/* Store identity — opens store profile */}
+        <Link href="/merchant/dashboard/profile" className="merchant-sidebar__store">
+          <div className="merchant-sidebar__avatar">
+            {photoUrl
+              // eslint-disable-next-line @next/next/no-img-element
+              ? <img src={photoUrl} alt="" className="merchant-sidebar__avatar-img" />
+              : hasCategoryIcon(iconToShow)
+                ? <CategoryIcon category={iconToShow} size={20} />
+                : <span className="merchant-sidebar__avatar-initial">{initial}</span>}
+          </div>
           <div className="merchant-sidebar__store-meta">
             <div className="merchant-sidebar__store-name">{merchantName}</div>
-            <div className="merchant-sidebar__store-role">Merchant account</div>
+            <div className="merchant-sidebar__store-role">Store profile</div>
           </div>
-        </div>
+          <svg className="merchant-sidebar__store-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </Link>
 
         <DashboardNav />
 
