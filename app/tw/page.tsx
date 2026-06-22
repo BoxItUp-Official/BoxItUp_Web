@@ -29,19 +29,16 @@ export default function TWPage() {
         <div className="hero__inner container">
           <div className="hero__content">
             <span className="hero__badge">減少食物浪費，從每一個盒子開始</span>
-            <h1 className="hero__headline" style={{ letterSpacing: '0.02em', lineHeight: 1.3 }}>
-              珍惜食物。
+            <h1 className="hero__headline">
+              每一盒，都值得<span className="hero__headline-accent">期待</span>。
               <br />
-              節省開支。
-              <br />
-              守護地球。
+              每一份美味，都值得<span className="hero__headline-accent">被珍惜</span>。
             </h1>
             <p className="hero__subtext">
-              Box It Up 連結消費者與在地店家的折扣驚喜食物箱 ——
-              減少浪費、提升店家知名度，並為每個人創造真實價值。
+              探索優質烘焙與甜點品牌，用更好的價格品嚐更好的選擇。
             </p>
             <div className="hero__cta-group">
-              <a href="#signup" className="btn btn--primary">立即開始</a>
+              <a href="#signup" className="btn btn--primary">立即探索</a>
               <a href="/merchant/signup" className="btn btn--secondary">商家註冊</a>
             </div>
             <HeroStats stats={TW_STATS} />
