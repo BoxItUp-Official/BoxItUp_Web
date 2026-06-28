@@ -1,38 +1,74 @@
 import { createClient } from '@/lib/supabase-server'
 import Link from 'next/link'
+import { formatMoney } from '@/lib/currency'
+
+type RecentOrder = {
+  id: string
+  box_name: string | null
+  price: number
+  status: 'pending' | 'picked_up' | 'cancelled'
+  created_at: string
+}
+
+const MOCK_RECENT: RecentOrder[] = [
+  { id: 'm1', box_name: 'Bakery Surprise Box', price: 150, status: 'pending', created_at: new Date(Date.now() - 1000 * 60 * 18).toISOString() },
+  { id: 'm2', box_name: 'Evening Pastry Mix', price: 120, status: 'picked_up', created_at: new Date(Date.now() - 1000 * 60 * 95).toISOString() },
+  { id: 'm3', box_name: 'Lunch Special', price: 130, status: 'picked_up', created_at: new Date(Date.now() - 1000 * 60 * 140).toISOString() },
+  { id: 'm4', box_name: 'Healthy Grain Box', price: 110, status: 'cancelled', created_at: new Date(Date.now() - 1000 * 60 * 220).toISOString() },
+]
+
+const STATUS = {
+  pending:   { label: 'Pending',   cls: 'merchant-badge--pending' },
+  picked_up: { label: 'Picked up', cls: 'merchant-badge--active' },
+  cancelled: { label: 'Cancelled', cls: 'merchant-badge--inactive' },
+}
+
+function timeAgo(iso: string) {
+  const mins = Math.round((Date.now() - new Date(iso).getTime()) / 60000)
+  if (mins < 1) return 'just now'
+  if (mins < 60) return `${mins}m ago`
+  const hrs = Math.round(mins / 60)
+  if (hrs < 24) return `${hrs}h ago`
+  return `${Math.round(hrs / 24)}d ago`
+}
 
 export default async function MerchantDashboardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
+  const isDev = process.env.NODE_ENV === 'development'
 
   const todayStart = new Date()
   todayStart.setHours(0, 0, 0, 0)
 
-  const [merchantResult, activeResult, totalResult, ordersResult, salesResult] = await Promise.all([
-    user
-      ? supabase.from('merchants').select('store_name').eq('id', user.id).single()
-      : Promise.resolve({ data: { store_name: 'Demo Store' } }),
-    user
-      ? supabase.from('boxes').select('*', { count: 'exact', head: true }).eq('merchant_id', user.id).eq('is_active', true)
-      : Promise.resolve({ count: 0 }),
-    user
-      ? supabase.from('boxes').select('*', { count: 'exact', head: true }).eq('merchant_id', user.id)
-      : Promise.resolve({ count: 0 }),
-    // Orders placed today
-    user
-      ? supabase.from('orders').select('*', { count: 'exact', head: true }).eq('merchant_id', user.id).gte('created_at', todayStart.toISOString())
-      : Promise.resolve({ count: 2 }), // mock: 2 today
-    // All confirmed orders for total revenue
-    user
-      ? supabase.from('orders').select('price').eq('merchant_id', user.id).neq('status', 'cancelled')
-      : Promise.resolve({ data: [{ price: 150 }, { price: 120 }, { price: 130 }, { price: 110 }, { price: 150 }, { price: 120 }, { price: 130 }, { price: 110 }, { price: 150 }, { price: 120 }] }),
+  const [merchantResult, activeResult, totalResult, ordersResult, salesResult, recentResult] = await Promise.all([
+    user ? supabase.from('merchants').select('store_name, currency').eq('id', user.id).single()
+         : Promise.resolve({ data: { store_name: 'Demo Store', currency: 'TWD' } }),
+    user ? supabase.from('boxes').select('*', { count: 'exact', head: true }).eq('merchant_id', user.id).eq('is_active', true)
+         : Promise.resolve({ count: 0 }),
+    user ? supabase.from('boxes').select('*', { count: 'exact', head: true }).eq('merchant_id', user.id)
+         : Promise.resolve({ count: 0 }),
+    user ? supabase.from('orders').select('*', { count: 'exact', head: true }).eq('merchant_id', user.id).gte('created_at', todayStart.toISOString())
+         : Promise.resolve({ count: 0 }),
+    user ? supabase.from('orders').select('price').eq('merchant_id', user.id).neq('status', 'cancelled')
+         : Promise.resolve({ data: [] as { price: number }[] }),
+    user ? supabase.from('orders').select('id, box_name, price, status, created_at').eq('merchant_id', user.id).order('created_at', { ascending: false }).limit(5)
+         : Promise.resolve({ data: [] as RecentOrder[] }),
   ])
 
   const storeName = merchantResult.data?.store_name ?? 'your store'
+  const currency = merchantResult.data?.currency ?? 'TWD'
   const activeBoxes = activeResult.count ?? 0
   const totalBoxes = totalResult.count ?? 0
-  const ordersToday = ordersResult.count ?? 0
-  const totalSales = ((salesResult.data ?? []) as { price: number }[]).reduce((sum, o) => sum + (o.price ?? 0), 0)
+  let ordersToday = ordersResult.count ?? 0
+  let totalSales = ((salesResult.data ?? []) as { price: number }[]).reduce((s, o) => s + (o.price ?? 0), 0)
+  let recent = (recentResult.data ?? []) as RecentOrder[]
+
+  // Dev fallback so the panel isn't empty while testing
+  if (isDev && recent.length === 0) {
+    recent = MOCK_RECENT
+    if (ordersToday === 0) ordersToday = 2
+    if (totalSales === 0) totalSales = MOCK_RECENT.filter(o => o.status !== 'cancelled').reduce((s, o) => s + o.price, 0)
+  }
 
   return (
     <>
@@ -41,9 +77,7 @@ export default async function MerchantDashboardPage() {
           <h1>Welcome back, {storeName}</h1>
           <p>Here&apos;s a snapshot of your store.</p>
         </div>
-        <Link href="/merchant/dashboard/boxes/new" className="btn btn--primary">
-          + Add a box
-        </Link>
+        <Link href="/merchant/dashboard/boxes/new" className="btn btn--primary">+ Add a box</Link>
       </div>
 
       <div className="merchant-stats-grid">
@@ -64,40 +98,38 @@ export default async function MerchantDashboardPage() {
         </div>
         <div className="merchant-stat-card merchant-stat-card--accent">
           <div className="merchant-stat-card__label">Total Revenue</div>
-          <div className="merchant-stat-card__value">NT${totalSales.toLocaleString()}</div>
+          <div className="merchant-stat-card__value">{formatMoney(totalSales, currency)}</div>
           <div className="merchant-stat-card__note">All confirmed orders</div>
         </div>
       </div>
 
-      <div className="merchant-section-title">Quick actions</div>
-      <div className="merchant-dash-links">
-        <Link href="/merchant/dashboard/boxes" className="merchant-dash-quicklink">
-          <div className="merchant-dash-quicklink__icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 16V8a2 2 0 0 0-1-1.73L13 2.27a2 2 0 0 0-2 0L4 6.27A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-              <polyline points="3.27 6.96 12 12.01 20.73 6.96" /><line x1="12" y1="22.08" x2="12" y2="12" />
-            </svg>
-          </div>
-          <div className="merchant-dash-quicklink__text">
-            <strong>Manage boxes</strong>
-            <span>View, edit, or pause your listings</span>
-          </div>
-          <span className="merchant-dash-quicklink__arrow">→</span>
-        </Link>
-        <Link href="/merchant/dashboard/profile" className="merchant-dash-quicklink">
-          <div className="merchant-dash-quicklink__icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-              <polyline points="9 22 9 12 15 12 15 22" />
-            </svg>
-          </div>
-          <div className="merchant-dash-quicklink__text">
-            <strong>Store profile</strong>
-            <span>Update your store info and contact details</span>
-          </div>
-          <span className="merchant-dash-quicklink__arrow">→</span>
-        </Link>
+      {/* Recent orders */}
+      <div className="overview-recent-head">
+        <div className="merchant-section-title" style={{ margin: 0 }}>Recent orders</div>
+        <Link href="/merchant/dashboard/orders" className="overview-recent__viewall">View all →</Link>
       </div>
+
+      {recent.length === 0 ? (
+        <div className="merchant-empty">
+          <div className="merchant-empty__title">No orders yet</div>
+          <div className="merchant-empty__body">Orders will appear here when customers reserve your boxes.</div>
+        </div>
+      ) : (
+        <div className="overview-recent">
+          {recent.map(o => (
+            <div key={o.id} className="overview-recent__row">
+              <div className="overview-recent__main">
+                <span className="overview-recent__name">{o.box_name ?? 'Box'}</span>
+                <span className="overview-recent__time">{timeAgo(o.created_at)}</span>
+              </div>
+              <div className="overview-recent__right">
+                <span className={`merchant-badge ${STATUS[o.status].cls}`}>{STATUS[o.status].label}</span>
+                <span className="overview-recent__price">{formatMoney(o.price, currency)}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </>
   )
 }

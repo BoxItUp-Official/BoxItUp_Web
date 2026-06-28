@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { formatMoney, currencySymbol } from '@/lib/currency'
 
 type Order = {
   id: string
@@ -10,7 +11,7 @@ type Order = {
   created_at: string
 }
 
-type Range = 7 | 30
+type Range = 7 | 14 | 30 | 90
 
 function buildTimeSeries(orders: Order[], range: number) {
   return Array.from({ length: range }, (_, i) => {
@@ -24,20 +25,21 @@ function buildTimeSeries(orders: Order[], range: number) {
       .reduce((s, o) => s + o.price, 0)
     const count = dayOrders.length
 
+    const labelEvery = range <= 14 ? 1 : 7
     let label: string
     if (i === range - 1) {
       label = 'Today'
-    } else if (range === 7) {
+    } else if (range <= 14) {
       label = d.toLocaleDateString('en-US', { weekday: 'short' })
     } else {
-      label = (i % 7 === 0) ? d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : ''
+      label = (i % labelEvery === 0) ? d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : ''
     }
 
     return { label, revenue, count, isToday: i === range - 1 }
   })
 }
 
-export default function AnalyticsClient({ orders }: { orders: Order[] }) {
+export default function AnalyticsClient({ orders, currency = 'TWD' }: { orders: Order[]; currency?: string }) {
   const [range, setRange] = useState<Range>(7)
 
   const cutoff = new Date()
@@ -92,14 +94,14 @@ export default function AnalyticsClient({ orders }: { orders: Order[] }) {
       {/* ── Range selector ── */}
       <div className="analytics-range-bar">
         <span className="analytics-range-label">Period:</span>
-        {([7, 30] as Range[]).map(r => (
+        {([7, 14, 30, 90] as Range[]).map(r => (
           <button
             key={r}
             type="button"
             className={`analytics-range-btn${range === r ? ' analytics-range-btn--active' : ''}`}
             onClick={() => setRange(r)}
           >
-            Last {r} days
+            {r} days
           </button>
         ))}
       </div>
@@ -108,7 +110,7 @@ export default function AnalyticsClient({ orders }: { orders: Order[] }) {
       <div className="analytics-kpis">
         <div className="analytics-kpi analytics-kpi--accent">
           <div className="analytics-kpi__label">Revenue</div>
-          <div className="analytics-kpi__value">NT${totalRevenue.toLocaleString()}</div>
+          <div className="analytics-kpi__value">{formatMoney(totalRevenue, currency)}</div>
           <div className="analytics-kpi__note">Confirmed orders</div>
         </div>
         <div className="analytics-kpi">
@@ -126,7 +128,7 @@ export default function AnalyticsClient({ orders }: { orders: Order[] }) {
         <div className="analytics-kpi">
           <div className="analytics-kpi__label">Avg. order value</div>
           <div className="analytics-kpi__value">
-            {avgOrderValue ? `NT$${avgOrderValue.toLocaleString()}` : '—'}
+            {avgOrderValue ? formatMoney(avgOrderValue, currency) : '—'}
           </div>
           <div className="analytics-kpi__note">Per confirmed order</div>
         </div>
@@ -136,17 +138,17 @@ export default function AnalyticsClient({ orders }: { orders: Order[] }) {
       <div className="analytics-chart-card">
         <div className="analytics-chart-header">
           <h2 className="analytics-chart-title">Daily revenue</h2>
-          <span className="analytics-chart-subtitle">Last {range} days · NT$</span>
+          <span className="analytics-chart-subtitle">Last {range} days · {currencySymbol(currency)}</span>
         </div>
         {rangeOrders.length === 0 ? (
           <p className="analytics-empty">No orders in this period yet.</p>
         ) : (
-          <div className={`analytics-bars analytics-bars--${range === 30 ? 'dense' : 'wide'}`}>
+          <div className={`analytics-bars analytics-bars--${range >= 30 ? 'dense' : 'wide'}`}>
             {timeSeries.map((day, i) => (
               <div
                 key={i}
                 className={`analytics-bar-col${day.isToday ? ' analytics-bar-col--today' : ''}`}
-                title={`${day.isToday ? 'Today' : day.label || ''}: NT$${day.revenue.toLocaleString()} · ${day.count} orders`}
+                title={`${day.isToday ? 'Today' : day.label || ''}: ${formatMoney(day.revenue, currency)} · ${day.count} orders`}
               >
                 <div className="analytics-bar-track">
                   <div
@@ -234,7 +236,7 @@ export default function AnalyticsClient({ orders }: { orders: Order[] }) {
                     <div className="analytics-box-row__top">
                       <span className="analytics-box-row__name">{box.name}</span>
                       <span className="analytics-box-row__rev">
-                        NT${box.revenue.toLocaleString()}
+                        {formatMoney(box.revenue, currency)}
                       </span>
                     </div>
                     <div className="analytics-box-row__track">

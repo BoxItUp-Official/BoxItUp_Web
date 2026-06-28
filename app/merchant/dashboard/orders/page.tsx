@@ -36,14 +36,21 @@ export default async function OrdersPage() {
 
   const isDev = process.env.NODE_ENV === 'development'
 
-  const orders = user
+  let orders = user
     ? ((await supabase
         .from('orders')
         .select('id, box_name, customer_name, customer_phone, pickup_code, scheduled_pickup_start, scheduled_pickup_end, price, status, created_at, picked_up_at')
         .eq('merchant_id', user.id)
         .order('created_at', { ascending: false })
       ).data ?? [])
-    : (isDev ? MOCK_ORDERS : [])
+    : []
+
+  // In dev, fall back to mock data when there are no real orders yet
+  if (isDev && orders.length === 0) orders = MOCK_ORDERS
+
+  const currency = user
+    ? ((await supabase.from('merchants').select('currency').eq('id', user.id).single()).data?.currency ?? 'TWD')
+    : 'TWD'
 
   const pendingCount = orders.filter(o => o.status === 'pending').length
 
@@ -61,7 +68,7 @@ export default async function OrdersPage() {
         </div>
       </div>
 
-      <OrdersClient orders={orders as Parameters<typeof OrdersClient>[0]['orders']} />
+      <OrdersClient orders={orders as Parameters<typeof OrdersClient>[0]['orders']} currency={currency} />
     </>
   )
 }

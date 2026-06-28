@@ -27,7 +27,7 @@ export default async function EditBoxPage({ params }: { params: Promise<{ id: st
           <p>Update your listing. Changes take effect immediately.</p>
         </div>
       </div>
-      <BoxForm action={updateBox} box={box} />
+      <BoxForm action={updateBox} box={box} userId={user.id} />
     </>
   )
 }

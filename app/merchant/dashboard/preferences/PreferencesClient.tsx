@@ -1,23 +1,28 @@
 'use client'
 
-import { useState } from 'react'
+import { useActionState, useState } from 'react'
+import { savePreferences } from '../actions'
+import type { DashboardState } from '../actions'
+import { REGIONS, CURRENCIES, type CurrencyCode } from '@/lib/currency'
 
-/* ── Reusable toggle switch ── */
-function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void }) {
+/* ── Toggle switch (also emits a hidden input so it submits with the form) ── */
+function Toggle({ name, on, onChange }: { name?: string; on: boolean; onChange: (v: boolean) => void }) {
   return (
-    <button
-      type="button"
-      role="switch"
-      aria-checked={on}
-      className={`pref-toggle${on ? ' pref-toggle--on' : ''}`}
-      onClick={() => onChange(!on)}
-    >
-      <span className="pref-toggle__knob" />
-    </button>
+    <>
+      {name && <input type="hidden" name={name} value={on ? 'true' : 'false'} />}
+      <button
+        type="button"
+        role="switch"
+        aria-checked={on}
+        className={`pref-toggle${on ? ' pref-toggle--on' : ''}`}
+        onClick={() => onChange(!on)}
+      >
+        <span className="pref-toggle__knob" />
+      </button>
+    </>
   )
 }
 
-/* ── A labelled settings row with a control on the right ── */
 function Row({ title, desc, children }: { title: string; desc?: string; children: React.ReactNode }) {
   return (
     <div className="pref-row">
@@ -43,13 +48,9 @@ function Section({ title, sub, children }: { title: string; sub?: string; childr
 }
 
 const PROVIDER_LABEL: Record<string, string> = {
-  google: 'Google',
-  apple: 'Apple',
-  line: 'LINE',
-  email: 'Email & password',
+  google: 'Google', apple: 'Apple', line: 'LINE', email: 'Email & password',
 }
 
-// 30-minute time options across the day, shown as 12-hour labels
 const TIME_OPTIONS = Array.from({ length: 48 }, (_, i) => {
   const h = Math.floor(i / 2)
   const m = i % 2 === 0 ? '00' : '30'
@@ -62,26 +63,54 @@ function formatTime(t: string) {
   return `${h12}:${String(m).padStart(2, '0')} ${ampm}`
 }
 
-export default function PreferencesClient({ email, providers }: { email: string; providers: string[] }) {
-  // Notification toggles (UI state — backend wiring pending)
-  const [notifNewOrder, setNotifNewOrder] = useState(true)
-  const [notifDaily, setNotifDaily] = useState(true)
-  const [notifWeekly, setNotifWeekly] = useState(false)
-  const [notifUpdates, setNotifUpdates] = useState(true)
+interface Prefs {
+  timezone?: string
+  notifications?: { new_order?: boolean; daily?: boolean; weekly?: boolean; updates?: boolean }
+  accepting_orders?: boolean
+  default_pickup?: { start?: string; end?: string }
+}
 
-  // Display
-  const [timezone, setTimezone] = useState('Asia/Taipei')
+interface Props {
+  email: string
+  providers: string[]
+  currency: string
+  region: string
+  preferences: Prefs
+}
 
-  // Store operations
-  const [acceptingOrders, setAcceptingOrders] = useState(true)
-  const [pickupStart, setPickupStart] = useState('18:00')
-  const [pickupEnd, setPickupEnd] = useState('20:00')
+const initial: DashboardState = { status: 'idle', message: '' }
+
+export default function PreferencesClient({ email, providers, currency: initCurrency, region: initRegion, preferences }: Props) {
+  const [state, formAction, pending] = useActionState(savePreferences, initial)
+
+  // Region & currency
+  const [region, setRegion] = useState(initRegion)
+  const [currency, setCurrency] = useState(initCurrency)
+
+  // Notifications
+  const n = preferences.notifications ?? {}
+  const [notifNewOrder, setNotifNewOrder] = useState(n.new_order ?? true)
+  const [notifDaily, setNotifDaily] = useState(n.daily ?? true)
+  const [notifWeekly, setNotifWeekly] = useState(n.weekly ?? false)
+  const [notifUpdates, setNotifUpdates] = useState(n.updates ?? true)
+
+  // Display + store ops
+  const [timezone, setTimezone] = useState(preferences.timezone ?? 'Asia/Taipei')
+  const [acceptingOrders, setAcceptingOrders] = useState(preferences.accepting_orders ?? true)
+  const [pickupStart, setPickupStart] = useState(preferences.default_pickup?.start ?? '18:00')
+  const [pickupEnd, setPickupEnd] = useState(preferences.default_pickup?.end ?? '20:00')
+
+  function onRegionChange(code: string) {
+    setRegion(code)
+    const r = REGIONS.find(x => x.code === code)
+    if (r) { setCurrency(r.currency); setTimezone(r.timezone) }
+  }
 
   const allProviders = ['google', 'apple', 'line', 'email']
 
   return (
     <div className="pref-page">
-      {/* ── Account & security ── */}
+      {/* ── Account & security (separate actions, outside the save form) ── */}
       <Section title="Account & security" sub="Your login details and connected accounts.">
         <Row title="Email" desc={email}>
           <button type="button" className="btn btn--secondary btn--sm" disabled>Change</button>
@@ -116,62 +145,92 @@ export default function PreferencesClient({ email, providers }: { email: string;
         </Row>
       </Section>
 
-      {/* ── Notifications ── */}
-      <Section title="Notifications" sub="Choose which emails you receive.">
-        <Row title="New order alerts" desc="Email me the moment a customer reserves a box.">
-          <Toggle on={notifNewOrder} onChange={setNotifNewOrder} />
-        </Row>
-        <div className="pref-divider" />
-        <Row title="Daily summary" desc="A recap of the day's orders and revenue each evening.">
-          <Toggle on={notifDaily} onChange={setNotifDaily} />
-        </Row>
-        <div className="pref-divider" />
-        <Row title="Weekly performance report" desc="Trends and top boxes, every Monday.">
-          <Toggle on={notifWeekly} onChange={setNotifWeekly} />
-        </Row>
-        <div className="pref-divider" />
-        <Row title="Product updates & tips" desc="Occasional news about new Box It Up features.">
-          <Toggle on={notifUpdates} onChange={setNotifUpdates} />
-        </Row>
-      </Section>
+      {/* ── Saveable preferences form ── */}
+      <form action={formAction}>
+        {state.status === 'success' && <div className="merchant-success" style={{ marginBottom: '1.25rem' }}>{state.message}</div>}
+        {state.status === 'error' && <div className="merchant-error" style={{ marginBottom: '1.25rem' }}>{state.message}</div>}
 
-      {/* ── Display ── */}
-      <Section title="Display" sub="How dates and times appear to you.">
-        <Row title="Timezone" desc="Used for pickup times and reports.">
-          <select className="pref-select" value={timezone} onChange={(e) => setTimezone(e.target.value)}>
-            <option value="Asia/Taipei">Taipei (GMT+8)</option>
-            <option value="Asia/Shanghai">Shanghai (GMT+8)</option>
-            <option value="Asia/Tokyo">Tokyo (GMT+9)</option>
-          </select>
-        </Row>
-      </Section>
+        {/* Region & currency */}
+        <Section title="Region & currency" sub="Used for pricing and money shown across your dashboard.">
+          <Row title="Region">
+            <select className="pref-select" name="region" value={region} onChange={(e) => onRegionChange(e.target.value)}>
+              {REGIONS.map(r => <option key={r.code} value={r.code}>{r.label}</option>)}
+            </select>
+          </Row>
+          <div className="pref-divider" />
+          <Row title="Currency" desc="Shown in Overview, Orders, and Analytics.">
+            <select className="pref-select" name="currency" value={currency} onChange={(e) => setCurrency(e.target.value)}>
+              {(Object.keys(CURRENCIES) as CurrencyCode[]).map(code => (
+                <option key={code} value={code}>{CURRENCIES[code].symbol} · {code} — {CURRENCIES[code].label}</option>
+              ))}
+            </select>
+          </Row>
+        </Section>
 
-      {/* ── Store operations ── */}
-      <Section title="Store operations" sub="Defaults that affect how your store runs.">
-        <Row title="Accepting orders" desc={acceptingOrders ? 'Your store is open and visible to customers.' : 'Paused — your boxes are hidden from customers.'}>
-          <Toggle on={acceptingOrders} onChange={setAcceptingOrders} />
-        </Row>
-        <div className="pref-divider" />
-        <Row title="Default pickup window" desc="Pre-fills the time when you create a new box.">
-          <div className="pref-time-range">
-            <select className="pref-select pref-time-select" value={pickupStart} onChange={(e) => setPickupStart(e.target.value)}>
-              {TIME_OPTIONS.map((t) => <option key={t} value={t}>{formatTime(t)}</option>)}
+        {/* Notifications */}
+        <Section title="Notifications" sub="Choose which emails you receive.">
+          <Row title="New order alerts" desc="Email me the moment a customer reserves a box.">
+            <Toggle name="notif_new_order" on={notifNewOrder} onChange={setNotifNewOrder} />
+          </Row>
+          <div className="pref-divider" />
+          <Row title="Daily summary" desc="A recap of the day's orders and revenue each evening.">
+            <Toggle name="notif_daily" on={notifDaily} onChange={setNotifDaily} />
+          </Row>
+          <div className="pref-divider" />
+          <Row title="Weekly performance report" desc="Trends and top boxes, every Monday.">
+            <Toggle name="notif_weekly" on={notifWeekly} onChange={setNotifWeekly} />
+          </Row>
+          <div className="pref-divider" />
+          <Row title="Product updates & tips" desc="Occasional news about new Box It Up features.">
+            <Toggle name="notif_updates" on={notifUpdates} onChange={setNotifUpdates} />
+          </Row>
+        </Section>
+
+        {/* Display */}
+        <Section title="Display" sub="How dates and times appear to you.">
+          <Row title="Timezone" desc="Used for pickup times and reports.">
+            <select className="pref-select" name="timezone" value={timezone} onChange={(e) => setTimezone(e.target.value)}>
+              <option value="Asia/Taipei">Taipei (GMT+8)</option>
+              <option value="Asia/Hong_Kong">Hong Kong (GMT+8)</option>
+              <option value="Asia/Shanghai">Shanghai (GMT+8)</option>
+              <option value="Asia/Tokyo">Tokyo (GMT+9)</option>
+              <option value="America/New_York">New York (GMT−5)</option>
+              <option value="Europe/London">London (GMT+0)</option>
             </select>
-            <span className="pref-time-range__sep">–</span>
-            <select className="pref-select pref-time-select" value={pickupEnd} onChange={(e) => setPickupEnd(e.target.value)}>
-              {TIME_OPTIONS.map((t) => <option key={t} value={t}>{formatTime(t)}</option>)}
-            </select>
-          </div>
-        </Row>
-      </Section>
+          </Row>
+        </Section>
+
+        {/* Store operations */}
+        <Section title="Store operations" sub="Defaults that affect how your store runs.">
+          <Row title="Accepting orders" desc={acceptingOrders ? 'Your store is open and visible to customers.' : 'Paused — your boxes are hidden from customers.'}>
+            <Toggle name="accepting_orders" on={acceptingOrders} onChange={setAcceptingOrders} />
+          </Row>
+          <div className="pref-divider" />
+          <Row title="Default pickup window" desc="Pre-fills the time when you create a new box.">
+            <div className="pref-time-range">
+              <select className="pref-select pref-time-select" name="default_pickup_start" value={pickupStart} onChange={(e) => setPickupStart(e.target.value)}>
+                {TIME_OPTIONS.map((t) => <option key={t} value={t}>{formatTime(t)}</option>)}
+              </select>
+              <span className="pref-time-range__sep">–</span>
+              <select className="pref-select pref-time-select" name="default_pickup_end" value={pickupEnd} onChange={(e) => setPickupEnd(e.target.value)}>
+                {TIME_OPTIONS.map((t) => <option key={t} value={t}>{formatTime(t)}</option>)}
+              </select>
+            </div>
+          </Row>
+        </Section>
+
+        <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '0.25rem' }}>
+          <button type="submit" className="btn btn--primary btn--large" disabled={pending}>
+            {pending ? 'Saving…' : 'Save preferences'}
+          </button>
+        </div>
+      </form>
 
       {/* ── Billing & payouts ── */}
       <Section title="Billing & payouts" sub="Where your earnings go.">
         <div className="pref-soon">
           <div className="pref-soon__badge">Coming soon</div>
-          <p className="pref-soon__text">
-            Payout accounts and schedules will appear here once in-app payments go live.
-          </p>
+          <p className="pref-soon__text">Payout accounts and schedules will appear here once in-app payments go live.</p>
         </div>
       </Section>
 
@@ -185,10 +244,6 @@ export default function PreferencesClient({ email, providers }: { email: string;
           <button type="button" className="merchant-table-action merchant-table-action--danger">Delete account</button>
         </Row>
       </Section>
-
-      <p className="pref-footnote">
-        Notification, language, and store-operation settings are UI-ready — saving will be wired to your account next.
-      </p>
     </div>
   )
 }

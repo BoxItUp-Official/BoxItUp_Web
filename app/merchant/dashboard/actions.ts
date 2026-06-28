@@ -57,7 +57,9 @@ export async function updateMerchantProfile(
 
   if (error) {
     console.error('Profile update error:', error.message)
-    return { status: 'error', message: 'Could not save profile. Please try again.' }
+    // Surface the real reason — usually "column ... does not exist" when the
+    // 20240106 migration hasn't been run yet.
+    return { status: 'error', message: `Could not save profile: ${error.message}` }
   }
 
   revalidatePath('/merchant/dashboard')
@@ -93,17 +95,18 @@ export async function createBox(
     ? (formData.getAll('available_days') as string[])
     : ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
   const tags           = formData.getAll('tags') as string[]
+  const allergens      = formData.getAll('allergens') as string[]
 
   const { error } = await supabase.from('boxes').insert({
     merchant_id: user.id,
     name, description, price, original_value, quantity,
-    pickup_start, pickup_end, photo_url, available_days, tags,
+    pickup_start, pickup_end, photo_url, available_days, tags, allergens,
     is_active: true,
   })
 
   if (error) {
     console.error('Create box error:', error.message)
-    return { status: 'error', message: 'Could not create box. Please try again.' }
+    return { status: 'error', message: `Could not create box: ${error.message}` }
   }
 
   redirect('/merchant/dashboard/boxes')
@@ -137,15 +140,16 @@ export async function updateBox(
     ? (formData.getAll('available_days') as string[])
     : ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
   const tags           = formData.getAll('tags') as string[]
+  const allergens      = formData.getAll('allergens') as string[]
 
   const { error } = await supabase.from('boxes').update({
     name, description, price, original_value, quantity,
-    pickup_start, pickup_end, photo_url, available_days, tags,
+    pickup_start, pickup_end, photo_url, available_days, tags, allergens,
   }).eq('id', id).eq('merchant_id', user.id)
 
   if (error) {
     console.error('Update box error:', error.message)
-    return { status: 'error', message: 'Could not update box. Please try again.' }
+    return { status: 'error', message: `Could not update box: ${error.message}` }
   }
 
   redirect('/merchant/dashboard/boxes')
@@ -211,6 +215,47 @@ export async function cancelOrder(formData: FormData) {
 
   revalidatePath('/merchant/dashboard/orders')
   revalidatePath('/merchant/dashboard')
+}
+
+// ── Save preferences (currency, region, notifications, store ops) ──
+export async function savePreferences(
+  _prev: DashboardState,
+  formData: FormData
+): Promise<DashboardState> {
+  const supabase = await createClient()
+  const { data: { user }, error: authError } = await supabase.auth.getUser()
+  if (authError || !user) return { status: 'error', message: 'Session expired. Please log in again.' }
+
+  const region   = (formData.get('region') as string) || 'TW'
+  const currency = (formData.get('currency') as string) || 'TWD'
+  const preferences = {
+    timezone: (formData.get('timezone') as string) || 'Asia/Taipei',
+    notifications: {
+      new_order: formData.get('notif_new_order') === 'true',
+      daily:     formData.get('notif_daily') === 'true',
+      weekly:    formData.get('notif_weekly') === 'true',
+      updates:   formData.get('notif_updates') === 'true',
+    },
+    accepting_orders: formData.get('accepting_orders') === 'true',
+    default_pickup: {
+      start: (formData.get('default_pickup_start') as string) || '18:00',
+      end:   (formData.get('default_pickup_end') as string) || '20:00',
+    },
+  }
+
+  const { error } = await supabase
+    .from('merchants')
+    .update({ region, currency, preferences })
+    .eq('id', user.id)
+
+  if (error) {
+    console.error('Preferences save error:', error.message)
+    return { status: 'error', message: `Could not save preferences: ${error.message}` }
+  }
+
+  revalidatePath('/merchant/dashboard')
+  revalidatePath('/merchant/dashboard/preferences')
+  return { status: 'success', message: 'Preferences saved.' }
 }
 
 // ── Sign out ──

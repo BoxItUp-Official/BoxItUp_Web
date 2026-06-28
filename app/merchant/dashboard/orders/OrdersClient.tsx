@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { markOrderPickedUp, cancelOrder } from '../actions'
+import { formatMoney } from '@/lib/currency'
 
 type Order = {
   id: string
@@ -41,7 +42,7 @@ function formatDate(iso: string) {
   return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
 }
 
-export default function OrdersClient({ orders }: { orders: Order[] }) {
+export default function OrdersClient({ orders, currency = 'TWD' }: { orders: Order[]; currency?: string }) {
   const [filter, setFilter] = useState<Filter>('all')
 
   const counts = {
@@ -75,7 +76,7 @@ export default function OrdersClient({ orders }: { orders: Order[] }) {
         </div>
         <div className="orders-summary__divider" />
         <div className="orders-summary__stat">
-          <span className="orders-summary__num">NT${todayRevenue.toFixed(0)}</span>
+          <span className="orders-summary__num">{formatMoney(todayRevenue, currency)}</span>
           <span className="orders-summary__label">today&apos;s revenue</span>
         </div>
       </div>
@@ -159,7 +160,7 @@ export default function OrdersClient({ orders }: { orders: Order[] }) {
                 </div>
 
                 <div className="order-card__right">
-                  <div className="order-card__price">NT${order.price.toFixed(0)}</div>
+                  <div className="order-card__price">{formatMoney(order.price, currency)}</div>
 
                   {order.status === 'pending' && (
                     <div className="order-card__actions">

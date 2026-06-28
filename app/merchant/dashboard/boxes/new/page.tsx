@@ -1,7 +1,11 @@
+import { createClient } from '@/lib/supabase-server'
 import { createBox } from '../../actions'
 import BoxForm from '../BoxForm'
 
-export default function NewBoxPage() {
+export default async function NewBoxPage() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
   return (
     <>
       <div className="merchant-page-header">
@@ -10,7 +14,7 @@ export default function NewBoxPage() {
           <p>Create a new surprise box listing for customers to discover.</p>
         </div>
       </div>
-      <BoxForm action={createBox} />
+      <BoxForm action={createBox} userId={user?.id ?? null} />
     </>
   )
 }
