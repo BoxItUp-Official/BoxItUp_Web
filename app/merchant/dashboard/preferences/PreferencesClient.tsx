@@ -1,7 +1,7 @@
 'use client'
 
 import { useActionState, useState } from 'react'
-import { savePreferences } from '../actions'
+import { savePreferences, changePassword, signOutEverywhere } from '../actions'
 import type { DashboardState } from '../actions'
 import { REGIONS, CURRENCIES, type CurrencyCode } from '@/lib/currency'
 
@@ -44,6 +44,33 @@ function Section({ title, sub, children }: { title: string; sub?: string; childr
       </div>
       <div className="merchant-form-card pref-card">{children}</div>
     </section>
+  )
+}
+
+function ComingSoon() {
+  return <span className="coming-soon-tag">Coming soon</span>
+}
+
+const idleState: DashboardState = { status: 'idle', message: '' }
+
+function ChangePassword() {
+  const [open, setOpen] = useState(false)
+  const [state, action, pending] = useActionState(changePassword, idleState)
+
+  if (!open) {
+    return <button type="button" className="btn btn--secondary btn--sm" onClick={() => setOpen(true)}>Change password</button>
+  }
+  return (
+    <form action={action} className="pref-inline-form">
+      <input type="password" name="new_password" placeholder="New password (min 8 characters)" autoComplete="new-password" required />
+      <input type="password" name="confirm_password" placeholder="Confirm new password" autoComplete="new-password" required />
+      <div className="pref-inline-form__actions">
+        <button type="button" className="btn btn--secondary btn--sm" onClick={() => setOpen(false)}>Cancel</button>
+        <button type="submit" className="btn btn--primary btn--sm" disabled={pending}>{pending ? 'Saving…' : 'Update password'}</button>
+      </div>
+      {state.status === 'error' && <p className="pref-inline-form__msg pref-inline-form__msg--err">{state.message}</p>}
+      {state.status === 'success' && <p className="pref-inline-form__msg pref-inline-form__msg--ok">{state.message}</p>}
+    </form>
   )
 }
 
@@ -113,12 +140,16 @@ export default function PreferencesClient({ email, providers, currency: initCurr
       {/* ── Account & security (separate actions, outside the save form) ── */}
       <Section title="Account & security" sub="Your login details and connected accounts.">
         <Row title="Email" desc={email}>
-          <button type="button" className="btn btn--secondary btn--sm" disabled>Change</button>
+          <ComingSoon />
         </Row>
         <div className="pref-divider" />
-        <Row title="Password" desc="Set or update your password.">
-          <button type="button" className="btn btn--secondary btn--sm">Change password</button>
-        </Row>
+        <div className="pref-row pref-row--block">
+          <div className="pref-row__text">
+            <div className="pref-row__title">Password</div>
+            <div className="pref-row__desc">Set or update your password.</div>
+          </div>
+          <ChangePassword />
+        </div>
         <div className="pref-divider" />
         <div className="pref-row pref-row--block">
           <div className="pref-row__text">
@@ -133,16 +164,18 @@ export default function PreferencesClient({ email, providers, currency: initCurr
                   <span className="pref-provider__name">{PROVIDER_LABEL[p]}</span>
                   {linked
                     ? <span className="pref-chip pref-chip--on">Connected</span>
-                    : <button type="button" className="btn btn--secondary btn--sm">Connect</button>}
+                    : <ComingSoon />}
                 </div>
               )
             })}
           </div>
         </div>
         <div className="pref-divider" />
-        <Row title="Sign out everywhere" desc="End all active sessions on other devices.">
-          <button type="button" className="btn btn--secondary btn--sm">Sign out all</button>
-        </Row>
+        <form action={signOutEverywhere}>
+          <Row title="Sign out everywhere" desc="End all active sessions on other devices.">
+            <button type="submit" className="btn btn--secondary btn--sm">Sign out all</button>
+          </Row>
+        </form>
       </Section>
 
       {/* ── Saveable preferences form ── */}
@@ -237,11 +270,11 @@ export default function PreferencesClient({ email, providers, currency: initCurr
       {/* ── Danger zone ── */}
       <Section title="Danger zone">
         <Row title="Deactivate store" desc="Temporarily hide all your listings. You can reactivate any time.">
-          <button type="button" className="btn btn--secondary btn--sm pref-btn-warn">Deactivate</button>
+          <ComingSoon />
         </Row>
         <div className="pref-divider" />
         <Row title="Delete account" desc="Permanently remove your store and all data. This cannot be undone.">
-          <button type="button" className="merchant-table-action merchant-table-action--danger">Delete account</button>
+          <ComingSoon />
         </Row>
       </Section>
     </div>

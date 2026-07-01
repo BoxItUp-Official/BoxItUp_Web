@@ -143,6 +143,20 @@ export async function saveMerchantProfile(
   const line_id = (formData.get('line_id') as string | null)?.trim() || null
   const description = (formData.get('description') as string | null)?.trim() || null
 
+  // Extended onboarding fields
+  const photo_url = (formData.get('photo_url') as string | null)?.trim() || null
+  const avatar_icon = (formData.get('avatar_icon') as string | null)?.trim() || null
+  const contact_name = (formData.get('contact_name') as string | null)?.trim() || null
+  const website = (formData.get('website') as string | null)?.trim() || null
+  const instagram = (formData.get('instagram') as string | null)?.trim() || null
+  const business_reg_no = (formData.get('business_reg_no') as string | null)?.trim() || null
+
+  let business_hours: unknown = null
+  const rawHours = formData.get('business_hours') as string | null
+  if (rawHours) {
+    try { business_hours = JSON.parse(rawHours) } catch { business_hours = null }
+  }
+
   if (!store_name || !category || !address || !city) {
     return { status: 'error', message: 'Please complete all required fields.' }
   }
@@ -156,6 +170,13 @@ export async function saveMerchantProfile(
     phone,
     line_id,
     description,
+    photo_url,
+    avatar_icon,
+    contact_name,
+    website,
+    instagram,
+    business_reg_no,
+    business_hours,
     onboarding_complete: true,
   })
 

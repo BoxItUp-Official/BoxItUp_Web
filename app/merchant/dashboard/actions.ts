@@ -258,9 +258,39 @@ export async function savePreferences(
   return { status: 'success', message: 'Preferences saved.' }
 }
 
-// ── Sign out ──
+// ── Change password ──
+export async function changePassword(
+  _prev: DashboardState,
+  formData: FormData
+): Promise<DashboardState> {
+  const supabase = await createClient()
+  const { data: { user }, error: authError } = await supabase.auth.getUser()
+  if (authError || !user) return { status: 'error', message: 'Session expired. Please log in again.' }
+
+  const password = (formData.get('new_password') as string) ?? ''
+  const confirm  = (formData.get('confirm_password') as string) ?? ''
+
+  if (password.length < 8) return { status: 'error', message: 'Password must be at least 8 characters.' }
+  if (password !== confirm) return { status: 'error', message: 'Passwords do not match.' }
+
+  const { error } = await supabase.auth.updateUser({ password })
+  if (error) {
+    console.error('Password change error:', error.message)
+    return { status: 'error', message: error.message }
+  }
+  return { status: 'success', message: 'Password updated.' }
+}
+
+// ── Sign out (this device) ──
 export async function signOut() {
   const supabase = await createClient()
   await supabase.auth.signOut()
+  redirect('/merchant/login')
+}
+
+// ── Sign out everywhere (all devices/sessions) ──
+export async function signOutEverywhere() {
+  const supabase = await createClient()
+  await supabase.auth.signOut({ scope: 'global' })
   redirect('/merchant/login')
 }

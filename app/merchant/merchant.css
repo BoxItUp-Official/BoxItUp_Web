@@ -2814,6 +2814,190 @@ a.merchant-sidebar__store:hover .merchant-sidebar__store-chevron {
   padding-top: 0.5rem;
 }
 
+/* ── Inline change-password form (Preferences) ────────────────────────────── */
+.pref-inline-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+  max-width: 360px;
+}
+
+.pref-inline-form input {
+  height: 44px;
+  padding: 0 0.9rem;
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  background: #fafafa;
+  font: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color var(--trans-fast), box-shadow var(--trans-fast);
+}
+
+.pref-inline-form input:focus {
+  border-color: var(--clr-accent);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(235, 106, 0, 0.1);
+}
+
+.pref-inline-form__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pref-inline-form__msg {
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.pref-inline-form__msg--err { color: #c0392b; }
+.pref-inline-form__msg--ok { color: #166534; }
+
+/* ── "Coming soon" inline tag ─────────────────────────────────────────────── */
+.coming-soon-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--clr-muted);
+  background: #f0eee9;
+  border: 1px solid var(--clr-border);
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* Coming-soon badge on the LINE social button (green bg) */
+.merchant-social-soon {
+  margin-left: 0.5rem;
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* ── Onboarding: AI auto-fill card ────────────────────────────────────────── */
+.onboarding-ai {
+  border: 1px solid rgba(235, 106, 0, 0.25);
+  background: linear-gradient(180deg, rgba(235,106,0,0.05), rgba(235,106,0,0.02));
+  border-radius: var(--radius-lg);
+  padding: 1.15rem 1.2rem;
+  margin-bottom: 1.25rem;
+}
+
+.onboarding-ai__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  margin-bottom: 0.9rem;
+}
+
+.onboarding-ai__spark {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--clr-accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.onboarding-ai__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--clr-heading);
+}
+
+.onboarding-ai__sub {
+  font-size: 0.8rem;
+  color: var(--clr-muted);
+  margin-top: 1px;
+  line-height: 1.5;
+}
+
+.onboarding-ai__inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.onboarding-ai__inputs input,
+.onboarding-ai__inputs select {
+  width: 100%;
+  height: 44px;
+  padding: 0 0.9rem;
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  background: #fff;
+  color: var(--clr-heading);
+  font: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color var(--trans-fast), box-shadow var(--trans-fast);
+}
+
+.onboarding-ai__inputs input:focus,
+.onboarding-ai__inputs select:focus {
+  border-color: var(--clr-accent);
+  box-shadow: 0 0 0 3px rgba(235, 106, 0, 0.1);
+}
+
+.onboarding-ai__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--clr-accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 0.6rem 1.1rem;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter var(--trans-fast), opacity var(--trans-fast);
+}
+
+.onboarding-ai__btn:hover:not(:disabled) { filter: brightness(1.05); }
+.onboarding-ai__btn:disabled { opacity: 0.65; cursor: default; }
+
+.onboarding-ai__error {
+  font-size: 0.8rem;
+  color: #c0392b;
+  margin-top: 0.6rem;
+}
+
+.onboarding-ai__done {
+  font-size: 0.8rem;
+  color: #166534;
+  margin-top: 0.6rem;
+  font-weight: 500;
+}
+
+.onboarding-ai__divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+  color: var(--clr-muted);
+  font-size: 0.78rem;
+}
+
+.onboarding-ai__divider::before,
+.onboarding-ai__divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--clr-border);
+}
+
 /* ── Overview: recent orders ──────────────────────────────────────────────── */
 .overview-recent-head {
   display: flex;
