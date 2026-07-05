@@ -15,8 +15,9 @@ export default function NavbarWrapper() {
     return () => document.body.classList.remove('tw-page')
   }, [pathname])
 
-  // Merchant portal has its own topbar — suppress the main site nav
+  // Merchant portal and consumer account area have their own topbars — suppress the main site nav
   if (pathname.startsWith('/merchant')) return null
+  if (pathname.startsWith('/account')) return null
   const isDark = /\/(tw\/|cn\/)?careers(\/|$)/.test(pathname)
   return <Navbar dark={isDark} />
 }
