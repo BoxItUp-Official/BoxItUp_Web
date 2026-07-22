@@ -143,6 +143,8 @@ export default function Navbar({ dark = false }: NavbarProps) {
   const activeCode = locale === 'tw' ? 'TW' : locale === 'cn' ? 'CN' : 'EN'
   const logoSrc = dark ? '/logo_w.png' : '/logo_or.png'
 
+  // EN uses the new IA (About / Impact / Contact page / Download CTA).
+  // TW & CN keep the legacy links until their homepages are ported.
   const navLinks =
     locale === 'tw'
       ? [
@@ -158,13 +160,13 @@ export default function Navbar({ dark = false }: NavbarProps) {
         ]
       : [
           { href: `${homeBase}#about`, label: 'About' },
-          { href: `${homeBase}#how-it-works`, label: 'How It Works' },
-          { href: '/careers', label: 'Careers' },
-          { href: `${homeBase}#contact`, label: 'Contact' },
+          { href: `${homeBase}#impact`, label: 'Impact' },
+          { href: '/contact', label: 'Contact' },
         ]
 
-  const signUpLabel =
-    locale === 'tw' ? '立即註冊' : locale === 'cn' ? '立即注册' : 'Sign Up'
+  const ctaHref = locale === 'en' ? `${homeBase}#download` : `${homeBase}#signup`
+  const ctaLabel =
+    locale === 'tw' ? '立即註冊' : locale === 'cn' ? '立即注册' : 'Download App'
 
   return (
     <header
@@ -183,8 +185,8 @@ export default function Navbar({ dark = false }: NavbarProps) {
               {link.label}
             </a>
           ))}
-          <a href={`${homeBase}#signup`} className="navbar__btn" onClick={closeMenu}>
-            {signUpLabel}
+          <a href={ctaHref} className="navbar__btn" onClick={closeMenu}>
+            {ctaLabel}
           </a>
 
           <div className={`navbar__lang${langOpen ? ' open' : ''}`} id="langDropdown" ref={langDropdownRef}>
