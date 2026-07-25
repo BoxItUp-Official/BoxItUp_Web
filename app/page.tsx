@@ -41,8 +41,8 @@ export default function HomePage() {
             </p>
             <div className="hero__cta-group">
               <a href="#download" className="btn btn--primary btn--large">Download the App</a>
-              <a href="/merchant/signup" className="btn btn--ghost-line btn--large">
-                I&apos;m a store →
+              <a href="/business" className="btn btn--ghost-line btn--large">
+                Business Early Access →
               </a>
             </div>
           </div>
@@ -122,7 +122,10 @@ export default function HomePage() {
       {/* ── 4 · WHY BOX IT UP — big-number spec list, no icon-circle cards ── */}
       <section className="why section" id="why">
         <div className="container">
-          <div className="section-label">Why Box It Up</div>
+          <div className="section-label section-label--icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.2L12 16.4 5.7 20.8 8 13.6l-6-4.4h7.6z" /></svg>
+            Why Box It Up
+          </div>
           <h2 className="section-title">
             Good for you. Good for stores.
             <br />
@@ -136,7 +139,10 @@ export default function HomePage() {
       {/* ── 5 · HOW IT WORKS — two tracks ── */}
       <section className="how-it-works section" id="how-it-works">
         <div className="container">
-          <div className="section-label">How It Works</div>
+          <div className="section-label section-label--icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18h6M10 22h4" /><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z" /></svg>
+            How It Works
+          </div>
           <h2 className="section-title">
             Three simple steps,
             <br />
@@ -152,7 +158,10 @@ export default function HomePage() {
         <div className="container">
           <div className="impact-feature">
             <div className="impact-feature__hero">
-              <div className="section-label">Impact</div>
+              <div className="section-label section-label--icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22c4.5-3 8-7 8-12A8 8 0 0 0 4 10c0 5 3.5 9 8 12z" /><path d="M12 22V8M9 12l3-4 3 4" /></svg>
+                Impact
+              </div>
               <span className="impact-feature__num">33%</span>
               <p className="impact-feature__text">
                 of all food produced worldwide is wasted. Every box rescued through Box It Up
@@ -225,7 +234,7 @@ export default function HomePage() {
             </div>
             <p className="cta-section__note">
               Free to join · App launching soon ·{' '}
-              <a href="/merchant/signup" className="cta-section__merchant-link">Partner with us as a store →</a>
+              <a href="/business" className="cta-section__merchant-link">Partner with us as a store →</a>
             </p>
           </div>
         </div>

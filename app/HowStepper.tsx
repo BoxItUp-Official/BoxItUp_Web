@@ -37,7 +37,7 @@ function StepRail({ steps }: { steps: Step[] }) {
         ))}
         <span
           className="stepper__progress"
-          style={{ width: `${(active / (steps.length - 1)) * 100}%` }}
+          style={{ '--progress': active / (steps.length - 1) } as React.CSSProperties}
           aria-hidden="true"
         />
       </div>

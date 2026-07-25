@@ -64,7 +64,7 @@ export default function WhyTabs() {
         {tab === 'customer' ? (
           <a href="#download" className="btn btn--primary btn--large">Download the app</a>
         ) : (
-          <a href="/merchant/signup" className="btn btn--primary btn--large">Become a partner</a>
+          <a href="/business" className="btn btn--primary btn--large">Request early access</a>
         )}
       </div>
     </div>

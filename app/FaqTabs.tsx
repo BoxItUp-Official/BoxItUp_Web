@@ -46,13 +46,14 @@ type Tab = keyof typeof FAQS
 
 export default function FaqTabs() {
   const [tab, setTab] = useState<Tab>('customer')
-  const [open, setOpen] = useState(0)
+  // -1 = all collapsed; users open a question themselves.
+  const [open, setOpen] = useState(-1)
 
   const list = FAQS[tab]
 
   function switchTab(t: Tab) {
     setTab(t)
-    setOpen(0)
+    setOpen(-1)
   }
 
   return (
