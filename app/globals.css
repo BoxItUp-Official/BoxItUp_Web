@@ -1308,3 +1308,191 @@
   .stepper__panel { flex-direction: column; text-align: center; }
   .stepper__panel-nav { justify-content: center; }
 }
+
+/* ═══════════ Section label with inline icon ═══════════ */
+.section-label--icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.section-label--icon svg { width: 18px; height: 18px; }
+
+/* ═══════════ Our Story — editorial two-column ═══════════ */
+.story-editorial {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.story-editorial__title {
+  font-size: clamp(2rem, 4.2vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--clr-heading);
+  margin: 0.5rem 0 1.5rem;
+}
+
+.story-editorial__lead {
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--clr-heading);
+  margin-bottom: 1rem;
+  max-width: 480px;
+}
+
+.story-editorial__body {
+  font-size: 1rem;
+  color: var(--clr-muted);
+  line-height: 1.75;
+  margin-bottom: 2rem;
+  max-width: 480px;
+}
+
+.story-quote {
+  position: relative;
+  background: linear-gradient(155deg, #EB6A00, #c9540a);
+  color: #fff;
+  border-radius: var(--radius-xl);
+  padding: 2.5rem 2.25rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.story-quote__mark {
+  font-family: Georgia, serif;
+  font-size: 5rem;
+  line-height: 0.6;
+  opacity: 0.35;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.story-quote__text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 1.25rem;
+}
+
+.story-quote__by {
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+@media (max-width: 860px) {
+  .story-editorial { grid-template-columns: 1fr; gap: 2.25rem; }
+}
+
+/* ═══════════ FAQ — interactive master/detail (replaces stiff accordion) ═══════════ */
+.faq2 {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2.5rem;
+  margin-top: 2.25rem;
+  align-items: start;
+}
+
+.faq2__switch {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+}
+
+.faq2__switch-btn {
+  text-align: left;
+  border: 1px solid var(--clr-border);
+  background: var(--clr-white);
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--clr-muted);
+  padding: 0.75rem 1.1rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--trans-fast);
+}
+.faq2__switch-btn--active { background: var(--clr-accent); color: #fff; border-color: var(--clr-accent); }
+
+.faq2__contact {
+  background: var(--clr-off-white);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem 1.5rem;
+}
+.faq2__contact h4 { font-size: 1rem; font-weight: 800; color: var(--clr-heading); margin-bottom: 0.35rem; }
+.faq2__contact p { font-size: 0.85rem; color: var(--clr-muted); line-height: 1.55; margin-bottom: 1rem; }
+
+.faq2__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--clr-border);
+}
+
+.faq2__item { border-bottom: 1px solid var(--clr-border); }
+
+.faq2__q {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--clr-heading);
+  text-align: left;
+  padding: 1.3rem 0;
+  cursor: pointer;
+}
+
+.faq2__icon {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid var(--clr-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--clr-accent);
+  transition: transform var(--trans-med), background var(--trans-fast), color var(--trans-fast);
+}
+.faq2__icon svg { width: 16px; height: 16px; }
+
+.faq2__item--open .faq2__icon {
+  transform: rotate(180deg);
+  background: var(--clr-accent);
+  color: #fff;
+  border-color: var(--clr-accent);
+}
+
+.faq2__a-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--trans-med);
+}
+.faq2__item--open .faq2__a-wrap { grid-template-rows: 1fr; }
+
+.faq2__a {
+  overflow: hidden;
+  font-size: 0.95rem;
+  color: var(--clr-muted);
+  line-height: 1.75;
+  max-width: 620px;
+  margin: 0;
+  padding-bottom: 0;
+}
+.faq2__item--open .faq2__a { padding-bottom: 1.4rem; }
+
+@media (max-width: 800px) {
+  .faq2 { grid-template-columns: 1fr; gap: 1.75rem; }
+  .faq2__switch { flex-direction: row; }
+  .faq2__switch-btn { flex: 1; text-align: center; }
+}

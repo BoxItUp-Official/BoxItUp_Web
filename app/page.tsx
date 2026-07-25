@@ -85,28 +85,36 @@ export default function HomePage() {
         <p className="trust__hint">Sample stores — real partners coming soon</p>
       </section>
 
-      {/* ── 3 · OUR STORY — editorial manifesto, no flowchart boxes ── */}
+      {/* ── 3 · OUR STORY — editorial two-column ── */}
       <section className="story section" id="about">
         <div className="container">
-          <div className="section-label">Our Story</div>
+          <div className="story-editorial">
+            <div className="story-editorial__text">
+              <div className="section-label section-label--icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 6.5C10.5 5 8 4 5 4v13c3 0 5.5 1 7 2.5 1.5-1.5 4-2.5 7-2.5V4c-3 0-5.5 1-7 2.5z" /></svg>
+                Our Story
+              </div>
+              <h2 className="story-editorial__title">
+                Good food shouldn&apos;t
+                <br />
+                end up in the <span className="hero__headline-accent">bin.</span>
+              </h2>
+              <p className="story-editorial__lead">
+                Every night, bakeries and cafés toss perfectly good food — just because the day
+                is over. We thought there had to be a better way.
+              </p>
+              <p className="story-editorial__body">
+                So we built Box It Up: surplus becomes a surprise box, stores recover their value,
+                and you get great food for less. Everyone wins — and nothing good goes to waste.
+              </p>
+              <a href="/about" className="btn btn--secondary btn--large">Learn more about us →</a>
+            </div>
 
-          <div className="manifesto">
-            <p className="manifesto__line">
-              <span className="manifesto__tag">What we saw</span>
-              Good food, thrown away every single night — just because the day was over.
-            </p>
-            <p className="manifesto__line">
-              <span className="manifesto__tag">What we believe</span>
-              It deserves better. Rescuing it should feel delightful, not like a chore.
-            </p>
-            <p className="manifesto__line manifesto__line--accent">
-              <span className="manifesto__tag">What we built</span>
-              So we built <strong>Box It Up</strong> — surplus, turned into a surprise worth celebrating.
-            </p>
-          </div>
-
-          <div className="section-more section-more--left">
-            <a href="/about" className="btn btn--secondary btn--large">Learn more about us →</a>
+            <aside className="story-quote">
+              <span className="story-quote__mark" aria-hidden="true">&ldquo;</span>
+              <p className="story-quote__text">Every meal deserves to be enjoyed — not wasted.</p>
+              <span className="story-quote__by">The Box It Up belief</span>
+            </aside>
           </div>
         </div>
       </section>
@@ -175,8 +183,11 @@ export default function HomePage() {
       {/* ── 7 · FAQ ── */}
       <section className="faq section" id="faq">
         <div className="container">
-          <div className="section-label">FAQ</div>
-          <h2 className="section-title section-title--center">Questions? Answered.</h2>
+          <div className="section-label section-label--icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg>
+            FAQ
+          </div>
+          <h2 className="section-title">Questions? Answered.</h2>
           <FaqTabs />
         </div>
       </section>
