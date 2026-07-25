@@ -251,7 +251,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   --nav-text: var(--clr-body);
   --nav-lang-heading: rgba(0, 0, 0, 0.45);
   --nav-lang-option: rgba(0, 0, 0, 0.82);
-  --lang-menu-h: 143px;
+  --lang-menu-h: 220px;
 
   background: var(--nav-bg);
   backdrop-filter: blur(18px) saturate(180%);
