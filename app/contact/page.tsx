@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Box It Up | Contact',
   description:
     'Contact Box It Up — reach out for store partnerships, early collaboration, or general inquiries.',
-  icons: { icon: '/logo_icon.png' },
+  icons: { icon: '/logo_icon_gradiant.png' },
 }
 
 export default function ContactPage() {

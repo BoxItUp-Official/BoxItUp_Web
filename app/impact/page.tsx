@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'Impact | Box It Up',
   description:
     'Our mission, vision, and the environmental and community impact of rescuing surplus food.',
-  icons: { icon: '/logo_icon.png' },
+  icons: { icon: '/logo_icon_gradiant.png' },
 }
 
 // Full page (mission, vision, food waste, sustainability, community, impact

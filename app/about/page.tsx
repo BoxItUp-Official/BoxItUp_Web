@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'About Us | Box It Up',
   description:
     'Who we are, why we started Box It Up, and how we are rescuing good food across Taiwan.',
-  icons: { icon: '/logo_icon.png' },
+  icons: { icon: '/logo_icon_gradiant.png' },
 }
 
 // Full page (company intro, brand story, what we do, team, timeline) lands

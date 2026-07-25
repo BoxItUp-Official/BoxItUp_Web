@@ -55,7 +55,7 @@ export default function SiteFooter() {
           {/* ── Brand ── */}
           <div className="footer__brand">
             <a href="/" className="footer__logo">
-              <img src="/app_logo.png" alt="Box It Up Logo" className="footer__logo-img" />
+              <img src="/logo_icon_gradiant.png" alt="Box It Up Logo" className="footer__logo-img" />
             </a>
             <p className="footer__tagline">
               每一份美味，都有被享用的機會。

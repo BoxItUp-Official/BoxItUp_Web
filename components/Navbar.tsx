@@ -141,7 +141,7 @@ export default function Navbar({ dark = false }: NavbarProps) {
   }, [langOpen])
 
   const activeCode = locale === 'tw' ? 'TW' : locale === 'cn' ? 'CN' : 'EN'
-  const logoSrc = dark ? '/logo_w.png' : '/logo_or.png'
+  const logoSrc = dark ? '/logo_silv.png' : '/logo_gra.png'
 
   // EN uses the new IA (About / Impact / Contact page / Download CTA).
   // TW & CN keep the legacy links until their homepages are ported.
