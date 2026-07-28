@@ -563,8 +563,9 @@
     #fbf6f0;
   min-height: 0;
   justify-content: center;
-  padding-top: calc(var(--navbar-h) + 2.5rem);
-  padding-bottom: 3.5rem;
+  /* Symmetric bump keeps the content's relative position unchanged. */
+  padding-top: calc(var(--navbar-h) + 4rem);
+  padding-bottom: 5rem;
 }
 
 .hero--split__inner {
@@ -1322,12 +1323,20 @@
 }
 
 /* ═══════════ Section label with inline icon ═══════════ */
-.section-label--icon {
+/* Doubled class (0,2,0) — style.css's .section-label sets display:inline-block
+   and is bundled later, so a single-class rule here loses on source order and
+   the icon/text stack onto two lines. */
+.section-label--icon.section-label--icon {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  white-space: nowrap;
 }
-.section-label--icon svg { width: 18px; height: 18px; }
+.section-label--icon svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
 
 /* ═══════════ Our Story — editorial two-column ═══════════ */
 /* Both columns carry real content, so neither side reads as empty:

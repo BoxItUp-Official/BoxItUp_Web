@@ -43,11 +43,51 @@ const SOCIALS = [
   },
 ]
 
+type Locale = 'en' | 'tw' | 'cn'
+
+const COPY: Record<Locale, Record<string, string>> = {
+  en: {
+    tagline: 'Every delicious meal deserves to be enjoyed.',
+    company: 'Company', companyPrompt: 'Get to know us',
+    about: 'About Us', impact: 'Impact', join: 'Join Us',
+    platform: 'Platform', platformPrompt: 'Start using Box It Up',
+    download: 'Download App', stores: 'For Stores',
+    resources: 'Resources', resourcesPrompt: 'Still have questions?',
+    faq: 'FAQ', support: 'Support', privacy: 'Privacy Policy', terms: 'Terms of Service',
+    contact: 'Contact', contactPrompt: 'Reach out to us',
+    rights: 'All rights reserved.', cookie: 'Cookie Policy',
+  },
+  tw: {
+    tagline: '每一份美味，都有被享用的機會。',
+    company: '公司', companyPrompt: '我想了解你們',
+    about: '關於我們', impact: '社會影響力', join: '加入我們',
+    platform: '平台', platformPrompt: '我想開始使用',
+    download: '下載 App', stores: '商家專區',
+    resources: '資源', resourcesPrompt: '我還有問題',
+    faq: '常見問題', support: '支援', privacy: '隱私權政策', terms: '服務條款',
+    contact: '聯絡我們', contactPrompt: '我想聯絡你們',
+    rights: '版權所有。', cookie: 'Cookie 政策',
+  },
+  cn: {
+    tagline: '每一份美味，都有被享用的机会。',
+    company: '公司', companyPrompt: '我想了解你们',
+    about: '关于我们', impact: '社会影响力', join: '加入我们',
+    platform: '平台', platformPrompt: '我想开始使用',
+    download: '下载 App', stores: '商家专区',
+    resources: '资源', resourcesPrompt: '我还有问题',
+    faq: '常见问题', support: '支持', privacy: '隐私政策', terms: '服务条款',
+    contact: '联系我们', contactPrompt: '我想联系你们',
+    rights: '版权所有。', cookie: 'Cookie 政策',
+  },
+}
+
 const CONTACT_EMAIL = 'boxitupofficial@gmail.com'
 const CONTACT_PHONE = '' // TODO: add phone when available
 const CONTACT_ADDRESS = '' // TODO: add address when available
 
-export default function SiteFooter() {
+export default function SiteFooter({ locale = 'en' }: { locale?: Locale }) {
+  const t = COPY[locale]
+  const base = locale === 'en' ? '' : `/${locale}`
   return (
     <footer className="footer">
       <div className="container">
@@ -57,11 +97,7 @@ export default function SiteFooter() {
             <a href="/" className="footer__logo">
               <img src="/logo_icon_gradiant.png" alt="Box It Up Logo" className="footer__logo-img" />
             </a>
-            <p className="footer__tagline">
-              每一份美味，都有被享用的機會。
-              <br />
-              Every delicious meal deserves to be enjoyed.
-            </p>
+            <p className="footer__tagline">{t.tagline}</p>
             <div className="footer__socials">
               {SOCIALS.filter((s) => s.url).map((s) => (
                 <a
@@ -80,43 +116,43 @@ export default function SiteFooter() {
 
           {/* ── Company — “我想了解你們” ── */}
           <div className="footer__links-group">
-            <h4 className="footer__links-title">Company</h4>
-            <p className="footer__links-prompt">Get to know us</p>
+            <h4 className="footer__links-title">{t.company}</h4>
+            <p className="footer__links-prompt">{t.companyPrompt}</p>
             <ul className="footer__links">
-              <li><Link href="/about">About Us</Link></li>
-              <li><Link href="/impact">Impact</Link></li>
-              <li><Link href="/contact">Join Us</Link></li>
+              <li><Link href={`${base}/about`}>{t.about}</Link></li>
+              <li><Link href={`${base}/impact`}>{t.impact}</Link></li>
+              <li><Link href={`${base}/contact`}>{t.join}</Link></li>
             </ul>
           </div>
 
           {/* ── Platform — “我想開始使用” ── */}
           <div className="footer__links-group">
-            <h4 className="footer__links-title">Platform</h4>
-            <p className="footer__links-prompt">Start using Box It Up</p>
+            <h4 className="footer__links-title">{t.platform}</h4>
+            <p className="footer__links-prompt">{t.platformPrompt}</p>
             <ul className="footer__links">
-              <li><a href="/#download">Download App</a></li>
+              <li><a href={`${base}/#download`}>{t.download}</a></li>
               {/* Merchant sign-up isn't public yet — route stores to early access. */}
-              <li><Link href="/business">For Stores</Link></li>
+              <li><Link href="/business">{t.stores}</Link></li>
             </ul>
           </div>
 
           {/* ── Resources — “我還有問題” ── */}
           <div className="footer__links-group">
-            <h4 className="footer__links-title">Resources</h4>
-            <p className="footer__links-prompt">Still have questions?</p>
+            <h4 className="footer__links-title">{t.resources}</h4>
+            <p className="footer__links-prompt">{t.resourcesPrompt}</p>
             <ul className="footer__links">
               {/* TODO: point to /faq and /support once those pages are built */}
-              <li><a href="/#faq">FAQ</a></li>
-              <li><Link href="/contact">Support</Link></li>
-              <li><Link href="/privacy">Privacy Policy</Link></li>
-              <li><Link href="/terms">Terms of Service</Link></li>
+              <li><a href={`${base}/#faq`}>{t.faq}</a></li>
+              <li><Link href={`${base}/contact`}>{t.support}</Link></li>
+              <li><Link href="/privacy">{t.privacy}</Link></li>
+              <li><Link href="/terms">{t.terms}</Link></li>
             </ul>
           </div>
 
           {/* ── Contact — “我想聯絡你們” ── */}
           <div className="footer__links-group">
-            <h4 className="footer__links-title">Contact</h4>
-            <p className="footer__links-prompt">Reach out to us</p>
+            <h4 className="footer__links-title">{t.contact}</h4>
+            <p className="footer__links-prompt">{t.contactPrompt}</p>
             <ul className="footer__links footer__links--contact">
               <li>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -147,11 +183,11 @@ export default function SiteFooter() {
         </div>
 
         <div className="footer__bottom">
-          <p className="footer__copy">© 2026 Box It Up. All rights reserved.</p>
+          <p className="footer__copy">© 2026 Box It Up. {t.rights}</p>
           <div className="footer__legal">
-            <Link href="/privacy">Privacy Policy</Link>
-            <Link href="/terms">Terms of Service</Link>
-            <Link href="/cookie">Cookie Policy</Link>
+            <Link href="/privacy">{t.privacy}</Link>
+            <Link href="/terms">{t.terms}</Link>
+            <Link href="/cookie">{t.cookie}</Link>
           </div>
         </div>
       </div>

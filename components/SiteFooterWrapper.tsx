@@ -23,5 +23,6 @@ export default function SiteFooterWrapper() {
     return null
   }
 
-  return <SiteFooter />
+  const locale = pathname.startsWith('/tw') ? 'tw' : pathname.startsWith('/cn') ? 'cn' : 'en'
+  return <SiteFooter locale={locale} />
 }
