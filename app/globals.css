@@ -555,12 +555,16 @@
 }
 
 /* ═══════════ Hero — split: slogan + real photo ═══════════ */
-.hero--split {
+/* .hero.hero--split (0,2,0) — plain .hero from style.css is bundled after this
+   file, so a single-class selector here loses on source order. */
+.hero.hero--split {
   background:
     radial-gradient(70% 60% at 92% 0%, #ffe8cf 0%, rgba(255,232,207,0) 60%),
     #fbf6f0;
-  padding-top: calc(var(--navbar-h) + 6rem);
-  padding-bottom: 4.5rem;
+  min-height: 0;
+  justify-content: center;
+  padding-top: calc(var(--navbar-h) + 2.5rem);
+  padding-bottom: 3.5rem;
 }
 
 .hero--split__inner {
@@ -1509,4 +1513,21 @@
   color: rgba(255, 255, 255, 0.45);
   margin: -0.6rem 0 1rem;
   line-height: 1.4;
+}
+
+/* ═══════════ Wider content, tighter gutters ═══════════ */
+/* style.css caps .container at 1200px with 2rem gutters, which leaves a lot of
+   empty space on large screens. Widen it and trim the side padding.
+   body-prefixed (0,1,1) because style.css is bundled after this file. */
+body .container {
+  max-width: 1440px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  body .container {
+    padding-left: 1.15rem;
+    padding-right: 1.15rem;
+  }
 }
