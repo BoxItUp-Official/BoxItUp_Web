@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import '../style.css'
 import './globals.css'
 import NavbarWrapper from '@/components/NavbarWrapper'
+import SiteFooterWrapper from '@/components/SiteFooterWrapper'
 import ScrollAnimations from '@/components/ScrollAnimations'
 
 export const metadata: Metadata = {
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <NavbarWrapper />
         {children}
+        <SiteFooterWrapper />
         <ScrollAnimations />
       </body>
     </html>

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import SiteFooter from '@/components/SiteFooter'
 import BusinessLeadForm from './BusinessLeadForm'
 import './business.css'
 
@@ -72,7 +71,6 @@ export default function BusinessPage() {
           </div>
         </div>
       </main>
-      <SiteFooter />
     </>
   )
 }

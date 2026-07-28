@@ -21,7 +21,11 @@ function StepRail({ steps }: { steps: Step[] }) {
   const [active, setActive] = useState(0)
   return (
     <div className="stepper">
-      <div className="stepper__rail" role="tablist">
+      <div
+        className="stepper__rail"
+        role="tablist"
+        style={{ '--cols': steps.length } as React.CSSProperties}
+      >
         {steps.map((s, i) => (
           <button
             key={s.title}

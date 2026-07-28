@@ -81,6 +81,7 @@ export default function SiteFooter() {
           {/* ── Company — “我想了解你們” ── */}
           <div className="footer__links-group">
             <h4 className="footer__links-title">Company</h4>
+            <p className="footer__links-prompt">Get to know us</p>
             <ul className="footer__links">
               <li><Link href="/about">About Us</Link></li>
               <li><Link href="/impact">Impact</Link></li>
@@ -91,15 +92,18 @@ export default function SiteFooter() {
           {/* ── Platform — “我想開始使用” ── */}
           <div className="footer__links-group">
             <h4 className="footer__links-title">Platform</h4>
+            <p className="footer__links-prompt">Start using Box It Up</p>
             <ul className="footer__links">
               <li><a href="/#download">Download App</a></li>
-              <li><Link href="/merchant/login">Merchant Portal</Link></li>
+              {/* Merchant sign-up isn't public yet — route stores to early access. */}
+              <li><Link href="/business">For Stores</Link></li>
             </ul>
           </div>
 
           {/* ── Resources — “我還有問題” ── */}
           <div className="footer__links-group">
             <h4 className="footer__links-title">Resources</h4>
+            <p className="footer__links-prompt">Still have questions?</p>
             <ul className="footer__links">
               {/* TODO: point to /faq and /support once those pages are built */}
               <li><a href="/#faq">FAQ</a></li>
@@ -112,6 +116,7 @@ export default function SiteFooter() {
           {/* ── Contact — “我想聯絡你們” ── */}
           <div className="footer__links-group">
             <h4 className="footer__links-title">Contact</h4>
+            <p className="footer__links-prompt">Reach out to us</p>
             <ul className="footer__links footer__links--contact">
               <li>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">

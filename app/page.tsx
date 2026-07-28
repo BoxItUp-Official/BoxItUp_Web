@@ -1,4 +1,3 @@
-import SiteFooter from '@/components/SiteFooter'
 import FaqTabs from './FaqTabs'
 import WhyTabs from './WhyTabs'
 import HowStepper from './HowStepper'
@@ -89,7 +88,8 @@ export default function HomePage() {
       <section className="story section" id="about">
         <div className="container">
           <div className="story-editorial">
-            <div className="story-editorial__text">
+            {/* Left — headline + CTA */}
+            <div className="story-editorial__head">
               <div className="section-label section-label--icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 6.5C10.5 5 8 4 5 4v13c3 0 5.5 1 7 2.5 1.5-1.5 4-2.5 7-2.5V4c-3 0-5.5 1-7 2.5z" /></svg>
                 Our Story
@@ -99,22 +99,25 @@ export default function HomePage() {
                 <br />
                 end up in the <span className="hero__headline-accent">bin.</span>
               </h2>
-              <p className="story-editorial__lead">
-                Every night, bakeries and cafés toss perfectly good food — just because the day
-                is over. We thought there had to be a better way.
-              </p>
-              <p className="story-editorial__body">
-                So we built Box It Up: surplus becomes a surprise box, stores recover their value,
-                and you get great food for less. Everyone wins — and nothing good goes to waste.
-              </p>
               <a href="/about" className="btn btn--secondary btn--large">Learn more about us →</a>
             </div>
 
-            <aside className="story-quote">
-              <span className="story-quote__mark" aria-hidden="true">&ldquo;</span>
-              <p className="story-quote__text">Every meal deserves to be enjoyed — not wasted.</p>
-              <span className="story-quote__by">The Box It Up belief</span>
-            </aside>
+            {/* Right — the story itself */}
+            <div className="story-editorial__body">
+              <p className="story-editorial__lead">
+                Every night, bakeries and cafés across Taiwan throw away perfectly good food —
+                simply because the day is over.
+              </p>
+              <p className="story-editorial__text">
+                We thought there had to be a better way. So we built Box It Up: surplus becomes a
+                surprise box, stores recover value they&apos;d otherwise bin, and you get great
+                food for a fraction of the price.
+              </p>
+              <blockquote className="story-quote">
+                <p className="story-quote__text">Every meal deserves to be enjoyed — not wasted.</p>
+                <footer className="story-quote__by">The Box It Up belief</footer>
+              </blockquote>
+            </div>
           </div>
         </div>
       </section>
@@ -240,7 +243,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <SiteFooter />
     </>
   )
 }
