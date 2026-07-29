@@ -430,8 +430,10 @@
 }
 
 /* ── Footer: 5-column layout ── */
-.footer__top--wide {
-  grid-template-columns: 1.8fr 1fr 1fr 1.1fr 1.4fr;
+/* Doubled class — style.css's .footer__top (4 columns) is bundled later. */
+.footer__top--wide.footer__top--wide {
+  grid-template-columns: 1.7fr 1fr 1fr 1.1fr 1.3fr;
+  gap: 2.5rem;
 }
 
 .footer__links--contact a { color: inherit; }
@@ -439,7 +441,7 @@
 /* ── Responsive ── */
 @media (max-width: 1024px) {
   .why__grid { grid-template-columns: repeat(2, 1fr); }
-  .footer__top--wide { grid-template-columns: 1.5fr 1fr 1fr; }
+  .footer__top--wide.footer__top--wide { grid-template-columns: 1.5fr 1fr 1fr; }
 }
 
 @media (max-width: 768px) {
@@ -450,7 +452,7 @@
 
 @media (max-width: 560px) {
   .why__grid { grid-template-columns: 1fr; }
-  .footer__top--wide { grid-template-columns: 1fr; }
+  .footer__top--wide.footer__top--wide { grid-template-columns: 1fr; }
 }
 
 /* ═══════════ Homepage IA v2 — spec revision ═══════════ */
@@ -1529,7 +1531,7 @@
    empty space on large screens. Widen it and trim the side padding.
    body-prefixed (0,1,1) because style.css is bundled after this file. */
 body .container {
-  max-width: 1440px;
+  max-width: 1280px;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 }
@@ -1539,4 +1541,26 @@ body .container {
     padding-left: 1.15rem;
     padding-right: 1.15rem;
   }
+}
+
+/* ═══════════ Anchor jump offset ═══════════ */
+/* Sticky navbar covers the top of a section when jumping to #id. Offset the
+   landing point so the section heading sits comfortably below the navbar. */
+[id="about"],
+[id="why"],
+[id="how-it-works"],
+[id="impact"],
+[id="faq"],
+[id="download"],
+[id="trust"] {
+  scroll-margin-top: calc(var(--navbar-h) + 2.5rem);
+}
+
+/* ═══════════ Hero accent — Gloock only ships weight 400, which reads thin at
+   the large hero size. Match the headline's sans weight instead. ═══════════ */
+.hero .hero__headline .hero__headline-accent,
+.hero .hero__headline--slogan .hero__headline-accent {
+  font-family: inherit;
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
