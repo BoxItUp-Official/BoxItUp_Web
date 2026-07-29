@@ -152,7 +152,8 @@ export default function Navbar({ dark = false }: NavbarProps) {
       : [
           { href: `${homeBase}#about`, label: 'About' },
           { href: `${homeBase}#impact`, label: 'Impact' },
-          { href: `${homeBase}#contact`, label: 'Contact' },
+          // The EN homepage has no #contact section, so link to the page.
+          { href: '/contact', label: 'Contact' },
         ]
 
   const ctaHref = locale === 'en' ? `${homeBase}#download` : `${homeBase}#signup`

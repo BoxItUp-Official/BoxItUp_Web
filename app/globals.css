@@ -1,3 +1,18 @@
+/* ⚠️ CASCADE NOTE — read before adding overrides
+ * The bundler always emits style.css AFTER this file, whatever order layout.tsx
+ * imports them in (verified: swapping the imports and using @import layer() both
+ * failed). So a rule here with the SAME specificity as one in style.css loses
+ * silently — no error, it just has no effect.
+ *
+ * To override a style.css rule, give the selector higher specificity, e.g.
+ *   .hero.hero--split        (not .hero--split)
+ *   body .container          (not .container)
+ *   .section-label--icon.section-label--icon
+ *
+ * Long-term fix is to merge the two stylesheets; until then, always verify an
+ * override actually applied (check the computed style, not just the source).
+ */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

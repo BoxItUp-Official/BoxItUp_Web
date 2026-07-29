@@ -25,17 +25,16 @@ export default function ContactPage() {
               <div className="contact-hero__content">
                 <div className="contact-eyebrow">Get in touch</div>
                 <h1 className="contact-title">
-                  Let&apos;s talk about what Box It Up can build next
+                  We&apos;d love to hear from you
                 </h1>
                 <p className="contact-subtitle">
-                  Whether you&apos;re a store interested in partnering, a student who wants to help
-                  build with us, or someone with feedback or ideas, we&apos;d love to hear from
-                  you.
+                  Whether you run a store, need a hand with an order, or just have a question
+                  about Box It Up — send us a message and we&apos;ll get back to you.
                 </p>
               </div>
 
               <aside className="contact-hero__aside">
-                <h2 className="contact-hero__aside-title">Best reasons to reach out</h2>
+                <h2 className="contact-hero__aside-title">What we can help with</h2>
                 <div className="contact-hero__aside-list">
                   <div className="contact-hero__aside-item">
                     <strong>Store partnerships</strong>
@@ -45,17 +44,16 @@ export default function ContactPage() {
                     </span>
                   </div>
                   <div className="contact-hero__aside-item">
-                    <strong>Early collaboration</strong>
+                    <strong>Customer support</strong>
                     <span>
-                      Students and builders can reach out if they want hands-on startup experience
-                      and ownership.
+                      Questions about an order, a pickup, or your account — we&apos;re happy to
+                      help.
                     </span>
                   </div>
                   <div className="contact-hero__aside-item">
-                    <strong>Product feedback</strong>
+                    <strong>Press &amp; general enquiries</strong>
                     <span>
-                      Share ideas, user pain points, or opportunities that could shape the platform
-                      early.
+                      Media requests, feedback, or anything else you&apos;d like to talk about.
                     </span>
                   </div>
                 </div>
@@ -72,29 +70,26 @@ export default function ContactPage() {
                 <div className="contact-card__label">For stores</div>
                 <h3 className="contact-card__title">Partner with Box It Up</h3>
                 <p className="contact-card__desc">
-                  Want to turn surplus inventory into an opportunity and reach new customers through
-                  curated offers?
+                  Turn tonight&apos;s surplus into revenue and reach new customers nearby.
+                  Partner sign-ups open soon — register your interest now.
                 </p>
-                <a
-                  href="mailto:boxitupofficial@gmail.com?subject=Store%20Partnership%20Inquiry"
-                  className="contact-card__link"
-                >
-                  Contact our partnership team →
+                <a href="/business" className="contact-card__link">
+                  Request early access →
                 </a>
               </article>
 
               <article className="contact-card">
-                <div className="contact-card__label">For builders</div>
-                <h3 className="contact-card__title">Build with us</h3>
+                <div className="contact-card__label">For customers</div>
+                <h3 className="contact-card__title">Need a hand?</h3>
                 <p className="contact-card__desc">
-                  We&apos;re looking for early collaborators and motivated students who want to help
-                  shape Box It Up from the ground up.
+                  Something wrong with an order or pickup, or a question about how Box It Up
+                  works? Our team is here to help.
                 </p>
                 <a
-                  href="mailto:boxitupofficial@gmail.com?subject=Early%20Collaboration%20with%20Box%20It%20Up"
+                  href="mailto:boxitupofficial@gmail.com?subject=Support%20Request"
                   className="contact-card__link"
                 >
-                  Tell us about yourself →
+                  Get support →
                 </a>
               </article>
 
@@ -102,8 +97,8 @@ export default function ContactPage() {
                 <div className="contact-card__label">General</div>
                 <h3 className="contact-card__title">Questions, ideas, or feedback</h3>
                 <p className="contact-card__desc">
-                  Reach out for product feedback, user questions, media opportunities, or anything
-                  else worth discussing.
+                  Press enquiries, product feedback, or anything else worth discussing — we read
+                  every message.
                 </p>
                 <a
                   href="mailto:boxitupofficial@gmail.com?subject=General%20Inquiry%20for%20Box%20It%20Up"
@@ -141,10 +136,6 @@ export default function ContactPage() {
                     <a href="mailto:boxitupofficial@gmail.com">boxitupofficial@gmail.com</a>
                   </div>
                   <div className="contact-info-item">
-                    <strong>Phone</strong>
-                    <span>+886 123 456 789</span>
-                  </div>
-                  <div className="contact-info-item">
                     <strong>Location</strong>
                     <span>Taipei, Taiwan</span>
                   </div>
@@ -152,18 +143,18 @@ export default function ContactPage() {
 
                 <div className="contact-faq">
                   <div className="contact-faq__item">
-                    <strong>Are you hiring paid roles right now?</strong>
+                    <strong>How do I get my store on Box It Up?</strong>
                     <p>
-                      We&apos;re currently focused on early collaboration and building traction.
-                      Some roles may begin as unpaid, project-based, or exploratory opportunities
-                      while we grow.
+                      Partner sign-ups aren&apos;t open to the public yet. Register on our
+                      <a href="/business"> business early access</a> page and we&apos;ll be in
+                      touch as soon as they are.
                     </p>
                   </div>
                   <div className="contact-faq__item">
-                    <strong>Who should apply to build with Box It Up?</strong>
+                    <strong>Are you hiring?</strong>
                     <p>
-                      Students and early builders who want meaningful startup exposure, ownership,
-                      and resume depth are especially encouraged to reach out.
+                      We&apos;re a small early-stage team. Open roles are listed on our
+                      <a href="/careers"> careers</a> page.
                     </p>
                   </div>
                   <div className="contact-faq__item">
