@@ -4,7 +4,7 @@ import HowStepper from './HowStepper'
 
 /**
  * Homepage — new IA (2026-07), per product spec:
- * Hero → We Partner With → Our Story → Why Box It Up → How It Works
+ * Hero → We Partner With → About Us → Why Box It Up → How It Works
  * → Impact → FAQ → Final CTA
  * Each section is a summary; "Learn more" links go to /about and /impact.
  */
@@ -28,15 +28,15 @@ export default function HomePage() {
         <div className="hero--split__inner container">
           <div className="hero--split__text">
             <span className="hero__badge">
-              Rescue good food · save money · fight waste
+              Spend Less. Experience more.
             </span>
             <h1 className="hero__headline hero__headline--slogan">
-              Save the food.
+              More Than a Better Price, 
               <br />
-              <span className="hero__headline-accent">Save the day.</span>
+              It’s a Better <span className="hero__headline-accent">Experience</span>.
             </h1>
             <p className="hero__subtext hero__subtext--tight">
-              Surprise boxes of surplus food from local stores — for a fraction of the price.
+              Explore premium local favorites without paying premium prices.
             </p>
             <div className="hero__cta-group">
               <a href="#download" className="btn btn--primary btn--large">Download the App</a>
@@ -84,7 +84,7 @@ export default function HomePage() {
         <p className="trust__hint">Sample stores — real partners coming soon</p>
       </section>
 
-      {/* ── 3 · OUR STORY — editorial two-column ── */}
+      {/* ── 3 · ABOUT US — editorial two-column ── */}
       <section className="story section" id="about">
         <div className="container">
           <div className="story-editorial">
@@ -92,12 +92,12 @@ export default function HomePage() {
             <div className="story-editorial__head">
               <div className="section-label section-label--icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 6.5C10.5 5 8 4 5 4v13c3 0 5.5 1 7 2.5 1.5-1.5 4-2.5 7-2.5V4c-3 0-5.5 1-7 2.5z" /></svg>
-                Our Story
+                About Us
               </div>
               <h2 className="story-editorial__title">
-                Good food shouldn&apos;t
+                Great products deserve
                 <br />
-                end up in the <span className="hero__headline-accent">bin.</span>
+                to be <span className="hero__headline-accent">discovered</span>.
               </h2>
               <a href="/about" className="btn btn--secondary btn--large">Learn more about us →</a>
             </div>
@@ -105,13 +105,15 @@ export default function HomePage() {
             {/* Right — the story itself */}
             <div className="story-editorial__body">
               <p className="story-editorial__lead">
-                Every night, bakeries and cafés across Taiwan throw away perfectly good food —
-                simply because the day is over.
+                Every day, perfectly fresh products are left unsold simply 
+                because demand is impossible to predict.
               </p>
               <p className="story-editorial__text">
-                We thought there had to be a better way. So we built Box It Up: surplus becomes a
-                surprise box, stores recover value they&apos;d otherwise bin, and you get great
-                food for a fraction of the price.
+                We believe exceptional value shouldn't disappear at the end of the day. 
+                <br />
+                Box It Up connects people with curated selections from local brands, 
+                creating better value for customers while helping merchants recover value 
+                from every product.
               </p>
               <blockquote className="story-quote">
                 <p className="story-quote__text">Every meal deserves to be enjoyed — not wasted.</p>

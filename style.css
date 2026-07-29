@@ -251,7 +251,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   --nav-text: var(--clr-body);
   --nav-lang-heading: rgba(0, 0, 0, 0.45);
   --nav-lang-option: rgba(0, 0, 0, 0.82);
-  --lang-menu-h: 220px;
+  --lang-menu-h: 149px;
 
   background: var(--nav-bg);
   backdrop-filter: blur(18px) saturate(180%);
@@ -523,11 +523,28 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   margin-bottom: 0.3rem;
 }
 
+.navbar__lang-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.navbar__lang-heading {
+  margin-bottom: 0;
+}
+
+.navbar__lang-options {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
 .navbar__lang-option {
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  width: 100%;
+  width: auto;
   padding: 0.2rem 0;
   background: transparent;
   border: none;
@@ -536,7 +553,21 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   font-weight: 600;
   text-align: left;
   line-height: 1.5;
+  white-space: nowrap;
   transition: opacity var(--trans-fast), transform var(--trans-fast);
+}
+
+.navbar__lang-column--chinese .navbar__lang-options {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  column-gap: 17rem;   /* 調整這個即可 */
+  row-gap: 0;
+  align-items: start;
+}
+
+.navbar__lang-column--chinese .navbar__lang-options {
+  width: auto;
+  white-space: nowrap;
 }
 
 .navbar__lang-option:hover {
@@ -2630,7 +2661,7 @@ body.lang-menu-open::before {
   ---nav-bg: transparent;
   --nav-open-bg: rgba(30, 30, 30, 0.92);
   --nav-shadow: none;
-  --lang-menu-h: 220px;
+  --lang-menu-h: 149px;
 
   background: transparent;
   backdrop-filter: blur(18px) saturate(180%);
@@ -2771,6 +2802,10 @@ backdrop-filter: blur(18px) saturate(180%);
   text-align: left;
   line-height: 1.5;
   transition: opacity var(--trans-fast), transform var(--trans-fast);
+}
+
+.tw-page .navbar__lang-column--chinese .navbar__lang-option {
+  width: auto;
 }
 
 .tw-page .hero__headline {

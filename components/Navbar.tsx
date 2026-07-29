@@ -20,8 +20,6 @@ const langGroups: LangGroup[] = [
     heading: 'English',
     options: [
       { label: 'United States', code: 'EN', base: '' },
-      { label: 'United Kingdom', code: 'GB', base: '' },
-      { label: 'Australia', code: 'AU', base: '' },
     ],
   },
   {
@@ -29,18 +27,6 @@ const langGroups: LangGroup[] = [
     options: [
       { label: '繁體中文', code: 'TW', base: '/tw' },
       { label: '简体中文', code: 'CN', base: '/cn' },
-    ],
-  },
-  {
-    heading: '日本語',
-    options: [{ label: '日本', code: 'JP', base: '' }],
-  },
-  {
-    heading: 'More',
-    options: [
-      { label: 'Français', code: 'FR', base: '' },
-      { label: 'Deutsch', code: 'DE', base: '' },
-      { label: 'Italiano', code: 'IT', base: '' },
     ],
   },
 ]
@@ -141,7 +127,12 @@ export default function Navbar({ dark = false }: NavbarProps) {
   }, [langOpen])
 
   const activeCode = locale === 'tw' ? 'TW' : locale === 'cn' ? 'CN' : 'EN'
-  const logoSrc = dark ? '/logo_silv.png' : '/logo_gra.png'
+  const logoSrc =
+  locale === 'tw'
+    ? '/logo_silv.png'
+    : dark
+      ? '/logo_silv.png'
+      : '/logo_gra.png'
 
   // EN uses the new IA (About / Impact / Contact page / Download CTA).
   // TW & CN keep the legacy links until their homepages are ported.
@@ -161,7 +152,7 @@ export default function Navbar({ dark = false }: NavbarProps) {
       : [
           { href: `${homeBase}#about`, label: 'About' },
           { href: `${homeBase}#impact`, label: 'Impact' },
-          { href: '/contact', label: 'Contact' },
+          { href: `${homeBase}#contact`, label: 'Contact' },
         ]
 
   const ctaHref = locale === 'en' ? `${homeBase}#download` : `${homeBase}#signup`
@@ -205,15 +196,22 @@ export default function Navbar({ dark = false }: NavbarProps) {
             <div className="navbar__lang-menu" id="langMenu">
               <div className="navbar__lang-panel">
                 {langGroups.map((group) => (
-                  <div key={group.heading} className="navbar__lang-column">
-                    <p className="navbar__lang-heading">{group.heading}</p>
+                 <div 
+                  key={group.heading}
+                  className={`navbar__lang-column ${
+                    group.heading === '中文' ? 'navbar__lang-column--chinese' : ''
+                  }`}
+                >
+                  <p className="navbar__lang-heading">{group.heading}</p>
+
+                  <div className="navbar__lang-options">
                     {group.options.map((opt) => (
                       <button
                         key={opt.code}
-                        className={`navbar__lang-option${activeCode === opt.code ? ' is-active' : ''}`}
+                        className={`navbar__lang-option${
+                          activeCode === opt.code ? ' is-active' : ''
+                        }`}
                         type="button"
-                        data-lang={opt.code.toLowerCase()}
-                        data-label={opt.code}
                         onClick={() => {
                           closeLangMenu()
                           router.push(buildLocaleUrl(opt.base, pageType))
@@ -223,6 +221,7 @@ export default function Navbar({ dark = false }: NavbarProps) {
                       </button>
                     ))}
                   </div>
+                </div>
                 ))}
               </div>
             </div>

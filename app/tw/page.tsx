@@ -13,7 +13,7 @@ const TW_STATS = [
 export const metadata: Metadata = {
   title: 'Box It Up | 節省更多，體驗更多。',
   description: 'Box It Up — 連結消費者與折扣驚喜食物箱，減少食物浪費，提升店家曝光。',
-  icons: { icon: '/logo_icon.png' },
+  icons: { icon: '/logo_icon_gradiant.png' },
 }
 
 export default function TWPage() {
@@ -485,7 +485,7 @@ export default function TWPage() {
           <div className="footer__top">
             <div className="footer__brand">
               <a href="/tw" className="footer__logo">
-                <img src="/app_logo.png" alt="Box It Up Logo" className="footer__logo-img" />
+                <img src="/logo_icon_gradiant.png" alt="Box It Up Logo" className="footer__logo-img" />
               </a>
               <p className="footer__tagline">
                 連結剩餘食物與在乎的人 —— 減少浪費、創造價值，從每一個盒子開始。
