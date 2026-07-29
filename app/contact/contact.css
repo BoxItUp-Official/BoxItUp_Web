@@ -1,190 +1,126 @@
-/* ── Contact page styles ── */
+/* ── Contact page ──────────────────────────────────────────────────────────
+   Shell follows the homepage aesthetic: warm cream background, 800-weight
+   headline with an accent word, shared .section-label eyebrow.
+   Form-field styles below are unchanged.
+   ------------------------------------------------------------------------ */
 
-.contact-hero {
+.contact-page {
+  background:
+    radial-gradient(70% 55% at 95% 0%, #ffe8cf 0%, rgba(255, 232, 207, 0) 60%),
+    #fbf6f0;
   padding-top: calc(var(--navbar-h) + 4rem);
-  padding-bottom: 2.5rem;
+  padding-bottom: 5rem;
+  min-height: 100vh;
 }
 
-.contact-hero__inner {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 2rem;
-  align-items: start;
-}
-
-.contact-hero__content {
-  animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
-}
-
-.contact-eyebrow {
-  display: inline-block;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--clr-muted);
-  margin-bottom: 1.1rem;
-  padding: 0.38rem 0.85rem;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid var(--clr-border);
-  border-radius: var(--radius-pill);
+.contact-head {
+  max-width: 640px;
+  margin-bottom: 3rem;
 }
 
 .contact-title {
-  font-size: clamp(2.5rem, 5vw, 4.2rem);
-  line-height: 1.04;
-  letter-spacing: -0.045em;
+  font-size: clamp(2.4rem, 4.6vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
   color: var(--clr-heading);
-  margin-bottom: 1.2rem;
-  max-width: 720px;
+  margin: 0.5rem 0 1.1rem;
+}
+
+/* The accent colour rule in style.css is scoped to .hero__headline, so the
+   accent word here needs its own rule. */
+.contact-title .hero__headline-accent {
+  color: var(--clr-accent);
+  font-weight: 800;
 }
 
 .contact-subtitle {
   font-size: 1.05rem;
-  line-height: 1.8;
-  color: var(--clr-body);
-  max-width: 620px;
-}
-
-.contact-hero__aside {
-  background: rgba(255, 255, 255, 0.68);
-  border: 1px solid var(--clr-border);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-sm);
-  padding: 1.5rem;
-  backdrop-filter: blur(8px);
-  animation: fade-in-up 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
-}
-
-.contact-hero__aside-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--clr-heading);
-  margin-bottom: 0.9rem;
-}
-
-.contact-hero__aside-list {
-  display: grid;
-  gap: 0.85rem;
-}
-
-.contact-hero__aside-item {
-  padding: 0.9rem 1rem;
-  background: rgba(255, 255, 255, 0.78);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  border-radius: var(--radius-md);
-}
-
-.contact-hero__aside-item strong {
-  display: block;
-  font-size: 0.9rem;
-  color: var(--clr-heading);
-  margin-bottom: 0.25rem;
-}
-
-.contact-hero__aside-item span {
-  font-size: 0.88rem;
-  line-height: 1.6;
-  color: var(--clr-body);
-}
-
-.contact-entry {
-  padding-top: 1rem;
-  padding-bottom: 2rem;
-}
-
-.contact-entry__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.4rem;
-}
-
-.contact-card {
-  background: rgba(255, 255, 255, 0.74);
-  border: 1px solid var(--clr-border);
-  border-radius: var(--radius-xl);
-  padding: 2rem 1.7rem;
-  box-shadow: var(--shadow-sm);
-  backdrop-filter: blur(8px);
-  transition: transform var(--trans-med), box-shadow var(--trans-med);
-}
-
-.contact-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-}
-
-.contact-card__label {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  line-height: 1.75;
   color: var(--clr-muted);
-  margin-bottom: 0.9rem;
+  max-width: 520px;
 }
 
-.contact-card__title {
-  font-size: 1.18rem;
-  color: var(--clr-heading);
-  margin-bottom: 0.8rem;
-}
-
-.contact-card__desc {
-  font-size: 0.94rem;
-  line-height: 1.72;
-  color: var(--clr-body);
-  margin-bottom: 1.2rem;
-}
-
-.contact-card__link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 700;
-  color: var(--clr-heading);
-  transition: opacity var(--trans-fast), transform var(--trans-fast);
-}
-
-.contact-card__link:hover {
-  opacity: 0.7;
-  transform: translateX(2px);
-}
-
-.contact-main {
-  padding-top: 1rem;
-  padding-bottom: 5rem;
-}
-
-.contact-main__grid {
+/* ── Form + aside ── */
+.contact-grid {
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 1.5rem;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 3rem;
   align-items: start;
 }
 
-.contact-form-wrap,
-.contact-info-wrap {
-  background: rgba(255, 255, 255, 0.74);
+.contact-form-card {
+  background: #fff;
   border: 1px solid var(--clr-border);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-sm);
-  backdrop-filter: blur(8px);
-  padding: 2rem;
+  padding: 2.25rem;
+  box-shadow: var(--shadow-md);
 }
 
-.contact-block-title {
-  font-size: 1.35rem;
+.contact-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+  padding-top: 0.5rem;
+}
+
+.contact-aside__title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--clr-accent);
+  margin-bottom: 0.85rem;
+}
+
+.contact-aside__email {
+  font-size: 1.02rem;
+  font-weight: 700;
   color: var(--clr-heading);
-  margin-bottom: 0.7rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--trans-fast);
+}
+.contact-aside__email:hover { color: var(--clr-accent); }
+
+.contact-aside__note {
+  font-size: 0.88rem;
+  color: var(--clr-muted);
+  margin-top: 0.5rem;
 }
 
-.contact-block-subtitle {
-  font-size: 0.96rem;
-  line-height: 1.72;
-  color: var(--clr-body);
-  margin-bottom: 1.5rem;
+.contact-aside__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
+.contact-aside__links a {
+  display: inline-block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--clr-heading);
+  transition: color var(--trans-fast), transform var(--trans-fast);
+}
+
+.contact-aside__links a:hover {
+  color: var(--clr-accent);
+  transform: translateX(3px);
+}
+
+@media (max-width: 900px) {
+  .contact-grid { grid-template-columns: 1fr; gap: 2.25rem; }
+  .contact-page { padding-top: calc(var(--navbar-h) + 2.5rem); }
+}
+
+@media (max-width: 560px) {
+  .contact-form-card { padding: 1.6rem 1.35rem; }
+}
+
+/* ══════════ Form fields (unchanged) ══════════ */
 .contact-form {
   display: grid;
   gap: 1rem;
