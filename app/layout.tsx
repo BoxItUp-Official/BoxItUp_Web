@@ -4,6 +4,13 @@ import './globals.css'
 import NavbarWrapper from '@/components/NavbarWrapper'
 import SiteFooterWrapper from '@/components/SiteFooterWrapper'
 import ScrollAnimations from '@/components/ScrollAnimations'
+import { Gloock } from 'next/font/google'
+
+const gloock = Gloock({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-gloock',
+})
 
 export const metadata: Metadata = {
   title: 'Box It Up | Spend Less. Experience More.',
@@ -12,10 +19,14 @@ export const metadata: Metadata = {
   icons: { icon: '/logo_icon_gradiant.png' },
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
-      <body>
+      <body className={gloock.variable}>
         <NavbarWrapper />
         {children}
         <SiteFooterWrapper />

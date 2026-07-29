@@ -16,7 +16,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 /* Dark navbar variant — used on careers page */
 .navbar--dark {
   background: rgba(17, 17, 17, 0.82) !important;
@@ -581,8 +580,8 @@
   min-height: 0;
   justify-content: center;
   /* Symmetric bump keeps the content's relative position unchanged. */
-  padding-top: calc(var(--navbar-h) + 4rem);
-  padding-bottom: 5rem;
+  padding-top: calc(var(--navbar-h) + 5rem);
+  padding-bottom: 7rem;
 }
 
 .hero--split__inner {
@@ -1571,11 +1570,9 @@ body .container {
   scroll-margin-top: calc(var(--navbar-h) + 2.5rem);
 }
 
-/* ═══════════ Hero accent — Gloock only ships weight 400, which reads thin at
-   the large hero size. Match the headline's sans weight instead. ═══════════ */
 .hero .hero__headline .hero__headline-accent,
 .hero .hero__headline--slogan .hero__headline-accent {
-  font-family: inherit;
+  font-family: "Gloock", serif;
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
 }

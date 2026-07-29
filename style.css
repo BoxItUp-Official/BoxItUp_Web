@@ -3,9 +3,6 @@
    Clean, modern, high-end startup landing page
    ============================================================ */
 
-/* ── RESET & BASE ─────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Gloock&display=swap');
-
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -720,10 +717,11 @@ body.lang-menu-open::before {
 }
 
 .hero__headline .hero__headline-accent {
-  font-family: "Gloock", serif;
+  font-family: var(--font-gloock), serif;
   font-weight: 400;
   letter-spacing: -0.02em;
   color: #FF7300;
+  font-synthesis: none;
 }
 
 .hero__subtext {
@@ -1849,7 +1847,7 @@ body.lang-menu-open::before {
 
 .cta-section__headline {
   font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 800;
+  font-weight: 600;
   color: var(--clr-white);
   line-height: 1.15;
   letter-spacing: -0.04em;
@@ -2818,7 +2816,7 @@ backdrop-filter: blur(18px) saturate(180%);
 }
 
 .tw-page .hero__headline .hero__headline-accent {
-  font-family: var(--clr-accent);
+  font-family: var(--font-cjk);
   font-weight: 800;
   letter-spacing: -0.02em;
   color: #F1A71F;

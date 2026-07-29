@@ -32,11 +32,11 @@ export default function HomePage() {
             </span>
             <h1 className="hero__headline hero__headline--slogan">
               More Than a Better Price, 
-              <br />
               It’s a Better <span className="hero__headline-accent">Experience</span>.
             </h1>
             <p className="hero__subtext hero__subtext--tight">
-              Explore premium local favorites without paying premium prices.
+              Box It Up connects you with curated surprise boxes from local stores, 
+              turning excess inventory into great-value meals you can discover every day.
             </p>
             <div className="hero__cta-group">
               <a href="#download" className="btn btn--primary btn--large">Download the App</a>
