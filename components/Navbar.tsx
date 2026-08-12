@@ -31,7 +31,9 @@ const langGroups: LangGroup[] = [
   },
 ]
 
-type PageType = 'home' | 'careers' | 'contact'
+/** Sub-pages that exist under every locale prefix — the language switcher can
+ *  stay on the same page for these. Anything else falls back to the home page. */
+const LOCALIZED_PATHS = ['/careers', '/contact', '/business', '/about', '/impact']
 
 function getLocale(pathname: string) {
   if (pathname.startsWith('/tw')) return 'tw'
@@ -45,17 +47,15 @@ function getHomeBase(locale: string) {
   return '/'
 }
 
-function getPageType(pathname: string): PageType {
-  const stripped = pathname.replace(/^\/(tw|cn)/, '')
-  if (stripped === '/careers' || stripped.startsWith('/careers/')) return 'careers'
-  if (stripped === '/contact' || stripped.startsWith('/contact/')) return 'contact'
-  return 'home'
+/** Path with the locale prefix removed, e.g. /tw/careers → /careers. */
+function stripLocale(pathname: string): string {
+  return pathname.replace(/^\/(tw|cn)/, '')
 }
 
-function buildLocaleUrl(base: string, pageType: PageType): string {
-  if (pageType === 'careers') return `${base}/careers`
-  if (pageType === 'contact') return `${base}/contact`
-  return base || '/'
+function buildLocaleUrl(base: string, pathname: string): string {
+  const stripped = stripLocale(pathname)
+  const match = LOCALIZED_PATHS.find((p) => stripped === p || stripped.startsWith(`${p}/`))
+  return match ? `${base}${match}` : base || '/'
 }
 
 interface NavbarProps {
@@ -67,7 +67,6 @@ export default function Navbar({ dark = false }: NavbarProps) {
   const router = useRouter()
   const locale = getLocale(pathname)
   const homeBase = getHomeBase(locale)
-  const pageType = getPageType(pathname)
 
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -127,38 +126,25 @@ export default function Navbar({ dark = false }: NavbarProps) {
   }, [langOpen])
 
   const activeCode = locale === 'tw' ? 'TW' : locale === 'cn' ? 'CN' : 'EN'
-  const logoSrc =
-  locale === 'tw'
-    ? '/logo_silv.png'
-    : dark
-      ? '/logo_silv.png'
-      : '/logo_gra.png'
+  // Silver logo only on the dark navbar (careers); every homepage is light now.
+  const logoSrc = dark ? '/logo_silv.png' : '/logo_gra.png'
 
-  // EN uses the new IA (About / Impact / Contact page / Download CTA).
-  // TW & CN keep the legacy links until their homepages are ported.
-  const navLinks =
-    locale === 'tw'
-      ? [
-          { href: `${homeBase}#about`, label: '關於我們' },
-          { href: `${homeBase}#how-it-works`, label: '運作方式' },
-          { href: `${homeBase}#contact`, label: '聯絡我們' },
-        ]
-      : locale === 'cn'
-      ? [
-          { href: `${homeBase}#about`, label: '关于我们' },
-          { href: `${homeBase}#how-it-works`, label: '运作方式' },
-          { href: `${homeBase}#contact`, label: '联系我们' },
-        ]
-      : [
-          { href: `${homeBase}#about`, label: 'About' },
-          { href: `${homeBase}#impact`, label: 'Impact' },
-          // The EN homepage has no #contact section, so link to the page.
-          { href: '/contact', label: 'Contact' },
-        ]
+  // Same IA in every locale — the homepages render identical sections, so the
+  // anchors are identical too. Contact is a page, not a homepage section.
+  const NAV_LABELS = {
+    en: { about: 'About', impact: 'Impact', contact: 'Contact', cta: 'Download App' },
+    tw: { about: '關於我們', impact: '影響力', contact: '聯絡我們', cta: '下載 App' },
+    cn: { about: '关于我们', impact: '影响力', contact: '联系我们', cta: '下载 App' },
+  }[locale]
 
-  const ctaHref = locale === 'en' ? `${homeBase}#download` : `${homeBase}#signup`
-  const ctaLabel =
-    locale === 'tw' ? '立即註冊' : locale === 'cn' ? '立即注册' : 'Download App'
+  const navLinks = [
+    { href: `${homeBase}#about`, label: NAV_LABELS.about },
+    { href: `${homeBase}#impact`, label: NAV_LABELS.impact },
+    { href: `${locale === 'en' ? '' : homeBase}/contact`, label: NAV_LABELS.contact },
+  ]
+
+  const ctaHref = `${homeBase}#download`
+  const ctaLabel = NAV_LABELS.cta
 
   return (
     <header
@@ -215,7 +201,7 @@ export default function Navbar({ dark = false }: NavbarProps) {
                         type="button"
                         onClick={() => {
                           closeLangMenu()
-                          router.push(buildLocaleUrl(opt.base, pageType))
+                          router.push(buildLocaleUrl(opt.base, pathname))
                         }}
                       >
                         {opt.label}

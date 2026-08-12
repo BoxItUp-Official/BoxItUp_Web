@@ -94,7 +94,7 @@ export default function SiteFooter({ locale = 'en' }: { locale?: Locale }) {
         <div className="footer__top footer__top--wide">
           {/* ── Brand ── */}
           <div className="footer__brand">
-            <a href="/" className="footer__logo">
+            <a href={base || '/'} className="footer__logo">
               <img src="/logo_icon_gradiant.png" alt="Box It Up Logo" className="footer__logo-img" />
             </a>
             <p className="footer__tagline">{t.tagline}</p>
@@ -132,7 +132,7 @@ export default function SiteFooter({ locale = 'en' }: { locale?: Locale }) {
             <ul className="footer__links">
               <li><a href={`${base}/#download`}>{t.download}</a></li>
               {/* Merchant sign-up isn't public yet — route stores to early access. */}
-              <li><Link href="/business">{t.stores}</Link></li>
+              <li><Link href={`${base}/business`}>{t.stores}</Link></li>
             </ul>
           </div>
 

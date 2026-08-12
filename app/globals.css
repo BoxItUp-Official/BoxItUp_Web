@@ -1207,34 +1207,51 @@
 
 /* Equal, gapless columns with each circle centred in its column, so the circle
    centres are evenly spaced at (50%/cols) + i * (100%/cols). --cols is set on
-   the element by HowStepper. */
+   the element by HowStepper.
+
+   Geometry, so the two fixes below don't get "tidied" away again:
+   --rail-pad-top  matches .stepper__rail's padding-top
+   --node-size     matches .stepper__num's width/height
+   --track-h       the line thickness
+   The track is centred on the circles vertically (it used to sit ~6px high),
+   and spans the rail edge-to-edge so it is exactly as long as the description
+   panel below it at every viewport width. */
 .stepper__rail {
+  --rail-pad-top: 0.5rem;
+  --node-size: 42px;
+  --track-h: 2px;
+  --track-top: calc(var(--rail-pad-top) + (var(--node-size) - var(--track-h)) / 2);
+
   position: relative;
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
   gap: 0;
   margin-bottom: 1.75rem;
-  padding-top: 0.5rem;
+  padding-top: var(--rail-pad-top);
 }
 
-/* Line runs from the first circle's centre to the last one's. */
+/* Full-width track — same length as the panel underneath. */
 .stepper__rail::before {
   content: "";
   position: absolute;
-  top: 1.4rem;
-  left: calc(50% / var(--cols, 3));
-  right: calc(50% / var(--cols, 3));
-  height: 2px;
+  top: var(--track-top);
+  left: 0;
+  right: 0;
+  height: var(--track-h);
   background: var(--clr-border);
 }
 
+/* Fills from the left edge to the centre of the active circle. */
 .stepper__progress {
   position: absolute;
-  top: 1.4rem;
-  left: calc(50% / var(--cols, 3));
-  width: calc((100% - 100% / var(--cols, 3)) * var(--progress, 0));
-  height: 2px;
+  top: var(--track-top);
+  left: 0;
+  width: calc(
+    50% / var(--cols, 3) +
+    (100% - 100% / var(--cols, 3)) * var(--progress, 0)
+  );
+  height: var(--track-h);
   background: var(--clr-accent);
   transition: width var(--trans-med);
   z-index: 1;
@@ -1370,9 +1387,11 @@
   align-items: start;
 }
 
+/* Deliberately NOT sticky: pinning this column made the left half of About Us
+   slide against the right column while scrolling, which read as an unintended
+   animation. Both columns now scroll together. */
 .story-editorial__head {
-  position: sticky;
-  top: calc(var(--navbar-h) + 2rem);
+  position: static;
 }
 
 .story-editorial__title {
@@ -1423,7 +1442,6 @@
 
 @media (max-width: 860px) {
   .story-editorial { grid-template-columns: 1fr; gap: 2rem; }
-  .story-editorial__head { position: static; }
   .story-editorial__title { margin-bottom: 1.5rem; }
 }
 
@@ -1581,4 +1599,45 @@ body .container {
   font-family: "Gloock", serif;
   font-weight: 800;
   letter-spacing: -0.02em;
+}
+
+/* ═══════════ Headline wrapping ═══════════ */
+/* Section headlines used to carry hand-placed <br /> tags. Now that all three
+   locales render the same components from app/homeContent.ts, the breaks have
+   to come from the text itself — a break that reads well in English lands in
+   the wrong place in Chinese.
+   Doubled classes (0,2,0): these rules live in style.css, which the bundler
+   always emits after this file. See the cascade note at the top. */
+.section-title.section-title,
+.story-editorial__title.story-editorial__title,
+.cta-section__headline.cta-section__headline,
+.hero__headline.hero__headline {
+  text-wrap: balance;
+}
+
+/* CJK has no spaces, so the browser may break mid-word without this. */
+[lang="zh-TW"],
+[lang="zh-CN"] {
+  line-break: strict;
+  overflow-wrap: break-word;
+}
+
+/* The accent word is reused outside the hero (About Us title, Business page
+   title). style.css only colours it under `.hero__headline`, so those copies
+   inherited the heading colour and rendered black. */
+.hero__headline-accent {
+  color: var(--clr-accent);
+}
+
+/* Gloock ships Latin glyphs only. On the Chinese pages the accent word fell
+   through to a generic serif and clashed with the sans-serif headline right
+   next to it — keep the colour, drop the Latin display face.
+   (0,4,0) so it beats the Gloock rule above regardless of source order. */
+[lang="zh-TW"] .hero .hero__headline .hero__headline-accent,
+[lang="zh-TW"] .hero .hero__headline--slogan .hero__headline-accent,
+[lang="zh-CN"] .hero .hero__headline .hero__headline-accent,
+[lang="zh-CN"] .hero .hero__headline--slogan .hero__headline-accent {
+  font-family: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
 }

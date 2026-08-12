@@ -6,13 +6,15 @@ interface Props {
   body: string
   backHref: string
   backLabel: string
+  /** Overridden by the localized pages. */
+  badge?: string
 }
 
-export default function ComingSoon({ eyebrow, title, body, backHref, backLabel }: Props) {
+export default function ComingSoon({ eyebrow, title, body, backHref, backLabel, badge = 'Coming Soon' }: Props) {
   return (
     <main className="coming-soon-page">
       <div className="container coming-soon-page__inner">
-        <span className="coming-soon-page__badge">Coming Soon</span>
+        <span className="coming-soon-page__badge">{badge}</span>
         <p className="coming-soon-page__eyebrow">{eyebrow}</p>
         <h1 className="coming-soon-page__title">{title}</h1>
         <p className="coming-soon-page__body">{body}</p>

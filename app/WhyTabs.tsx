@@ -1,26 +1,33 @@
 'use client'
 
 import { useState } from 'react'
+import type { HomeContent } from './homeContent'
 
-type Reason = { title: string; text: string; icon: React.ReactNode }
-
-const CUSTOMER: Reason[] = [
-  { title: 'Discover New Favorites', text: 'Go beyond the usual and discover exceptional local brands you might never have found.', icon: <path d="M12 3l2.5 5.5L20 11l-5.5 2.5L12 19l-2.5-5.5L4 11l5.5-2.5z" /> },
-  { title: 'Premium for Less', text: 'The same handcrafted quality and freshness—at a price that makes every purchase feel worthwhile.', icon: <><circle cx="12" cy="10" r="3" /><path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z" /></> },
-  { title: 'Every Box, A New Experience', text: 'Each curated box brings variety, excitement, and the joy of trying something new.', icon: <path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.2L12 16.4 5.7 20.8 8 13.6l-6-4.4h7.6z" /> },
-  { title: 'Make Every Purchase Matter', text: 'Every purchase helps reduce unnecessary food waste by giving great products the chance to be enjoyed.', icon: <><path d="M12 22c4-3 8-7 8-12A8 8 0 0 0 4 10c0 5 4 9 8 12z" /><path d="M12 15V8M9 11l3-3 3 3" /></> },
+/* Icons are locale-independent — paired with the copy by position. */
+const CUSTOMER_ICONS: React.ReactNode[] = [
+  <path key="i" d="M12 3l2.5 5.5L20 11l-5.5 2.5L12 19l-2.5-5.5L4 11l5.5-2.5z" />,
+  <g key="i"><circle cx="12" cy="10" r="3" /><path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z" /></g>,
+  <path key="i" d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.2L12 16.4 5.7 20.8 8 13.6l-6-4.4h7.6z" />,
+  <g key="i"><path d="M12 22c4-3 8-7 8-12A8 8 0 0 0 4 10c0 5 4 9 8 12z" /><path d="M12 15V8M9 11l3-3 3 3" /></g>,
 ]
 
-const MERCHANT: Reason[] = [
-  { title: 'Recover Extra Revenue', text: "Convert unsold daily products into revenue before their value disappears, without changing your regular pricing strategy.", icon: <><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M3 11h18M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></> },
-  { title: 'Reduce Product Waste', text: 'Keep quality food in circulation by giving daily surplus products a timely and more valuable selling channel.', icon: <><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7" /></> },
-  { title: 'Reach New Customers', text: 'Introduce your store to nearby customers through a lower-barrier first purchase that encourages discovery and future visits.', icon: <><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 3" /></> },
-  { title: 'Manage Demand Smarter', text: 'Respond to unpredictable daily demand with a flexible channel that helps handle excess inventory more efficiently.', icon: <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z" /> },
+const MERCHANT_ICONS: React.ReactNode[] = [
+  <g key="i"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M3 11h18M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></g>,
+  <g key="i"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7" /></g>,
+  <g key="i"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 3" /></g>,
+  <path key="i" d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z" />,
 ]
 
-export default function WhyTabs() {
+export default function WhyTabs({
+  content,
+  businessHref,
+}: {
+  content: HomeContent['why']
+  businessHref: string
+}) {
   const [tab, setTab] = useState<'customer' | 'merchant'>('customer')
-  const reasons = tab === 'customer' ? CUSTOMER : MERCHANT
+  const reasons = tab === 'customer' ? content.customer : content.merchant
+  const icons = tab === 'customer' ? CUSTOMER_ICONS : MERCHANT_ICONS
 
   return (
     <div className="why-tabs">
@@ -32,7 +39,7 @@ export default function WhyTabs() {
           className={`why-tabs__btn${tab === 'customer' ? ' why-tabs__btn--active' : ''}`}
           onClick={() => setTab('customer')}
         >
-          For Customers
+          {content.tabCustomer}
         </button>
         <button
           type="button"
@@ -41,16 +48,16 @@ export default function WhyTabs() {
           className={`why-tabs__btn${tab === 'merchant' ? ' why-tabs__btn--active' : ''}`}
           onClick={() => setTab('merchant')}
         >
-          For Merchants
+          {content.tabMerchant}
         </button>
         <span className={`why-tabs__glider why-tabs__glider--${tab}`} aria-hidden="true" />
       </div>
 
       <div className="why-tabs__grid" key={tab}>
-        {reasons.map((r) => (
+        {reasons.map((r, i) => (
           <div key={r.title} className="why-tile">
             <span className="why-tile__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{r.icon}</svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{icons[i]}</svg>
             </span>
             <div>
               <h4 className="why-tile__title">{r.title}</h4>
@@ -62,9 +69,9 @@ export default function WhyTabs() {
 
       <div className="why-tabs__cta">
         {tab === 'customer' ? (
-          <a href="#download" className="btn btn--primary btn--large">Download the app</a>
+          <a href="#download" className="btn btn--primary btn--large">{content.ctaCustomer}</a>
         ) : (
-          <a href="/business" className="btn btn--primary btn--large">Request early access</a>
+          <a href={businessHref} className="btn btn--primary btn--large">{content.ctaMerchant}</a>
         )}
       </div>
     </div>

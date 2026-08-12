@@ -1,23 +1,31 @@
 'use client'
 
 import { useState } from 'react'
+import type { HomeContent, Step } from './homeContent'
 
-type Step = { title: string; desc: string; icon: React.ReactNode }
-
-const CUSTOMER_STEPS: Step[] = [
-  { title: 'Download & sign up', desc: 'Get the app and see surprise boxes from stores near you in seconds.', icon: <><path d="M12 3v12M7 10l5 5 5-5" /><path d="M5 21h14" /></> },
-  { title: 'Choose your box', desc: "Browse today's surprise boxes and pick the one that catches your eye.", icon: <><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" /><path d="M3 6h18M16 10a4 4 0 0 1-8 0" /></> },
-  { title: 'Pay & get your code', desc: 'Pay in the app, get your pickup code instantly, then collect at the store.', icon: <><rect x="2" y="5" width="20" height="14" rx="2" /><path d="M2 10h20M6 15h4" /></> },
+/* Icons are locale-independent — paired with the copy by position. */
+const CUSTOMER_ICONS: React.ReactNode[] = [
+  <g key="i"><path d="M12 3v12M7 10l5 5 5-5" /><path d="M5 21h14" /></g>,
+  <g key="i"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" /><path d="M3 6h18M16 10a4 4 0 0 1-8 0" /></g>,
+  <g key="i"><rect x="2" y="5" width="20" height="14" rx="2" /><path d="M2 10h20M6 15h4" /></g>,
 ]
 
-const MERCHANT_STEPS: Step[] = [
-  { title: "List today's box", desc: "Set price, quantity and pickup window for what's left today — takes two minutes.", icon: <><path d="M12 5v14M5 12h14" /></> },
-  { title: 'Receive orders', desc: 'Customers reserve and pay in the app — orders land straight in your dashboard.', icon: <><path d="M22 12h-6l-2 3h-4l-2-3H2" /><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /></> },
-  { title: 'Customers pick up', desc: 'Check the pickup code, hand over the box — quick and contactless.', icon: <><path d="M20 6 9 17l-5-5" /></> },
-  { title: 'Settle daily', desc: 'See exactly what you recovered from waste, day by day, in your dashboard.', icon: <><path d="M3 3v18h18" /><path d="M7 14l4-4 3 3 5-6" /></> },
+const MERCHANT_ICONS: React.ReactNode[] = [
+  <path key="i" d="M12 5v14M5 12h14" />,
+  <g key="i"><path d="M22 12h-6l-2 3h-4l-2-3H2" /><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /></g>,
+  <path key="i" d="M20 6 9 17l-5-5" />,
+  <g key="i"><path d="M3 3v18h18" /><path d="M7 14l4-4 3 3 5-6" /></g>,
 ]
 
-function StepRail({ steps }: { steps: Step[] }) {
+function StepRail({
+  steps,
+  icons,
+  stepOf,
+}: {
+  steps: Step[]
+  icons: React.ReactNode[]
+  stepOf: string
+}) {
   const [active, setActive] = useState(0)
   return (
     <div className="stepper">
@@ -48,10 +56,12 @@ function StepRail({ steps }: { steps: Step[] }) {
 
       <div className="stepper__panel" key={active}>
         <span className="stepper__panel-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{steps[active].icon}</svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{icons[active]}</svg>
         </span>
         <div className="stepper__panel-body">
-          <span className="stepper__panel-step">Step {active + 1} of {steps.length}</span>
+          <span className="stepper__panel-step">
+            {stepOf.replace('{n}', String(active + 1)).replace('{total}', String(steps.length))}
+          </span>
           <h4 className="stepper__panel-title">{steps[active].title}</h4>
           <p className="stepper__panel-desc">{steps[active].desc}</p>
         </div>
@@ -64,15 +74,21 @@ function StepRail({ steps }: { steps: Step[] }) {
   )
 }
 
-export default function HowStepper() {
+export default function HowStepper({ content }: { content: HomeContent['how'] }) {
   const [side, setSide] = useState<'customer' | 'merchant'>('customer')
+  const isCustomer = side === 'customer'
   return (
     <div className="how-stepper">
       <div className="how-stepper__toggle">
-        <button type="button" className={`how-stepper__toggle-btn${side === 'customer' ? ' how-stepper__toggle-btn--active' : ''}`} onClick={() => setSide('customer')}>I want to eat</button>
-        <button type="button" className={`how-stepper__toggle-btn${side === 'merchant' ? ' how-stepper__toggle-btn--active' : ''}`} onClick={() => setSide('merchant')}>I run a store</button>
+        <button type="button" className={`how-stepper__toggle-btn${isCustomer ? ' how-stepper__toggle-btn--active' : ''}`} onClick={() => setSide('customer')}>{content.toggleCustomer}</button>
+        <button type="button" className={`how-stepper__toggle-btn${!isCustomer ? ' how-stepper__toggle-btn--active' : ''}`} onClick={() => setSide('merchant')}>{content.toggleMerchant}</button>
       </div>
-      <StepRail key={side} steps={side === 'customer' ? CUSTOMER_STEPS : MERCHANT_STEPS} />
+      <StepRail
+        key={side}
+        steps={isCustomer ? content.customer : content.merchant}
+        icons={isCustomer ? CUSTOMER_ICONS : MERCHANT_ICONS}
+        stepOf={content.stepOf}
+      />
     </div>
   )
 }
