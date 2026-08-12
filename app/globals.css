@@ -1641,3 +1641,15 @@ body .container {
   font-weight: inherit;
   letter-spacing: inherit;
 }
+
+/* The final-CTA headline was written to sit on two lines (it carried a hard
+   <br />). A hard break can't survive three locales — it lands mid-phrase in
+   Chinese — so cap the measure instead and let text-wrap: balance above split
+   it evenly in whatever language is rendering.
+   Doubled class (0,2,0): style.css defines .cta-section__headline and is
+   bundled after this file. */
+.cta-section__headline.cta-section__headline {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
