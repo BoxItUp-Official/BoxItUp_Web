@@ -30,8 +30,9 @@
 /* The accent colour rule in style.css is scoped to .hero__headline, so the
    accent word here needs its own rule. */
 .contact-title .hero__headline-accent {
+  font-family: var(--font-gloock), serif;
   color: var(--clr-accent);
-  font-weight: 800;
+  font-weight: 400;
 }
 
 .contact-subtitle {

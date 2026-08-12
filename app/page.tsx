@@ -212,13 +212,14 @@ export default function HomePage() {
           <div className="cta-section__inner">
             <span className="cta-section__badge">Join the movement</span>
             <h2 className="cta-section__headline">
-              Ready to rescue
+              Give every great bite
               <br />
-              your first box?
+              the chance to be discovered.
             </h2>
             <p className="cta-section__subtext">
-              Download Box It Up and discover surprise boxes from stores near you — or bring
-              your store on board and give tonight&apos;s surplus a second chance.
+              Download Box It Up to discover curated boxes from premium local bakeries and cafés at 
+              <br />
+              exceptional value — or partner with us to help every great product find the customer it deserves.
             </p>
             <div className="cta-section__actions store-badges">
               {/* TODO: replace with real store links once the app ships */}

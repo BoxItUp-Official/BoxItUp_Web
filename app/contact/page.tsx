@@ -26,7 +26,7 @@ export default function ContactPage() {
           <h1 className="contact-title">
             We&apos;d love to
             <br />
-            hear from <span className="hero__headline-accent">you.</span>
+            hear from <span className="hero__headline-accent">you</span>.
           </h1>
           <p className="contact-subtitle">
             Questions, feedback, or partnership enquiries — send us a message and we&apos;ll get
