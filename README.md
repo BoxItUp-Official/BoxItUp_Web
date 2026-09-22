@@ -1,5 +1,5 @@
 # Box it Up — Official Website 
-(https://boxitup.store)
+# https://boxitup.store
 
 Box it Up connects consumers with surplus food from local restaurants, bakeries, 
 and stores at discounted prices — reducing food waste while helping businesses 
