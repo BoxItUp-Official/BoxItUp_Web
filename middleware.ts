@@ -26,21 +26,13 @@ export async function middleware(request: NextRequest) {
   // Routes that require auth (but not /complete or /verify-email or /forgot-password etc.)
   const isDev = process.env.NODE_ENV === 'development'
 
-  const requiresMerchantAuth =
+  const requiresAuth =
     pathname.startsWith('/merchant/dashboard') ||
     (pathname.startsWith('/merchant/onboarding') && pathname !== '/merchant/onboarding/complete')
 
-  const requiresAccountAuth =
-    pathname.startsWith('/account/dashboard') ||
-    pathname.startsWith('/account/profile') ||
-    pathname.startsWith('/account/onboarding')
-
   // In dev, skip the auth wall so UI can be previewed without a session
-  if (requiresMerchantAuth && !user && !isDev) {
+  if (requiresAuth && !user && !isDev) {
     return NextResponse.redirect(new URL('/merchant/login', request.url))
-  }
-  if (requiresAccountAuth && !user && !isDev) {
-    return NextResponse.redirect(new URL('/account/login', request.url))
   }
 
   // Logged-in merchants visiting login/signup → send straight to dashboard
@@ -48,14 +40,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/merchant/dashboard', request.url))
   }
 
-  // Logged-in consumers visiting login/signup → send straight to dashboard
-  if ((pathname === '/account/login' || pathname === '/account/signup') && user) {
-    return NextResponse.redirect(new URL('/account/dashboard', request.url))
-  }
-
   return response
 }
 
 export const config = {
-  matcher: ['/merchant/:path*', '/account/:path*'],
+  matcher: ['/merchant/:path*'],
 }

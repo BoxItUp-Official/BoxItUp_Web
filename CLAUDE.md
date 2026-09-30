@@ -103,6 +103,8 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 - `lib/supabase.ts` — browser client, use in Client Components
 - `lib/supabase-server.ts` — server client (async, reads `cookies()`), use in Server Components and Route Handlers
 
+**The schema is owned by `../BoxItUp_Backend`.** Never write migrations in this repo. If the portal needs a schema change, make it in the Backend repo, push it, then regenerate `lib/database.types.ts`. The build plan for the whole platform (including the merchant-portal work) is `../BoxItUp_App/PLAN.md`.
+
 ## Adding a New Locale
 
 1. Create `app/<locale>/page.tsx` — copy the closest existing locale page and translate content.

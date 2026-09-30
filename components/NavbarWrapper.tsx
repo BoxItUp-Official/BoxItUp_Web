@@ -14,9 +14,8 @@ import Navbar from './Navbar'
 export default function NavbarWrapper() {
   const pathname = usePathname()
 
-  // Merchant portal and consumer account area have their own topbars — suppress the main site nav
+  // Merchant portal has its own topbar — suppress the main site nav
   if (pathname.startsWith('/merchant')) return null
-  if (pathname.startsWith('/account')) return null
   const isDark = /\/(tw\/|cn\/)?careers(\/|$)/.test(pathname)
   return <Navbar dark={isDark} />
 }

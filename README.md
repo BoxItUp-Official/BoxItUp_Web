@@ -19,6 +19,12 @@ This repository contains the official marketing and web platform for Box it Up.
 
 Next.js · Tailwind CSS · Supabase
 
+## Database
+
+The database schema (migrations, RLS, RPCs) lives in
+[`BoxItUp_Backend`](https://github.com/BoxItUp-Official/BoxItUp_Backend).
+This repo only reads and writes data — never add migrations here.
+
 ## Project status
 
 🚧 In active development — MVP targeting 2026.
