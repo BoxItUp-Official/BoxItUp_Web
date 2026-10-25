@@ -7,6 +7,13 @@
       "runtimeArgs": ["run", "dev"],
       "port": 3000,
       "autoPort": false
+    },
+    {
+      "name": "BoxItUp App (web preview)",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "../BoxItUp_App", "run", "web"],
+      "port": 8081,
+      "autoPort": false
     }
   ]
 }
