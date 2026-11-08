@@ -1,27 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { markOrderPickedUp, cancelOrder } from '../actions'
 import { formatMoney } from '@/lib/currency'
-
-type Order = {
-  id: string
-  box_name: string | null
-  customer_name: string | null
-  customer_phone: string | null
-  pickup_code: string
-  scheduled_pickup_start: string | null
-  scheduled_pickup_end: string | null
-  price: number
-  status: 'pending' | 'picked_up' | 'cancelled'
-  created_at: string
-  picked_up_at: string | null
-}
+import type { OrderRow as Order } from '../orderRows'
 
 type Filter = 'all' | 'pending' | 'picked_up' | 'cancelled'
 
 const STATUS_LABEL: Record<string, string> = {
-  pending: 'Pending',
+  pending: 'To pick up',
   picked_up: 'Picked up',
   cancelled: 'Cancelled',
 }
@@ -33,9 +19,10 @@ const STATUS_BADGE: Record<string, string> = {
 }
 
 function formatTime(t: string | null) {
-  if (!t) return '—'
-  return t.slice(0, 5)
+  return t ?? '—'
 }
+
+const clock = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Taipei' })
 
 function formatDate(iso: string) {
   const d = new Date(iso)
@@ -58,7 +45,7 @@ export default function OrdersClient({ orders, currency = 'TWD' }: { orders: Ord
   const todayStr = new Date().toDateString()
   const todayOrders = orders.filter(o => new Date(o.created_at).toDateString() === todayStr)
   const todayRevenue = todayOrders
-    .filter(o => o.status !== 'cancelled')
+    .filter(o => o.status === 'picked_up')
     .reduce((sum, o) => sum + o.price, 0)
 
   return (
@@ -126,7 +113,7 @@ export default function OrdersClient({ orders, currency = 'TWD' }: { orders: Ord
                   <span className="order-card__code">{order.pickup_code}</span>
                 </div>
                 <span className={`merchant-badge ${STATUS_BADGE[order.status]}`}>
-                  {STATUS_LABEL[order.status]}
+                  {order.status_label}
                 </span>
               </div>
 
@@ -134,7 +121,7 @@ export default function OrdersClient({ orders, currency = 'TWD' }: { orders: Ord
               <div className="order-card__body">
                 <div className="order-card__info">
                   <div className="order-card__box-name">
-                    {order.box_name ?? 'Box (deleted)'}
+                    {order.box_name}
                   </div>
                   <div className="order-card__meta-row">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -163,29 +150,17 @@ export default function OrdersClient({ orders, currency = 'TWD' }: { orders: Ord
                   <div className="order-card__price">{formatMoney(order.price, currency)}</div>
 
                   {order.status === 'pending' && (
-                    <div className="order-card__actions">
-                      <form action={markOrderPickedUp}>
-                        <input type="hidden" name="id" value={order.id} />
-                        <button type="submit" className="btn btn--primary btn--sm">
-                          Mark picked up
-                        </button>
-                      </form>
-                      <form action={cancelOrder}>
-                        <input type="hidden" name="id" value={order.id} />
-                        <button
-                          type="submit"
-                          className="merchant-table-action merchant-table-action--danger"
-                          onClick={e => { if (!confirm('Cancel this order?')) e.preventDefault() }}
-                        >
-                          Cancel
-                        </button>
-                      </form>
+                    <div className="order-card__picked-time">
+                      {order.payment_method === 'pay_at_pickup' ? 'Collect at pickup' : 'Paid online'}
+                      {order.expires_at && order.payment_method === 'pay_at_pickup' && (
+                        <> · held until {clock.format(new Date(order.expires_at))}</>
+                      )}
                     </div>
                   )}
 
                   {order.status === 'picked_up' && order.picked_up_at && (
                     <div className="order-card__picked-time">
-                      Picked up at {new Date(order.picked_up_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}
+                      Picked up at {clock.format(new Date(order.picked_up_at))}
                     </div>
                   )}
                 </div>

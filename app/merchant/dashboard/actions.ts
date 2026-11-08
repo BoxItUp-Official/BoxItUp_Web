@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase-server'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
+import { RPC_ERRORS, rpcMessage } from './orderRows'
 
 export interface DashboardState {
   status: 'idle' | 'error' | 'success'
@@ -183,37 +184,71 @@ export async function deleteBox(formData: FormData) {
   revalidatePath('/merchant/dashboard/boxes')
 }
 
-// ── Mark order as picked up ──
-export async function markOrderPickedUp(formData: FormData) {
+// ── Verify a pickup (the customer is at the counter) ──
+// Orders change only through the order functions in Postgres; verify_pickup
+// checks the code belongs to this store and the order is still live.
+export interface VerifyState {
+  status: 'idle' | 'error' | 'success'
+  message: string
+  order?: { box: string; amount: number; payAtPickup: boolean; customer: string | null }
+}
+
+export async function verifyPickup(_prev: VerifyState, formData: FormData): Promise<VerifyState> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return
+  if (!user) return { status: 'error', message: RPC_ERRORS.not_authenticated }
 
-  const id = formData.get('id') as string
-  await supabase
-    .from('orders')
-    .update({ status: 'picked_up', picked_up_at: new Date().toISOString() })
-    .eq('id', id)
-    .eq('merchant_id', user.id)
+  const code = ((formData.get('code') as string | null) ?? '').replace(/[^a-z0-9]/gi, '').toUpperCase()
+  if (code.length !== 6) return { status: 'error', message: 'A pickup code has 6 letters and numbers.' }
+
+  const { data, error } = await supabase.rpc('verify_pickup', { p_code: code })
+  if (error) return { status: 'error', message: rpcMessage(error) }
 
   revalidatePath('/merchant/dashboard/orders')
   revalidatePath('/merchant/dashboard')
+  return {
+    status: 'success',
+    message: `Order ${code} picked up.`,
+    order: {
+      box: data.bag_title,
+      amount: data.amount,
+      payAtPickup: data.payment_method === 'pay_at_pickup',
+      customer: data.customer_name,
+    },
+  }
 }
 
-// ── Cancel order ──
-export async function cancelOrder(formData: FormData) {
+// ── Today: publish a template, change today's quantity, pause or resume ──
+export async function publishToday(_prev: DashboardState, formData: FormData): Promise<DashboardState> {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return
+  const boxId = formData.get('box_id') as string
+  const quantity = parseInt(formData.get('quantity') as string, 10)
+  const { error } = await supabase.rpc('publish_bag', {
+    p_box_id: boxId,
+    p_quantity: Number.isNaN(quantity) ? null : quantity,
+  })
+  if (error) return { status: 'error', message: rpcMessage(error) }
+  revalidatePath('/merchant/dashboard')
+  return { status: 'success', message: 'Live in the app now.' }
+}
 
-  const id = formData.get('id') as string
-  await supabase
-    .from('orders')
-    .update({ status: 'cancelled', cancelled_at: new Date().toISOString() })
-    .eq('id', id)
-    .eq('merchant_id', user.id)
+export async function changeTodayQuantity(_prev: DashboardState, formData: FormData): Promise<DashboardState> {
+  const supabase = await createClient()
+  const bagId = formData.get('bag_id') as string
+  const quantity = parseInt(formData.get('quantity') as string, 10)
+  if (Number.isNaN(quantity)) return { status: 'error', message: RPC_ERRORS.invalid_quantity }
+  const { error } = await supabase.rpc('update_bag_quantity', { p_bag_id: bagId, p_quantity_total: quantity })
+  if (error) return { status: 'error', message: rpcMessage(error) }
+  revalidatePath('/merchant/dashboard')
+  return { status: 'success', message: 'Quantity updated.' }
+}
 
-  revalidatePath('/merchant/dashboard/orders')
+export async function setTodayActive(formData: FormData) {
+  const supabase = await createClient()
+  await supabase.rpc('set_bag_active', {
+    p_bag_id: formData.get('bag_id') as string,
+    p_active: formData.get('active') === 'true',
+  })
   revalidatePath('/merchant/dashboard')
 }
 

@@ -1,26 +1,20 @@
 import { createClient } from '@/lib/supabase-server'
 import Link from 'next/link'
 import { formatMoney } from '@/lib/currency'
+import PickupVerifier from './PickupVerifier'
+import TodayPanel, { type TodayRow } from './TodayPanel'
+import LiveRefresh from './LiveRefresh'
+import { ORDER_COLUMNS, formatTaipeiTime, toOrderRow, type OrderRow, type OrderRowDb } from './orderRows'
 
-type RecentOrder = {
-  id: string
-  box_name: string | null
-  price: number
-  status: 'pending' | 'picked_up' | 'cancelled'
-  created_at: string
-}
-
-const MOCK_RECENT: RecentOrder[] = [
-  { id: 'm1', box_name: 'Bakery Surprise Box', price: 150, status: 'pending', created_at: new Date(Date.now() - 1000 * 60 * 18).toISOString() },
-  { id: 'm2', box_name: 'Evening Pastry Mix', price: 120, status: 'picked_up', created_at: new Date(Date.now() - 1000 * 60 * 95).toISOString() },
-  { id: 'm3', box_name: 'Lunch Special', price: 130, status: 'picked_up', created_at: new Date(Date.now() - 1000 * 60 * 140).toISOString() },
-  { id: 'm4', box_name: 'Healthy Grain Box', price: 110, status: 'cancelled', created_at: new Date(Date.now() - 1000 * 60 * 220).toISOString() },
+const MOCK_RECENT: OrderRow[] = [
+  { id: 'm1', box_name: 'Bakery Surprise Box', price: 150, status: 'pending', status_label: 'Pay at pickup', payment_method: 'pay_at_pickup', customer_name: null, customer_phone: null, pickup_code: 'ABX42F', scheduled_pickup_start: null, scheduled_pickup_end: null, expires_at: null, created_at: new Date(Date.now() - 1000 * 60 * 18).toISOString(), picked_up_at: null },
+  { id: 'm2', box_name: 'Evening Pastry Mix', price: 120, status: 'picked_up', status_label: 'Picked up', payment_method: 'pay_at_pickup', customer_name: null, customer_phone: null, pickup_code: 'GH9K3R', scheduled_pickup_start: null, scheduled_pickup_end: null, expires_at: null, created_at: new Date(Date.now() - 1000 * 60 * 95).toISOString(), picked_up_at: null },
 ]
 
-const STATUS = {
-  pending:   { label: 'Pending',   cls: 'merchant-badge--pending' },
-  picked_up: { label: 'Picked up', cls: 'merchant-badge--active' },
-  cancelled: { label: 'Cancelled', cls: 'merchant-badge--inactive' },
+const BADGE = {
+  pending: 'merchant-badge--pending',
+  picked_up: 'merchant-badge--active',
+  cancelled: 'merchant-badge--inactive',
 }
 
 function timeAgo(iso: string) {
@@ -32,46 +26,99 @@ function timeAgo(iso: string) {
   return `${Math.round(hrs / 24)}d ago`
 }
 
+// YYYY-MM-DD in Taipei, which is the day bags are published for.
+function taipeiToday() {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Taipei' }).format(new Date())
+}
+
+type Template = { id: string; name: string; price: number; quantity: number; pickup_start: string; pickup_end: string }
+type TodayBag = {
+  id: string
+  box_id: string | null
+  title: string
+  sale_price: number
+  quantity_total: number
+  quantity_remaining: number
+  pickup_start: string
+  pickup_end: string
+  is_active: boolean
+}
+
+function buildTodayRows(templates: Template[], bags: TodayBag[], today: string): TodayRow[] {
+  const now = Date.now()
+  const toBag = (b: TodayBag) => ({
+    id: b.id,
+    total: b.quantity_total,
+    remaining: b.quantity_remaining,
+    active: b.is_active,
+    ended: new Date(b.pickup_end).getTime() <= now,
+  })
+  const rows: TodayRow[] = templates.map(t => {
+    const bag = bags.find(b => b.box_id === t.id)
+    return {
+      key: t.id,
+      name: t.name,
+      price: t.price,
+      pickup: bag
+        ? `${formatTaipeiTime(bag.pickup_start)}–${formatTaipeiTime(bag.pickup_end)}`
+        : `${t.pickup_start.slice(0, 5)}–${t.pickup_end.slice(0, 5)}`,
+      template: {
+        id: t.id,
+        defaultQuantity: t.quantity,
+        windowPassed: new Date(`${today}T${t.pickup_end}+08:00`).getTime() <= now,
+      },
+      bag: bag ? toBag(bag) : undefined,
+    }
+  })
+  // Listings with no active template behind them (e.g. test listings).
+  for (const b of bags.filter(b => !templates.some(t => t.id === b.box_id))) {
+    rows.push({
+      key: b.id,
+      name: b.title,
+      price: b.sale_price,
+      pickup: `${formatTaipeiTime(b.pickup_start)}–${formatTaipeiTime(b.pickup_end)}`,
+      bag: toBag(b),
+    })
+  }
+  return rows
+}
+
 export default async function MerchantDashboardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  const isDev = process.env.NODE_ENV === 'development'
 
-  const todayStart = new Date()
-  todayStart.setHours(0, 0, 0, 0)
+  const today = taipeiToday()
+  const todayStart = `${today}T00:00:00+08:00`
 
-  const [merchantResult, activeResult, totalResult, ordersResult, salesResult, recentResult] = await Promise.all([
+  const [merchantResult, templatesResult, bagsResult, ordersTodayResult, revenueResult, recentResult] = await Promise.all([
     user ? supabase.from('merchants').select('store_name, currency').eq('id', user.id).single()
          : Promise.resolve({ data: { store_name: 'Demo Store', currency: 'TWD' } }),
-    user ? supabase.from('boxes').select('*', { count: 'exact', head: true }).eq('merchant_id', user.id).eq('is_active', true)
+    user ? supabase.from('boxes').select('id, name, price, quantity, pickup_start, pickup_end').eq('merchant_id', user.id).eq('is_active', true).order('pickup_start')
+         : Promise.resolve({ data: [] as Template[] }),
+    user ? supabase.from('bags').select('id, box_id, title, sale_price, quantity_total, quantity_remaining, pickup_start, pickup_end, is_active').eq('merchant_id', user.id).eq('pickup_date', today).order('pickup_end')
+         : Promise.resolve({ data: [] as TodayBag[] }),
+    user ? supabase.from('orders').select('*', { count: 'exact', head: true }).eq('merchant_id', user.id).gte('created_at', todayStart)
          : Promise.resolve({ count: 0 }),
-    user ? supabase.from('boxes').select('*', { count: 'exact', head: true }).eq('merchant_id', user.id)
-         : Promise.resolve({ count: 0 }),
-    user ? supabase.from('orders').select('*', { count: 'exact', head: true }).eq('merchant_id', user.id).gte('created_at', todayStart.toISOString())
-         : Promise.resolve({ count: 0 }),
-    user ? supabase.from('orders').select('price').eq('merchant_id', user.id).neq('status', 'cancelled')
-         : Promise.resolve({ data: [] as { price: number }[] }),
-    user ? supabase.from('orders').select('id, box_name, price, status, created_at').eq('merchant_id', user.id).order('created_at', { ascending: false }).limit(5)
-         : Promise.resolve({ data: [] as RecentOrder[] }),
+    user ? supabase.from('orders').select('amount').eq('merchant_id', user.id).eq('status', 'picked_up')
+         : Promise.resolve({ data: [] as { amount: number }[] }),
+    user ? supabase.from('orders').select(ORDER_COLUMNS).eq('merchant_id', user.id).order('created_at', { ascending: false }).limit(5)
+         : Promise.resolve({ data: [] as OrderRowDb[] }),
   ])
 
   const storeName = merchantResult.data?.store_name ?? 'your store'
   const currency = merchantResult.data?.currency ?? 'TWD'
-  const activeBoxes = activeResult.count ?? 0
-  const totalBoxes = totalResult.count ?? 0
-  let ordersToday = ordersResult.count ?? 0
-  let totalSales = ((salesResult.data ?? []) as { price: number }[]).reduce((s, o) => s + (o.price ?? 0), 0)
-  let recent = (recentResult.data ?? []) as RecentOrder[]
-
-  // Dev fallback so the panel isn't empty while testing
-  if (isDev && recent.length === 0) {
-    recent = MOCK_RECENT
-    if (ordersToday === 0) ordersToday = 2
-    if (totalSales === 0) totalSales = MOCK_RECENT.filter(o => o.status !== 'cancelled').reduce((s, o) => s + o.price, 0)
-  }
+  const todayRows = buildTodayRows((templatesResult.data ?? []) as Template[], (bagsResult.data ?? []) as TodayBag[], today)
+  const liveToday = todayRows.filter(r => r.bag?.active && !r.bag.ended).length
+  const leftToday = todayRows.reduce((s, r) => s + (r.bag?.active && !r.bag.ended ? r.bag.remaining : 0), 0)
+  const ordersToday = ordersTodayResult.count ?? 0
+  const revenue = ((revenueResult.data ?? []) as { amount: number }[]).reduce((s, o) => s + o.amount, 0)
+  // Sample rows only for the logged-out dev preview, never for a real store.
+  const recent = user ? ((recentResult.data ?? []) as OrderRowDb[]).map(toOrderRow) : MOCK_RECENT
 
   return (
     <>
+      {user && <LiveRefresh merchantId={user.id} />}
+
       <div className="merchant-page-header">
         <div>
           <h1>Welcome back, {storeName}</h1>
@@ -80,28 +127,32 @@ export default async function MerchantDashboardPage() {
         <Link href="/merchant/dashboard/boxes/new" className="btn btn--primary">+ Add a box</Link>
       </div>
 
+      <PickupVerifier currency={currency} />
+
       <div className="merchant-stats-grid">
         <div className="merchant-stat-card merchant-stat-card--accent">
-          <div className="merchant-stat-card__label">Active Boxes</div>
-          <div className="merchant-stat-card__value">{activeBoxes}</div>
-          <div className="merchant-stat-card__note">Currently listed</div>
+          <div className="merchant-stat-card__label">Live today</div>
+          <div className="merchant-stat-card__value">{liveToday}</div>
+          <div className="merchant-stat-card__note">Boxes on sale in the app</div>
         </div>
         <div className="merchant-stat-card merchant-stat-card--accent">
-          <div className="merchant-stat-card__label">Total Listings</div>
-          <div className="merchant-stat-card__value">{totalBoxes}</div>
-          <div className="merchant-stat-card__note">All time</div>
+          <div className="merchant-stat-card__label">Left today</div>
+          <div className="merchant-stat-card__value">{leftToday}</div>
+          <div className="merchant-stat-card__note">Not yet reserved</div>
         </div>
         <div className="merchant-stat-card merchant-stat-card--accent">
-          <div className="merchant-stat-card__label">Orders Today</div>
+          <div className="merchant-stat-card__label">Orders today</div>
           <div className="merchant-stat-card__value">{ordersToday}</div>
           <div className="merchant-stat-card__note">Since midnight</div>
         </div>
         <div className="merchant-stat-card merchant-stat-card--accent">
-          <div className="merchant-stat-card__label">Total Revenue</div>
-          <div className="merchant-stat-card__value">{formatMoney(totalSales, currency)}</div>
-          <div className="merchant-stat-card__note">All confirmed orders</div>
+          <div className="merchant-stat-card__label">Revenue</div>
+          <div className="merchant-stat-card__value">{formatMoney(revenue, currency)}</div>
+          <div className="merchant-stat-card__note">From picked-up orders</div>
         </div>
       </div>
+
+      <TodayPanel rows={todayRows} currency={currency} />
 
       {/* Recent orders */}
       <div className="overview-recent-head">
@@ -119,11 +170,11 @@ export default async function MerchantDashboardPage() {
           {recent.map(o => (
             <div key={o.id} className="overview-recent__row">
               <div className="overview-recent__main">
-                <span className="overview-recent__name">{o.box_name ?? 'Box'}</span>
-                <span className="overview-recent__time">{timeAgo(o.created_at)}</span>
+                <span className="overview-recent__name">{o.box_name}</span>
+                <span className="overview-recent__time">{o.pickup_code} · {timeAgo(o.created_at)}</span>
               </div>
               <div className="overview-recent__right">
-                <span className={`merchant-badge ${STATUS[o.status].cls}`}>{STATUS[o.status].label}</span>
+                <span className={`merchant-badge ${BADGE[o.status]}`}>{o.status_label}</span>
                 <span className="overview-recent__price">{formatMoney(o.price, currency)}</span>
               </div>
             </div>

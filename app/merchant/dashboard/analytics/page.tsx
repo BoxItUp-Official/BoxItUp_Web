@@ -1,7 +1,8 @@
 import { createClient } from '@/lib/supabase-server'
 import AnalyticsClient from './AnalyticsClient'
+import { ORDER_COLUMNS, toOrderRow, type OrderRowDb } from '../orderRows'
 
-// Fixed mock orders for dev/preview — spread across ~90 days, denser recently
+// Fixed mock orders for the logged-out dev preview — spread across ~90 days, denser recently
 const MOCK_ORDERS = (() => {
   const boxes = [
     { name: 'Bakery Surprise Box', price: 150 },
@@ -46,19 +47,16 @@ export default async function AnalyticsPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const isDev = process.env.NODE_ENV === 'development'
-
-  let orders = user
-    ? ((await supabase
+  // Real stores always see their real orders; the sample spread is only for
+  // the logged-out dev preview.
+  const orders = user
+    ? (((await supabase
         .from('orders')
-        .select('id, box_name, price, status, created_at')
+        .select(ORDER_COLUMNS)
         .eq('merchant_id', user.id)
         .order('created_at', { ascending: false })
-      ).data ?? [])
-    : []
-
-  // In dev, fall back to mock data when there are no real orders yet
-  if (isDev && orders.length === 0) orders = MOCK_ORDERS
+      ).data ?? []) as OrderRowDb[]).map(toOrderRow)
+    : MOCK_ORDERS
 
   const currency = user
     ? ((await supabase.from('merchants').select('currency').eq('id', user.id).single()).data?.currency ?? 'TWD')
