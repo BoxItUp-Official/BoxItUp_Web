@@ -43,6 +43,7 @@ components/
   Navbar.tsx          'use client' — scroll state, hamburger, lang dropdown, locale detection
   NavbarWrapper.tsx   'use client' — reads pathname, passes dark={true} to Navbar on /careers
   ScrollAnimations.tsx 'use client' — IntersectionObserver for scroll-fade, active nav link, scroll indicator
+  reactbits/          Animated components from React Bits (reactbits.dev), copied in as source — see its README.md
 lib/
   supabase.ts         Browser client (createBrowserClient from @supabase/ssr)
   supabase-server.ts  Server client (createServerClient, reads cookies())

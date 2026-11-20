@@ -2,6 +2,23 @@ import FaqTabs from '@/app/FaqTabs'
 import WhyTabs from '@/app/WhyTabs'
 import HowStepper from '@/app/HowStepper'
 import { HOME_CONTENT, basePath, type Locale } from '@/app/homeContent'
+import BlurText from '@/components/reactbits/BlurText'
+import ClickSpark from '@/components/reactbits/ClickSpark'
+import CountUp from '@/components/reactbits/CountUp'
+import ScrollReveal from '@/components/reactbits/ScrollReveal'
+import ShinyText from '@/components/reactbits/ShinyText'
+
+// Brand colours for the React Bits effects (style.css :root).
+const ORANGE = '#EB6A00'
+// Dark ink shows on the orange button, orange shows on the page around it.
+const SPARKS = ['#1A1714', '#EB6A00', '#F1A71F']
+
+/** "33%" → a number that counts up; anything else ("Soon", "即將推出") stays as text. */
+function Figure({ value }: { value: string }) {
+  const m = value.match(/^(\d+)(%?)$/)
+  if (!m) return <>{value}</>
+  return <CountUp to={Number(m[1])} suffix={m[2]} duration={1.6} />
+}
 
 /**
  * The homepage, shared by every locale.
@@ -24,19 +41,32 @@ export default function HomeSections({ locale }: { locale: Locale }) {
       <section className="hero hero--split" id="home">
         <div className="hero--split__inner container">
           <div className="hero--split__text">
-            <span className="hero__badge">{c.hero.badge}</span>
-            <h1 className="hero__headline hero__headline--slogan">
-              {c.hero.headline}
-              <span className="hero__headline-accent">{c.hero.headlineAccent}</span>
-              {c.hero.headlineTail}
-            </h1>
+            <span className="hero__badge">
+              <ShinyText text={c.hero.badge} color={ORANGE} shineColor="#FFD9A8" speed={3} delay={1.5} />
+            </span>
+            {/* Word by word out of a soft blur (Chinese: character by character) */}
+            <BlurText
+              as="h1"
+              className="hero__headline hero__headline--slogan"
+              segments={[
+                { text: c.hero.headline },
+                { text: c.hero.headlineAccent, className: 'hero__headline-accent' },
+                { text: c.hero.headlineTail },
+              ]}
+              trigger="load"
+              animateBy="words"
+              delay={locale === 'en' ? 70 : 45}
+              stepDuration={0.32}
+              distance={18}
+              blur={8}
+            />
             <p className="hero__subtext hero__subtext--tight">{c.hero.subtext}</p>
-            <div className="hero__cta-group">
+            <ClickSpark className="hero__cta-group" style={{ width: 'auto', height: 'auto' }} sparkColor={SPARKS} sparkCount={10} sparkRadius={42}>
               <a href="#download" className="btn btn--primary btn--large">{c.hero.ctaPrimary}</a>
               <a href={businessHref} className="btn btn--ghost-line btn--large">
                 {c.hero.ctaSecondary}
               </a>
-            </div>
+            </ClickSpark>
           </div>
 
           <div className="hero--split__media">
@@ -99,7 +129,20 @@ export default function HomeSections({ locale }: { locale: Locale }) {
 
             {/* Right — the story itself */}
             <div className="story-editorial__body">
-              <p className="story-editorial__lead">{c.about.lead}</p>
+              {/* Lights up as you scroll through it */}
+              <ScrollReveal
+                as="p"
+                containerClassName="story-editorial__lead"
+                splitBy={locale === 'en' ? 'words' : 'chars'}
+                baseOpacity={0.18}
+                blurStrength={3}
+                baseRotation={0}
+                stagger={locale === 'en' ? 0.05 : 0.02}
+                // Finishes when the paragraph is a little above the middle of the screen, so it is read as it lights up.
+                wordAnimationEnd="bottom 45%"
+              >
+                {c.about.lead}
+              </ScrollReveal>
               <p className="story-editorial__text">{c.about.text}</p>
               <blockquote className="story-quote">
                 <p className="story-quote__text">{c.about.quote}</p>
@@ -145,13 +188,13 @@ export default function HomeSections({ locale }: { locale: Locale }) {
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22c4.5-3 8-7 8-12A8 8 0 0 0 4 10c0 5 3.5 9 8 12z" /><path d="M12 22V8M9 12l3-4 3 4" /></svg>
                 {c.impact.label}
               </div>
-              <span className="impact-feature__num">{c.impact.num}</span>
+              <span className="impact-feature__num"><Figure value={c.impact.num} /></span>
               <p className="impact-feature__text">{c.impact.text}</p>
             </div>
             <div className="impact-feature__side">
               {c.impact.rows.map((row) => (
                 <div key={row.title} className="impact-feature__row">
-                  <strong>{row.num}</strong>
+                  <strong><Figure value={row.num} /></strong>
                   <div>
                     <h4>{row.title}</h4>
                     <p>{row.text}</p>
