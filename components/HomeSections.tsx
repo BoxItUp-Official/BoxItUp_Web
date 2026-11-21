@@ -11,7 +11,8 @@ import HeroMedia from '@/components/motion/HeroMedia'
 import { ImpactBar, MotionRoot, Reveal, ScrollProgress } from '@/components/motion/Reveal'
 
 // Brand colours for the React Bits effects (style.css :root).
-const ORANGE = '#EB6A00'
+// The darker orange stays readable at small sizes on the paper colours.
+const ORANGE_TEXT = '#A84800'
 // Dark ink shows on the orange button, orange shows on the page around it.
 const SPARKS = ['#1A1714', '#EB6A00', '#F1A71F']
 
@@ -47,10 +48,10 @@ function Title({
       ]}
       trigger="view"
       rootMargin="-8% 0px"
-      delay={locale === 'en' ? 85 : 42}
-      stepDuration={0.42}
-      distance={34}
-      blur={12}
+      delay={locale === 'en' ? 55 : 26}
+      stepDuration={0.38}
+      distance={14}
+      blur={2.5}
     />
   )
 }
@@ -85,7 +86,7 @@ export default function HomeSections({ locale }: { locale: Locale }) {
           <div className="hero--split__text">
             <Reveal onLoad y={18} className="paper-badge-wrap">
               <span className="hero__badge">
-                <ShinyText text={c.hero.badge} color={ORANGE} shineColor="#FFD9A8" speed={2.4} delay={0.8} />
+                <ShinyText text={c.hero.badge} color={ORANGE_TEXT} shineColor="#F39A45" speed={3.2} delay={2.5} />
               </span>
             </Reveal>
             {/* Word by word out of a soft blur (Chinese: character by character) */}
@@ -99,15 +100,15 @@ export default function HomeSections({ locale }: { locale: Locale }) {
               ]}
               trigger="load"
               animateBy="words"
-              delay={locale === 'en' ? 105 : 62}
-              stepDuration={0.5}
-              distance={52}
-              blur={16}
+              delay={locale === 'en' ? 62 : 32}
+              stepDuration={0.44}
+              distance={20}
+              blur={3}
             />
-            <Reveal onLoad delay={locale === 'en' ? 1.05 : 1} y={30}>
+            <Reveal onLoad delay={0.62} y={18}>
               <p className="hero__subtext hero__subtext--tight">{c.hero.subtext}</p>
             </Reveal>
-            <Reveal onLoad delay={locale === 'en' ? 1.2 : 1.15} y={30}>
+            <Reveal onLoad delay={0.74} y={18}>
               <ClickSpark className="hero__cta-group" style={{ width: 'auto', height: 'auto' }} sparkColor={SPARKS} sparkCount={12} sparkRadius={58} sparkSize={15}>
                 <a href="#download" className="btn btn--primary btn--large">{c.hero.ctaPrimary}</a>
                 <a href={businessHref} className="btn btn--ghost-line btn--large">
@@ -164,8 +165,8 @@ export default function HomeSections({ locale }: { locale: Locale }) {
                 as="p"
                 containerClassName="story-editorial__lead"
                 splitBy={locale === 'en' ? 'words' : 'chars'}
-                baseOpacity={0.18}
-                blurStrength={3}
+                baseOpacity={0.3}
+                enableBlur={false}
                 baseRotation={0}
                 stagger={locale === 'en' ? 0.05 : 0.02}
                 // Finishes when the paragraph is a little above the middle of the screen, so it is read as it lights up.
@@ -263,7 +264,7 @@ export default function HomeSections({ locale }: { locale: Locale }) {
       {/* ── 8 · FINAL CTA — download ── */}
       <section className="cta-section section" id="download">
         <div className="container">
-          <Reveal className="cta-section__inner" y={70}>
+          <Reveal className="cta-section__inner" y={36}>
             <span className="cta-section__badge">{c.cta.badge}</span>
             <Title locale={locale} className="cta-section__headline" text={c.cta.headline} />
             <p className="cta-section__subtext">{c.cta.subtext}</p>

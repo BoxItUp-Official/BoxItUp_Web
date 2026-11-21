@@ -95,7 +95,7 @@ export default function SiteFooter({ locale = 'en' }: { locale?: Locale }) {
           {/* ── Brand ── */}
           <div className="footer__brand">
             <a href={base || '/'} className="footer__logo">
-              <img src="/logo_icon_gradiant.png" alt="Box It Up Logo" className="footer__logo-img" />
+              <img src="/logo_gra.png" alt="Box It Up Logo" className="footer__logo-img" />
             </a>
             <p className="footer__tagline">{t.tagline}</p>
             <div className="footer__socials">

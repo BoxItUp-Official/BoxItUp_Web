@@ -64,19 +64,17 @@ interface Piece {
   className?: string;
 }
 
-// Chinese and Japanese text has no spaces: each character is its own word,
-// and full-width punctuation stays with the character before it so a line
-// never starts with "。". Latin text splits into words; a word glued to the
-// next run (e.g. "Experience" + ".") stays together.
-const HAN = /[\u3400-\u9fff\uf900-\ufaff]/;
-const FULL_PUNCT = /[\u3000-\u303f\uff00-\uffef]/;
+// Chinese has no spaces, so a line may only break after clause punctuation:
+// "有疑問嗎？" / "這裡有答案。" and never inside a word. Each character still
+// animates on its own. Latin text splits into words; a word glued to the next
+// run (e.g. "Experience" + ".") stays together.
+const CLAUSE_END = /[\u3001\u3002\uff01\uff0c\uff1a\uff1b\uff1f]/;
 const TOKEN = /[\u3400-\u9fff\uf900-\ufaff]|[\u3000-\u303f\uff00-\uffef]|[^\s\u3000-\u303f\u3400-\u9fff\uf900-\ufaff\uff00-\uffef]+|\s+/g;
 
 function piecesFromSegments(segments: BlurTextSegment[]): Piece[] {
   const list: Piece[] = [];
   let word = -1;
   let breakNext = true;
-  let lastWasHan = false;
   segments.forEach((segment, s) => {
     (segment.text.match(TOKEN) ?? []).forEach((token, t) => {
       if (/^\s+$/.test(token)) {
@@ -84,12 +82,9 @@ function piecesFromSegments(segments: BlurTextSegment[]): Piece[] {
         breakNext = true;
         return;
       }
-      const han = HAN.test(token);
-      const punct = FULL_PUNCT.test(token);
-      if (word < 0 || (han ? true : punct ? false : breakNext || lastWasHan)) word += 1;
+      if (breakNext) word += 1;
       list.push({ word, content: token, key: `piece-${s}-${t}`, className: segment.className });
-      breakNext = false;
-      lastWasHan = han;
+      breakNext = CLAUSE_END.test(token);
     });
   });
   return list;
@@ -123,7 +118,8 @@ const SR_ONLY: CSSProperties = {
 };
 
 const PIECE_STYLE: CSSProperties = { display: 'inline-block', willChange: 'transform, filter, opacity' };
-const WORD_STYLE: CSSProperties = { display: 'inline-flex' };
+// flexWrap: a clause longer than the line may still wrap rather than overflow.
+const WORD_STYLE: CSSProperties = { display: 'inline-flex', flexWrap: 'wrap', maxWidth: '100%' };
 
 const blurTo = (px: number) => `blur(${Math.max(0, px)}px)`;
 
@@ -301,6 +297,9 @@ const BlurText = ({
   const firstPhase = useRef(phase).current;
   const [focusWord, setFocusWord] = useState(-1);
   const settledRef = useRef(phase === 'rest');
+  // Once it has played, render plain text: a leftover filter / will-change keeps
+  // the glyphs on a compositor layer and their edges look slightly soft.
+  const [finished, setFinished] = useState(false);
   const completeRef = useRef(onAnimationComplete);
   completeRef.current = onAnimationComplete;
 
@@ -395,6 +394,7 @@ const BlurText = ({
         settledRef.current = true;
         completeRef.current?.();
         if (loop) timer = window.setTimeout(() => setPhase('out'), Math.max(0, loopDelay) * 1000);
+        else if (trigger === 'view' || trigger === 'load') setFinished(true);
       }, inTotal);
     } else if (phase === 'rest') {
       settledRef.current = true;
@@ -404,7 +404,7 @@ const BlurText = ({
       timer = window.setTimeout(() => setPhase('in'), outTotal);
     }
     return () => window.clearTimeout(timer);
-  }, [phase, loop, loopDelay, inTotal, outTotal]);
+  }, [phase, loop, loopDelay, inTotal, outTotal, trigger]);
 
   const replay = () => {
     if (phase === 'out' || phase === 'from') return;
@@ -435,6 +435,13 @@ const BlurText = ({
 
   const renderPiece = (index: number): ReactNode => {
     const piece = pieces[index];
+    if (finished) {
+      return (
+        <span aria-hidden="true" key={piece.key} className={piece.className} style={{ display: 'inline-block' }}>
+          {piece.content}
+        </span>
+      );
+    }
     const rank = ranks[index];
     const transition: Transition =
       phase === 'in'

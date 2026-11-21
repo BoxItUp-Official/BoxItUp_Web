@@ -15,7 +15,7 @@ export function Reveal({
   children,
   className,
   delay = 0,
-  y = 48,
+  y = 26,
   onLoad = false,
 }: {
   children: ReactNode
@@ -24,23 +24,23 @@ export function Reveal({
   y?: number
   onLoad?: boolean
 }) {
-  const shown = { opacity: 1, y: 0, filter: 'blur(0px)' }
+  const shown = { opacity: 1, y: 0 }
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y, filter: 'blur(6px)' }}
+      initial={{ opacity: 0, y }}
       {...(onLoad ? { animate: shown } : { whileInView: shown, viewport: { once: true, margin: '-10% 0px' } })}
-      transition={{ duration: 0.9, delay, ease: EASE }}
+      transition={{ duration: 0.7, delay, ease: EASE }}
     >
       {children}
     </motion.div>
   )
 }
 
-const group: Variants = { hidden: {}, shown: { transition: { staggerChildren: 0.11 } } }
+const group: Variants = { hidden: {}, shown: { transition: { staggerChildren: 0.08 } } }
 const item: Variants = {
-  hidden: { opacity: 0, y: 44, scale: 0.97 },
-  shown: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.75, ease: EASE } },
+  hidden: { opacity: 0, y: 24 },
+  shown: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
 }
 
 /** A list whose StaggerItems come in one after another. */
