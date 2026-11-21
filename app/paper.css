@@ -80,6 +80,31 @@ html body textarea:focus-visible {
   outline-offset: 3px;
 }
 
+/* ── Homepage intro (components/motion/IntroSplash.tsx) ──────
+   Hidden unless the boot script in <head> set data-intro, so it never shows
+   without JavaScript and never flashes on a repeat visit. */
+.paper-intro { display: none; }
+html[data-intro] .paper-intro {
+  display: grid;
+  place-items: center;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  overflow: hidden;
+  cursor: pointer;
+}
+.paper-intro__backdrop { position: absolute; inset: 0; background: var(--paper); }
+.paper-intro__scene {
+  position: relative;
+  width: min(290px, 74vw);
+  height: auto;
+  overflow: visible;
+  will-change: transform;
+}
+/* The flying logo stands in for the navbar's until it lands. */
+html[data-intro] #navbarLogo { opacity: 0; }
+html[data-intro]::-webkit-scrollbar-thumb { background: transparent; }
+
 /* ── Reading progress ─────────────────────────────────────── */
 html body .paper-progress {
   position: fixed;

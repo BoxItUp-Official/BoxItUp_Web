@@ -76,6 +76,8 @@ Page-specific CSS (careers, contact) lives in co-located `.css` files imported b
 
 **The "paper" style**: `app/paper.css` matches the public site to the consumer app (warm paper `#FBF6EE`, ink `#1A1714`, soft `#7A6B5C`, hairlines `#EADFD1`, sand `#F3EADC`, Gloock headings, orange only where it matters). It overrides the `:root` tokens and restores them on `.merchant-shell`, so the merchant portal keeps its look. Because style.css is bundled last, every rule starts with `html body`. Homepage sections animate themselves (`components/motion/`, `components/reactbits/`); `data-motion` tells `ScrollAnimations` to skip them.
 
+**Homepage intro**: `components/motion/IntroSplash.tsx` is the app's box-packing animation for the web. A small script in `<head>` (`INTRO_BOOT_SCRIPT` in `components/motion/intro.ts`) decides before first paint and sets `<html data-intro>`: once per browser session, only when the visit starts on `/`, `/tw` or `/cn`, never with reduced motion. The hero's on-load animations wait for it through `useIntroReady()`. To replay it, clear `boxitup-intro` from sessionStorage.
+
 ## Navbar & Locale Logic
 
 `Navbar.tsx` derives the active locale and home base URL from `usePathname()`:

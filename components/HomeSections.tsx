@@ -7,7 +7,9 @@ import ClickSpark from '@/components/reactbits/ClickSpark'
 import CountUp from '@/components/reactbits/CountUp'
 import ScrollReveal from '@/components/reactbits/ScrollReveal'
 import ShinyText from '@/components/reactbits/ShinyText'
+import HeroHeadline from '@/components/motion/HeroHeadline'
 import HeroMedia from '@/components/motion/HeroMedia'
+import IntroSplash from '@/components/motion/IntroSplash'
 import { ImpactBar, MotionRoot, Reveal, ScrollProgress } from '@/components/motion/Reveal'
 
 // Brand colours for the React Bits effects (style.css :root).
@@ -77,6 +79,7 @@ export default function HomeSections({ locale }: { locale: Locale }) {
       <noscript>
         <style>{`.paper-home *{opacity:1!important;transform:none!important;filter:none!important;clip-path:none!important}`}</style>
       </noscript>
+      <IntroSplash />
       <ScrollProgress />
       {/* data-motion: these sections animate themselves, so ScrollAnimations leaves them alone. */}
       <main className="paper-home" data-motion>
@@ -90,7 +93,7 @@ export default function HomeSections({ locale }: { locale: Locale }) {
               </span>
             </Reveal>
             {/* Word by word out of a soft blur (Chinese: character by character) */}
-            <BlurText
+            <HeroHeadline
               as="h1"
               className="hero__headline hero__headline--slogan"
               segments={[
@@ -98,7 +101,6 @@ export default function HomeSections({ locale }: { locale: Locale }) {
                 { text: c.hero.headlineAccent, className: 'hero__headline-accent' },
                 { text: c.hero.headlineTail },
               ]}
-              trigger="load"
               animateBy="words"
               delay={locale === 'en' ? 62 : 32}
               stepDuration={0.44}

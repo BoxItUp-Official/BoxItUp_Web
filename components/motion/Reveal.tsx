@@ -2,6 +2,7 @@
 
 import { motion, MotionConfig, useScroll, useSpring, type Variants } from 'motion/react'
 import type { ReactNode } from 'react'
+import { useIntroReady } from './intro'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
@@ -24,12 +25,13 @@ export function Reveal({
   y?: number
   onLoad?: boolean
 }) {
+  const ready = useIntroReady() // on-load reveals wait for the intro to hand over
   const shown = { opacity: 1, y: 0 }
   return (
     <motion.div
       className={className}
       initial={{ opacity: 0, y }}
-      {...(onLoad ? { animate: shown } : { whileInView: shown, viewport: { once: true, margin: '-10% 0px' } })}
+      {...(onLoad ? { animate: ready ? shown : { opacity: 0, y } } : { whileInView: shown, viewport: { once: true, margin: '-10% 0px' } })}
       transition={{ duration: 0.7, delay, ease: EASE }}
     >
       {children}

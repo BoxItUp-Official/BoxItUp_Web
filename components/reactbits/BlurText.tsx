@@ -20,6 +20,8 @@ type BlurTextProps = {
   text?: string;
   /** Alternative to `text`: several runs, each with its own class. */
   segments?: BlurTextSegment[];
+  /** With trigger="load": hold the animation until this is true. */
+  start?: boolean;
   /** Element to render. Defaults to 'p'. */
   as?: 'p' | 'h1' | 'h2' | 'h3' | 'span' | 'div';
   delay?: number;
@@ -261,8 +263,8 @@ const buildRanks = (count: number, staggerFrom: BlurTextStaggerFrom, seedText: s
   return ranks;
 };
 
-const startPhase = (trigger: BlurTextTrigger): Phase =>
-  trigger === 'load' ? 'in' : trigger === 'hover' || trigger === 'click' ? 'rest' : 'from';
+const startPhase = (trigger: BlurTextTrigger, start: boolean): Phase =>
+  trigger === 'load' ? (start ? 'in' : 'from') : trigger === 'hover' || trigger === 'click' ? 'rest' : 'from';
 
 const BlurText = ({
   text: textProp = '',
@@ -288,12 +290,13 @@ const BlurText = ({
   loopDelay = 2,
   color,
   fromColor,
-  focusOnHover = false
+  focusOnHover = false,
+  start = true
 }: BlurTextProps) => {
   const ref = useRef<HTMLElement>(null);
   const text = segments ? segments.map(s => s.text).join('') : textProp;
   const Tag = as as 'p';
-  const [phase, setPhase] = useState<Phase>(() => startPhase(trigger));
+  const [phase, setPhase] = useState<Phase>(() => startPhase(trigger, start));
   const firstPhase = useRef(phase).current;
   const [focusWord, setFocusWord] = useState(-1);
   const settledRef = useRef(phase === 'rest');
@@ -364,6 +367,7 @@ const BlurText = ({
   useEffect(() => {
     if (phase !== 'from') return undefined;
     if (trigger === 'load') {
+      if (!start) return undefined;
       setPhase('in');
       return undefined;
     }
@@ -384,7 +388,7 @@ const BlurText = ({
     );
     observer.observe(element);
     return () => observer.disconnect();
-  }, [phase, trigger, threshold, rootMargin]);
+  }, [phase, trigger, threshold, rootMargin, start]);
 
   useEffect(() => {
     let timer = 0;

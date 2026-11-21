@@ -5,6 +5,7 @@ import './paper.css'
 import NavbarWrapper from '@/components/NavbarWrapper'
 import SiteFooterWrapper from '@/components/SiteFooterWrapper'
 import ScrollAnimations from '@/components/ScrollAnimations'
+import { INTRO_BOOT_SCRIPT } from '@/components/motion/intro'
 import { Gloock } from 'next/font/google'
 
 const gloock = Gloock({
@@ -26,7 +27,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    // suppressHydrationWarning: the boot script may set data-intro before React loads.
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: INTRO_BOOT_SCRIPT }} />
+      </head>
       <body className={gloock.variable}>
         <NavbarWrapper />
         {children}
