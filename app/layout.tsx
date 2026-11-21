@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import '../style.css'
 import './globals.css'
+import './paper.css'
 import NavbarWrapper from '@/components/NavbarWrapper'
 import SiteFooterWrapper from '@/components/SiteFooterWrapper'
 import ScrollAnimations from '@/components/ScrollAnimations'

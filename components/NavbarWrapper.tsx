@@ -16,6 +16,6 @@ export default function NavbarWrapper() {
 
   // Merchant portal has its own topbar — suppress the main site nav
   if (pathname.startsWith('/merchant')) return null
-  const isDark = /\/(tw\/|cn\/)?careers(\/|$)/.test(pathname)
-  return <Navbar dark={isDark} />
+  // Every public page is on the paper style now, careers included, so none uses the dark navbar.
+  return <Navbar dark={false} />
 }

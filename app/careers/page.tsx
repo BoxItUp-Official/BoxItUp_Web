@@ -92,8 +92,8 @@ export default function CareersPage() {
   return (
     <div
       style={{
-        background: 'linear-gradient(180deg, #111111 0%, #1a1a1a 100%)',
-        color: 'rgba(255,255,255,0.92)',
+        background: 'var(--paper)',
+        color: 'var(--ink)',
         minHeight: '100vh',
       }}
     >

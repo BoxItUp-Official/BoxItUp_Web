@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Stagger, StaggerItem } from '@/components/motion/Reveal'
 import type { HomeContent } from './homeContent'
 
 /* Icons are locale-independent — paired with the copy by position. */
@@ -53,9 +54,9 @@ export default function WhyTabs({
         <span className={`why-tabs__glider why-tabs__glider--${tab}`} aria-hidden="true" />
       </div>
 
-      <div className="why-tabs__grid" key={tab}>
+      <Stagger className="why-tabs__grid" key={tab}>
         {reasons.map((r, i) => (
-          <div key={r.title} className="why-tile">
+          <StaggerItem key={r.title} className="why-tile">
             <span className="why-tile__icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{icons[i]}</svg>
             </span>
@@ -63,9 +64,9 @@ export default function WhyTabs({
               <h4 className="why-tile__title">{r.title}</h4>
               <p className="why-tile__text">{r.text}</p>
             </div>
-          </div>
+          </StaggerItem>
         ))}
-      </div>
+      </Stagger>
 
       <div className="why-tabs__cta">
         {tab === 'customer' ? (

@@ -22,7 +22,10 @@ export default function ScrollAnimations() {
   const pathname = usePathname()
 
   useEffect(() => {
-    const targets = document.querySelectorAll<HTMLElement>(ANIMATED_SELECTORS)
+    // Sections marked data-motion (the homepage) run their own entrance animations.
+    const targets = Array.from(document.querySelectorAll<HTMLElement>(ANIMATED_SELECTORS)).filter(
+      (el) => !el.closest('[data-motion]'),
+    )
 
     targets.forEach((el) => {
       el.setAttribute('data-animate', '')

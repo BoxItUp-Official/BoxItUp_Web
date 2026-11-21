@@ -41,7 +41,7 @@ app/
     page.tsx          /cn — Simplified Chinese home
 components/
   Navbar.tsx          'use client' — scroll state, hamburger, lang dropdown, locale detection
-  NavbarWrapper.tsx   'use client' — reads pathname, passes dark={true} to Navbar on /careers
+  NavbarWrapper.tsx   'use client' — hides the navbar on /merchant; passes dark={false} (all public pages are paper)
   ScrollAnimations.tsx 'use client' — IntersectionObserver for scroll-fade, active nav link, scroll indicator
   reactbits/          Animated components from React Bits (reactbits.dev), copied in as source — see its README.md
 lib/
@@ -74,6 +74,8 @@ Page-specific CSS (careers, contact) lives in co-located `.css` files imported b
 
 **Color palette**: CSS variables on `:root`, brand accent `--clr-accent: #EB6A00`. Tailwind theme extends with `colors.accent`.
 
+**The "paper" style**: `app/paper.css` matches the public site to the consumer app (warm paper `#FBF6EE`, ink `#1A1714`, soft `#7A6B5C`, hairlines `#EADFD1`, sand `#F3EADC`, Gloock headings, orange only where it matters). It overrides the `:root` tokens and restores them on `.merchant-shell`, so the merchant portal keeps its look. Because style.css is bundled last, every rule starts with `html body`. Homepage sections animate themselves (`components/motion/`, `components/reactbits/`); `data-motion` tells `ScrollAnimations` to skip them.
+
 ## Navbar & Locale Logic
 
 `Navbar.tsx` derives the active locale and home base URL from `usePathname()`:
@@ -83,7 +85,7 @@ Page-specific CSS (careers, contact) lives in co-located `.css` files imported b
 
 Nav links and language-switcher options adjust automatically. The language switcher always navigates to the locale's home page (e.g. `/tw`). Sub-pages in other locales (`/tw/careers` etc.) are not yet implemented.
 
-The `dark` prop on `Navbar` adds `.navbar--dark` to the `<header>`. `NavbarWrapper` sets `dark={pathname === '/careers'}`.
+The `dark` prop on `Navbar` adds `.navbar--dark` to the `<header>`. No page uses it since the paper restyle; `NavbarWrapper` passes `dark={false}`.
 
 ## Scroll Animations
 

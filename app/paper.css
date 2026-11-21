@@ -1,0 +1,515 @@
+/* ============================================================
+   THE "PAPER" STYLE — the public website, matched to the app.
+   Warm paper, ink text, Gloock headings, hairlines instead of
+   shadows, orange only where it matters. Same tokens as
+   BoxItUp_App/tailwind.config.js.
+
+   Cascade: style.css is always bundled after this file (see the
+   note at the top of globals.css), so every rule here starts with
+   `html body` to win on specificity. The merchant portal keeps its
+   own look: .merchant-shell restores the original tokens below.
+   ============================================================ */
+
+html:root {
+  --paper: #FBF6EE;
+  --ink: #1A1714;
+  --soft: #7A6B5C;
+  --rule: #EADFD1;
+  --sand: #F3EADC;
+
+  --clr-off-white: var(--sand);
+  --clr-light: var(--paper);
+  --clr-border: var(--rule);
+  --clr-muted: var(--soft);
+  --clr-body: var(--ink);
+  --clr-heading: var(--ink);
+  --clr-dark: var(--ink);
+  --grad-bg: var(--paper);
+  --grad-card: #fff;
+  --shadow-xs: none;
+  --shadow-sm: none;
+  --shadow-md: 0 10px 28px rgba(90, 64, 32, 0.08);
+  --shadow-lg: 0 16px 40px rgba(90, 64, 32, 0.12);
+}
+
+/* The portal is not part of this restyle. */
+html body .merchant-shell {
+  --clr-off-white: #FAF2F2;
+  --clr-light: #FAF2F2;
+  --clr-border: #ead8cf;
+  --clr-muted: #6c625c;
+  --clr-body: #000000;
+  --clr-heading: #000000;
+  --clr-dark: #000000;
+  --grad-bg: linear-gradient(160deg, #ffffff 0%, #FAF2F2 100%);
+  --grad-card: linear-gradient(135deg, #ffffff 0%, #FAF2F2 100%);
+  --shadow-xs: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-sm: 0 4px 12px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.09), 0 3px 8px rgba(0,0,0,0.05);
+  --shadow-lg: 0 16px 40px rgba(0,0,0,0.12), 0 6px 14px rgba(0,0,0,0.06);
+}
+
+html body {
+  background: var(--paper);
+  color: var(--ink);
+  /* Gloock has Latin glyphs only; Chinese headings use the system face, bold. */
+  --serif: var(--font-gloock), Georgia, serif;
+  --serif-weight: 400;
+  --serif-track: -0.012em;
+}
+
+html body [lang="zh-TW"],
+html body [lang="zh-CN"] {
+  --serif: var(--font-cjk);
+  --serif-weight: 800;
+  --serif-track: -0.01em;
+}
+
+/* ── Reading progress ─────────────────────────────────────── */
+html body .paper-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--clr-accent);
+  transform-origin: 0 50%;
+  z-index: 1100;
+}
+
+/* ── Navbar ───────────────────────────────────────────────── */
+html body .navbar:not(.navbar--dark) {
+  --nav-bg: rgba(251, 246, 238, 0.86);
+  --nav-shadow: none;
+  border-bottom: 1px solid var(--rule);
+  box-shadow: none;
+}
+html body .navbar__link.active { background: var(--sand); color: var(--ink); }
+
+/* ── Buttons ──────────────────────────────────────────────── */
+html body .btn {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s, background 0.2s, color 0.2s, border-color 0.2s;
+}
+html body .btn--primary { box-shadow: 0 6px 18px rgba(185, 78, 0, 0.2); }
+html body .btn--primary:hover { transform: translateY(-3px) scale(1.025); box-shadow: 0 12px 28px rgba(185, 78, 0, 0.28); }
+html body .btn--primary:active { transform: scale(0.97); }
+html body .btn--secondary { background: #fff; border: 1px solid var(--rule); box-shadow: none; color: var(--ink); }
+html body .btn--secondary:hover { border-color: var(--ink); transform: translateY(-2px); box-shadow: none; }
+html body .btn--ghost-line { background: #fff; border: 1px solid var(--rule); color: var(--ink); }
+html body .btn--ghost-line:hover { background: var(--ink); border-color: var(--ink); color: #fff; transform: translateY(-3px); }
+
+/* ── Type ─────────────────────────────────────────────────── */
+html body .hero.hero--split .hero__headline.hero__headline,
+html body .section-title.section-title,
+html body .story-editorial__title.story-editorial__title,
+html body .cta-section__headline.cta-section__headline,
+html body .coming-soon-page__title {
+  font-family: var(--serif);
+  font-weight: var(--serif-weight);
+  letter-spacing: var(--serif-track);
+  color: var(--ink);
+  font-synthesis: none;
+}
+
+html body .hero.hero--split .hero__headline.hero__headline {
+  font-size: clamp(2.7rem, 4.7vw, 4.7rem);
+  line-height: 1.04;
+  margin-bottom: 1.4rem;
+}
+html body .section-title.section-title {
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  line-height: 1.1;
+  margin-bottom: 1.25rem;
+}
+html body .story-editorial__title.story-editorial__title {
+  font-size: clamp(2.4rem, 4.6vw, 3.8rem);
+  line-height: 1.06;
+}
+
+/* The accent word: orange in the heading's own face. */
+html body .hero .hero__headline .hero__headline-accent,
+html body .hero .hero__headline--slogan .hero__headline-accent,
+html body .hero__headline-accent {
+  font-family: var(--serif);
+  font-weight: var(--serif-weight);
+  letter-spacing: var(--serif-track);
+  color: var(--clr-accent);
+  font-synthesis: none;
+}
+
+/* Labels above headings: a small sand chip, as in the app. */
+html body .section-label.section-label {
+  background: var(--sand);
+  border: 0;
+  border-radius: 999px;
+  padding: 0.38rem 0.85rem;
+  margin-bottom: 1.15rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--ink);
+}
+html body .section-label--icon svg { width: 15px; height: 15px; color: var(--clr-accent); }
+
+/* ── Hero ─────────────────────────────────────────────────── */
+html body .hero.hero--split { background: var(--paper); }
+html body .hero.hero--split::before { display: none; }
+html body .hero--split__text { max-width: 600px; }
+html body .paper-badge-wrap { display: inline-block; }
+html body .hero__badge {
+  background: var(--sand);
+  border: 0;
+  letter-spacing: 0.06em;
+}
+html body .hero__badge::before { display: none; }
+html body .hero__subtext { color: var(--soft); font-size: 1.12rem; line-height: 1.7; }
+html body .hero--split__text .hero__cta-group { justify-content: flex-start; }
+
+html body .paper-hero-frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 28px;
+  background: var(--sand);
+}
+html body .paper-hero-frame .hero--split__photo {
+  border-radius: 0;
+  box-shadow: none;
+}
+html body .paper-hero-float { position: absolute; z-index: 2; }
+html body .paper-hero-float--box { left: -30px; bottom: 34px; width: min(370px, 86%); }
+html body .paper-hero-float--near { top: 22px; right: -14px; }
+
+/* A row from the app's box list. */
+html body .paper-row-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 0.95rem 0.75rem 0.75rem;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 20px;
+  box-shadow: 0 18px 40px rgba(60, 40, 16, 0.2);
+}
+html body .paper-row-card__thumb {
+  flex: none;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(246, 196, 106, 0.42), rgba(224, 138, 30, 0.32));
+  color: #DE8A26;
+}
+html body .paper-row-card__thumb svg { width: 28px; height: 28px; }
+html body .paper-row-card__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
+html body .paper-row-card__body strong {
+  font-family: var(--serif);
+  font-weight: var(--serif-weight);
+  font-size: 1.14rem;
+  line-height: 1.2;
+  color: var(--ink);
+  font-synthesis: none;
+}
+html body .paper-row-card__body small { font-size: 0.8rem; color: var(--soft); }
+html body .paper-row-card__save { flex: none; font-weight: 800; font-size: 0.95rem; color: var(--clr-accent); }
+
+html body .paper-near-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.95rem;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+  box-shadow: 0 12px 28px rgba(60, 40, 16, 0.16);
+}
+html body .paper-near-pill .hero--split__chip-dot { background: var(--clr-accent); }
+
+/* ── Section backgrounds: one sheet of paper, parted by hairlines ── */
+html body .trust,
+html body .story,
+html body .why,
+html body .how-it-works,
+html body .impact,
+html body .faq {
+  background: var(--paper);
+}
+html body .story,
+html body .why,
+html body .how-it-works,
+html body .faq { border-top: 1px solid var(--rule); }
+html body .section { padding: 6.5rem 0; }
+html body .trust { border-color: var(--rule); }
+html body .trust__label { color: var(--soft); letter-spacing: 0.1em; }
+html body .trust__chip { background: #fff; border-color: var(--rule); color: var(--ink); }
+html body .trust__track:hover { animation-play-state: paused; }
+html body .trust__hint { color: var(--soft); }
+
+/* ── About ────────────────────────────────────────────────── */
+html body .story-editorial__lead {
+  font-family: var(--serif);
+  font-weight: var(--serif-weight);
+  letter-spacing: var(--serif-track);
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  line-height: 1.3;
+  color: var(--ink);
+  font-synthesis: none;
+}
+html body .story-quote { border-left: 2px solid var(--clr-accent); }
+html body .story-quote__text {
+  font-family: var(--serif);
+  font-weight: var(--serif-weight);
+  font-size: 1.45rem;
+  font-synthesis: none;
+}
+html body .story-quote__by { color: var(--soft); text-transform: none; letter-spacing: 0.02em; }
+
+/* ── Cards: white on paper, hairline, no shadow ───────────── */
+html body .why-tile,
+html body .stepper__panel,
+html body .faq2__contact {
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 20px;
+  box-shadow: none;
+}
+html body .why-tabs__grid { animation: none; }
+html body .why-tile { transition: border-color 0.25s, box-shadow 0.35s; }
+html body .why-tile:hover { border-color: var(--ink); box-shadow: none; transform: none; }
+html body .why-tile__icon,
+html body .stepper__panel-icon { background: var(--sand); color: var(--ink); }
+html body .why-tile__title,
+html body .stepper__panel-title,
+html body .faq2__contact h4 {
+  font-family: var(--serif);
+  font-weight: var(--serif-weight);
+  letter-spacing: var(--serif-track);
+  font-synthesis: none;
+}
+html body .why-tile__title { font-size: 1.32rem; line-height: 1.2; margin-bottom: 0.35rem; }
+html body .why-tile__text { font-size: 0.94rem; color: var(--soft); }
+html body .stepper__panel-title { font-size: 1.7rem; line-height: 1.15; }
+html body .faq2__contact h4 { font-size: 1.3rem; }
+
+/* Segmented controls, as in the app's Orders tab. */
+html body .why-tabs__switch { background: var(--sand); border: 0; }
+html body .why-tabs__btn--active { color: var(--ink); }
+html body .why-tabs__glider { background: #fff; }
+html body .how-stepper__toggle {
+  gap: 0;
+  padding: 0.25rem;
+  background: var(--sand);
+  border-radius: 999px;
+}
+html body .how-stepper__toggle-btn { background: transparent; border: 0; color: var(--soft); }
+html body .how-stepper__toggle-btn--active { background: #fff; color: var(--ink); }
+html body .faq2__switch-btn { background: transparent; border: 1px solid var(--rule); color: var(--soft); }
+html body .faq2__switch-btn--active { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+/* Stepper */
+html body .stepper__rail { --track-h: 1px; }
+html body .stepper__num { background: var(--paper); border: 1px solid var(--rule); color: var(--soft); }
+html body .stepper__progress { height: 2px; }
+html body .stepper__node--done .stepper__num { background: #fff; }
+html body .stepper__node--active .stepper__num { background: var(--clr-accent); border-color: var(--clr-accent); color: #fff; }
+html body .stepper__panel { animation: paper-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+html body .stepper__arrow { background: #fff; border-color: var(--rule); }
+html body .stepper__arrow:hover:not(:disabled) { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+/* FAQ */
+html body .faq2__q { font-size: 1.08rem; font-weight: 600; transition: color 0.2s, padding-left 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+html body .faq2__q:hover { color: var(--clr-accent); padding-left: 0.4rem; }
+html body .faq2__icon { border-color: var(--rule); color: var(--ink); }
+html body .faq2__item--open .faq2__icon { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+@keyframes paper-rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Impact: the big figure, on sand ──────────────────────── */
+html body .impact { background: var(--sand); }
+html body .impact .section-label.section-label { background: var(--paper); color: var(--ink); }
+html body .impact-feature__num {
+  font-family: var(--serif);
+  font-weight: var(--serif-weight);
+  font-size: clamp(7rem, 16vw, 13rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: var(--clr-accent);
+  font-synthesis: none;
+  margin: 0.75rem 0 1.25rem;
+}
+html body .paper-impact-bar {
+  height: 4px;
+  max-width: 460px;
+  margin-bottom: 1.5rem;
+  border-radius: 999px;
+  background: var(--rule);
+  overflow: hidden;
+}
+html body .paper-impact-bar span { display: block; height: 100%; border-radius: 999px; background: var(--clr-accent); }
+html body .impact-feature__text { color: var(--soft); font-size: 1.1rem; max-width: 460px; }
+html body .impact-feature__side { gap: 1.5rem; }
+html body .impact-feature__row { border-bottom: 1px solid var(--rule); padding-bottom: 1.5rem; }
+html body .impact-feature__row strong {
+  font-family: var(--serif);
+  font-weight: var(--serif-weight);
+  font-size: 2.1rem;
+  line-height: 1.05;
+  min-width: 112px;
+  color: var(--ink);
+  font-synthesis: none;
+}
+html body .impact-feature__row h4 {
+  font-family: var(--serif);
+  font-weight: var(--serif-weight);
+  font-size: 1.3rem;
+  color: var(--ink);
+  font-synthesis: none;
+}
+html body .impact-feature__row p { color: var(--soft); font-size: 0.92rem; }
+html body .impact-feature__side .btn--secondary { background: #fff; border-color: var(--rule); color: var(--ink); }
+html body .impact-feature__side .btn--secondary:hover { background: #fff; border-color: var(--ink); color: var(--ink); }
+
+/* ── Final call to action ─────────────────────────────────── */
+html body .cta-section { background: var(--paper); }
+html body .cta-section::before,
+html body .cta-section::after { display: none; }
+html body .cta-section__inner {
+  max-width: none;
+  padding: clamp(3rem, 7vw, 5.5rem) clamp(1.25rem, 4vw, 3rem);
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 32px;
+}
+html body .cta-section__badge {
+  background: var(--sand);
+  border: 0;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-size: 0.78rem;
+}
+html body .cta-section__headline.cta-section__headline {
+  justify-content: center;
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  line-height: 1.06;
+  max-width: 900px;
+}
+html body .cta-section__subtext { color: var(--soft); max-width: 680px; }
+html body .cta-section__note { color: var(--soft); }
+html body .cta-section__merchant-link { color: var(--clr-accent); }
+html body .store-badge,
+html body .store-badge--soon {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+  opacity: 1;
+}
+html body .store-badge small { color: rgba(255, 255, 255, 0.65); }
+
+/* ── Footer ───────────────────────────────────────────────── */
+html body .footer {
+  background: var(--sand);
+  color: var(--soft);
+  border-top: 1px solid var(--rule);
+}
+html body .footer__tagline { color: var(--soft); }
+html body .footer__links-title { color: var(--ink); }
+html body .footer__links-prompt { color: rgba(122, 107, 92, 0.8); }
+html body .footer__links a { color: var(--soft); }
+html body .footer__links a:hover { color: var(--ink); }
+html body .footer__links--contact li { color: var(--soft); }
+html body .footer__social { background: var(--paper); border-color: var(--rule); color: var(--ink); }
+html body .footer__social:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
+html body .footer__bottom { border-color: var(--rule); }
+html body .footer__copy,
+html body .footer__legal a { color: var(--soft); }
+html body .footer__legal a:hover { color: var(--ink); }
+
+/* ── Other public pages ───────────────────────────────────── */
+html body .biz,
+html body .contact-page { background: var(--paper); }
+html body .biz__title.biz__title,
+html body .contact-title.contact-title,
+html body .legal-page__title.legal-page__title,
+html body .careers-title.careers-title {
+  font-family: var(--serif);
+  font-weight: var(--serif-weight);
+  letter-spacing: var(--serif-track);
+  color: var(--ink);
+  font-synthesis: none;
+  text-transform: none;
+}
+html body .biz__title.biz__title,
+html body .contact-title.contact-title { font-size: clamp(2.5rem, 4.6vw, 3.9rem); line-height: 1.06; }
+html body .legal-page__title.legal-page__title { font-size: clamp(2.4rem, 4.4vw, 3.6rem); line-height: 1.08; }
+html body .legal-page { background: var(--paper); }
+html body .legal-page__eyebrow { color: var(--clr-accent); }
+html body .legal-body h2 {
+  font-family: var(--serif);
+  font-weight: var(--serif-weight);
+  font-size: 1.5rem;
+  letter-spacing: var(--serif-track);
+  font-synthesis: none;
+}
+html body .biz__badge { background: var(--sand); color: var(--ink); }
+html body .biz-perk__icon { background: var(--sand); color: var(--ink); }
+html body .coming-soon-page { background: var(--paper); }
+html body .coming-soon-page__badge { background: var(--sand); color: var(--ink); }
+html body .coming-soon-page__title { font-size: clamp(2.4rem, 4.6vw, 3.8rem); line-height: 1.08; }
+
+/* Careers: was a black page; now the same paper as everything else. */
+html body .careers-eyebrow { color: var(--clr-accent); letter-spacing: 0.04em; text-transform: none; font-size: 0.85rem; }
+html body .careers-title.careers-title { font-size: clamp(2.8rem, 6vw, 5rem); line-height: 1.05; }
+html body .careers-subtitle { color: var(--soft); }
+html body .careers-filter-wrap { background: #fff; border: 1px solid var(--rule); border-radius: 20px; }
+html body .career-field label { color: var(--ink); }
+html body .career-field select { background: var(--paper); border: 1px solid var(--rule); border-radius: 14px; color: var(--ink); }
+html body .careers-search-btn { background: var(--ink); color: #fff; }
+html body .careers-clear-btn { color: var(--soft); }
+html body .careers-result-summary { color: var(--soft); }
+html body .career-row { border-bottom: 1px solid var(--rule); color: var(--ink); }
+html body .career-row:hover { background: transparent; color: var(--clr-accent); transform: translateX(6px); }
+html body .career-role {
+  font-family: var(--serif);
+  font-weight: var(--serif-weight);
+  font-size: 1.45rem;
+  letter-spacing: var(--serif-track);
+  text-transform: none;
+  font-synthesis: none;
+}
+html body .career-meta,
+html body .career-meta--type { color: var(--soft); }
+html body .career-arrow { color: var(--soft); }
+html body .career-detail { border-bottom: 1px solid var(--rule); }
+html body .career-detail__desc,
+html body .career-detail__list li { color: var(--ink); }
+html body .career-detail__heading,
+html body .career-detail__note,
+html body .careers-footer-note { color: var(--soft); }
+
+/* ── Small screens ────────────────────────────────────────── */
+@media (max-width: 900px) {
+  html body .paper-hero-float--box { left: 12px; right: 12px; width: auto; bottom: 14px; }
+  html body .paper-hero-float--near { right: 12px; top: 12px; }
+}
+@media (max-width: 640px) {
+  /* Nine characters to the first comma: small enough that "價格" stays on one line. */
+  html body [lang="zh-TW"] .hero.hero--split .hero__headline.hero__headline,
+  html body [lang="zh-CN"] .hero.hero--split .hero__headline.hero__headline {
+    font-size: min(9.2vw, 2.4rem);
+    line-height: 1.22;
+  }
+  html body .section { padding: 4.25rem 0; }
+  html body .impact-feature__row strong { min-width: 84px; font-size: 1.7rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body .stepper__panel { animation: none; }
+  html body .btn:hover { transform: none; }
+}

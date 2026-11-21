@@ -7,6 +7,8 @@ import ClickSpark from '@/components/reactbits/ClickSpark'
 import CountUp from '@/components/reactbits/CountUp'
 import ScrollReveal from '@/components/reactbits/ScrollReveal'
 import ShinyText from '@/components/reactbits/ShinyText'
+import HeroMedia from '@/components/motion/HeroMedia'
+import { ImpactBar, MotionRoot, Reveal, ScrollProgress } from '@/components/motion/Reveal'
 
 // Brand colours for the React Bits effects (style.css :root).
 const ORANGE = '#EB6A00'
@@ -17,7 +19,40 @@ const SPARKS = ['#1A1714', '#EB6A00', '#F1A71F']
 function Figure({ value }: { value: string }) {
   const m = value.match(/^(\d+)(%?)$/)
   if (!m) return <>{value}</>
-  return <CountUp to={Number(m[1])} suffix={m[2]} duration={1.6} />
+  return <CountUp to={Number(m[1])} suffix={m[2]} duration={2.2} />
+}
+
+/** A section heading that comes in word by word (Chinese: character by character). */
+function Title({
+  locale,
+  className,
+  text,
+  accent,
+  tail,
+}: {
+  locale: Locale
+  className: string
+  text: string
+  accent?: string
+  tail?: string
+}) {
+  return (
+    <BlurText
+      as="h2"
+      className={className}
+      segments={[
+        { text },
+        ...(accent ? [{ text: accent, className: 'hero__headline-accent' }] : []),
+        ...(tail ? [{ text: tail }] : []),
+      ]}
+      trigger="view"
+      rootMargin="-8% 0px"
+      delay={locale === 'en' ? 85 : 42}
+      stepDuration={0.42}
+      distance={34}
+      blur={12}
+    />
+  )
 }
 
 /**
@@ -36,14 +71,23 @@ export default function HomeSections({ locale }: { locale: Locale }) {
   const businessHref = `${base}/business`
 
   return (
-    <>
+    <MotionRoot>
+      {/* Everything is visible if scripts never run. */}
+      <noscript>
+        <style>{`.paper-home *{opacity:1!important;transform:none!important;filter:none!important;clip-path:none!important}`}</style>
+      </noscript>
+      <ScrollProgress />
+      {/* data-motion: these sections animate themselves, so ScrollAnimations leaves them alone. */}
+      <main className="paper-home" data-motion>
       {/* ── 1 · HERO — slogan-first, real photo, minimal text ── */}
       <section className="hero hero--split" id="home">
         <div className="hero--split__inner container">
           <div className="hero--split__text">
-            <span className="hero__badge">
-              <ShinyText text={c.hero.badge} color={ORANGE} shineColor="#FFD9A8" speed={3} delay={1.5} />
-            </span>
+            <Reveal onLoad y={18} className="paper-badge-wrap">
+              <span className="hero__badge">
+                <ShinyText text={c.hero.badge} color={ORANGE} shineColor="#FFD9A8" speed={2.4} delay={0.8} />
+              </span>
+            </Reveal>
             {/* Word by word out of a soft blur (Chinese: character by character) */}
             <BlurText
               as="h1"
@@ -55,35 +99,25 @@ export default function HomeSections({ locale }: { locale: Locale }) {
               ]}
               trigger="load"
               animateBy="words"
-              delay={locale === 'en' ? 70 : 45}
-              stepDuration={0.32}
-              distance={18}
-              blur={8}
+              delay={locale === 'en' ? 105 : 62}
+              stepDuration={0.5}
+              distance={52}
+              blur={16}
             />
-            <p className="hero__subtext hero__subtext--tight">{c.hero.subtext}</p>
-            <ClickSpark className="hero__cta-group" style={{ width: 'auto', height: 'auto' }} sparkColor={SPARKS} sparkCount={10} sparkRadius={42}>
-              <a href="#download" className="btn btn--primary btn--large">{c.hero.ctaPrimary}</a>
-              <a href={businessHref} className="btn btn--ghost-line btn--large">
-                {c.hero.ctaSecondary}
-              </a>
-            </ClickSpark>
+            <Reveal onLoad delay={locale === 'en' ? 1.05 : 1} y={30}>
+              <p className="hero__subtext hero__subtext--tight">{c.hero.subtext}</p>
+            </Reveal>
+            <Reveal onLoad delay={locale === 'en' ? 1.2 : 1.15} y={30}>
+              <ClickSpark className="hero__cta-group" style={{ width: 'auto', height: 'auto' }} sparkColor={SPARKS} sparkCount={12} sparkRadius={58} sparkSize={15}>
+                <a href="#download" className="btn btn--primary btn--large">{c.hero.ctaPrimary}</a>
+                <a href={businessHref} className="btn btn--ghost-line btn--large">
+                  {c.hero.ctaSecondary}
+                </a>
+              </ClickSpark>
+            </Reveal>
           </div>
 
-          <div className="hero--split__media">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/hero-bakery.jpg" alt={c.hero.photoAlt} className="hero--split__photo" />
-            <div className="hero--split__chip hero--split__chip--price">
-              <span className="hero--split__chip-save">−50%</span>
-              <div>
-                <strong>{c.hero.chipBox}</strong>
-                <span>{c.hero.chipMeta}</span>
-              </div>
-            </div>
-            <div className="hero--split__chip hero--split__chip--near">
-              <span className="hero--split__chip-dot" />
-              {c.hero.chipNear}
-            </div>
-          </div>
+          <HeroMedia alt={c.hero.photoAlt} box={c.hero.chipBox} meta={c.hero.chipMeta} near={c.hero.chipNear} />
         </div>
       </section>
 
@@ -117,13 +151,9 @@ export default function HomeSections({ locale }: { locale: Locale }) {
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 6.5C10.5 5 8 4 5 4v13c3 0 5.5 1 7 2.5 1.5-1.5 4-2.5 7-2.5V4c-3 0-5.5 1-7 2.5z" /></svg>
                 {c.about.label}
               </div>
-              <h2 className="story-editorial__title">
-                {/* Any space before the accent word belongs in the copy — CJK
-                    must not get one, English must. */}
-                {c.about.title}
-                <span className="hero__headline-accent">{c.about.titleAccent}</span>
-                {c.about.titleTail}
-              </h2>
+              {/* Any space before the accent word belongs in the copy — CJK
+                  must not get one, English must. */}
+              <Title locale={locale} className="story-editorial__title" text={c.about.title} accent={c.about.titleAccent} tail={c.about.titleTail} />
               <a href={`${base}/about`} className="btn btn--secondary btn--large">{c.about.cta}</a>
             </div>
 
@@ -143,11 +173,15 @@ export default function HomeSections({ locale }: { locale: Locale }) {
               >
                 {c.about.lead}
               </ScrollReveal>
-              <p className="story-editorial__text">{c.about.text}</p>
-              <blockquote className="story-quote">
-                <p className="story-quote__text">{c.about.quote}</p>
-                <footer className="story-quote__by">{c.about.quoteBy}</footer>
-              </blockquote>
+              <Reveal y={36}>
+                <p className="story-editorial__text">{c.about.text}</p>
+              </Reveal>
+              <Reveal y={36} delay={0.12}>
+                <blockquote className="story-quote">
+                  <p className="story-quote__text">{c.about.quote}</p>
+                  <footer className="story-quote__by">{c.about.quoteBy}</footer>
+                </blockquote>
+              </Reveal>
             </div>
           </div>
         </div>
@@ -160,7 +194,7 @@ export default function HomeSections({ locale }: { locale: Locale }) {
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.2L12 16.4 5.7 20.8 8 13.6l-6-4.4h7.6z" /></svg>
             {c.why.label}
           </div>
-          <h2 className="section-title">{c.why.title}</h2>
+          <Title locale={locale} className="section-title" text={c.why.title} />
 
           <WhyTabs content={c.why} businessHref={businessHref} />
         </div>
@@ -173,9 +207,9 @@ export default function HomeSections({ locale }: { locale: Locale }) {
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18h6M10 22h4" /><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z" /></svg>
             {c.how.label}
           </div>
-          <h2 className="section-title">{c.how.title}</h2>
+          <Title locale={locale} className="section-title" text={c.how.title} />
 
-          <HowStepper content={c.how} />
+          <Reveal><HowStepper content={c.how} /></Reveal>
         </div>
       </section>
 
@@ -189,19 +223,26 @@ export default function HomeSections({ locale }: { locale: Locale }) {
                 {c.impact.label}
               </div>
               <span className="impact-feature__num"><Figure value={c.impact.num} /></span>
-              <p className="impact-feature__text">{c.impact.text}</p>
+              {/^\d+%$/.test(c.impact.num) && <ImpactBar percent={parseInt(c.impact.num, 10)} />}
+              <Reveal y={30}>
+                <p className="impact-feature__text">{c.impact.text}</p>
+              </Reveal>
             </div>
             <div className="impact-feature__side">
-              {c.impact.rows.map((row) => (
-                <div key={row.title} className="impact-feature__row">
-                  <strong><Figure value={row.num} /></strong>
-                  <div>
-                    <h4>{row.title}</h4>
-                    <p>{row.text}</p>
+              {c.impact.rows.map((row, i) => (
+                <Reveal key={row.title} y={36} delay={i * 0.14}>
+                  <div className="impact-feature__row">
+                    <strong><Figure value={row.num} /></strong>
+                    <div>
+                      <h4>{row.title}</h4>
+                      <p>{row.text}</p>
+                    </div>
                   </div>
-                </div>
+                </Reveal>
               ))}
-              <a href={`${base}/impact`} className="btn btn--secondary">{c.impact.cta}</a>
+              <Reveal y={24} delay={0.3}>
+                <a href={`${base}/impact`} className="btn btn--secondary">{c.impact.cta}</a>
+              </Reveal>
             </div>
           </div>
         </div>
@@ -214,17 +255,17 @@ export default function HomeSections({ locale }: { locale: Locale }) {
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg>
             {c.faq.label}
           </div>
-          <h2 className="section-title">{c.faq.title}</h2>
-          <FaqTabs content={c.faq} contactHref={`${base}/contact`} />
+          <Title locale={locale} className="section-title" text={c.faq.title} />
+          <Reveal><FaqTabs content={c.faq} contactHref={`${base}/contact`} /></Reveal>
         </div>
       </section>
 
       {/* ── 8 · FINAL CTA — download ── */}
       <section className="cta-section section" id="download">
         <div className="container">
-          <div className="cta-section__inner">
+          <Reveal className="cta-section__inner" y={70}>
             <span className="cta-section__badge">{c.cta.badge}</span>
-            <h2 className="cta-section__headline">{c.cta.headline}</h2>
+            <Title locale={locale} className="cta-section__headline" text={c.cta.headline} />
             <p className="cta-section__subtext">{c.cta.subtext}</p>
             <div className="cta-section__actions store-badges">
               {/* TODO: replace with real store links once the app ships */}
@@ -247,9 +288,10 @@ export default function HomeSections({ locale }: { locale: Locale }) {
               {c.cta.note}
               <a href={businessHref} className="cta-section__merchant-link">{c.cta.noteLink}</a>
             </p>
-          </div>
+          </Reveal>
         </div>
       </section>
-    </>
+      </main>
+    </MotionRoot>
   )
 }
