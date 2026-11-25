@@ -2,9 +2,17 @@
 
 import { createClient } from '@/lib/supabase-server'
 
+/**
+ * `code` is what the form renders — the client holds the translated strings,
+ * so this action stays locale-agnostic. `message` is kept as an English
+ * fallback for logs and any caller that doesn't map the code.
+ */
+export type ContactErrorCode = 'missing' | 'email' | 'server'
+
 export interface ContactFormState {
   status: 'idle' | 'success' | 'error'
   message: string
+  code?: ContactErrorCode
 }
 
 export async function submitContact(
@@ -18,12 +26,12 @@ export async function submitContact(
   const message = (formData.get('message') as string)?.trim()
 
   if (!name || !email || !inquiry_type || !message) {
-    return { status: 'error', message: 'Please fill in all required fields.' }
+    return { status: 'error', code: 'missing', message: 'Please fill in all required fields.' }
   }
 
   const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   if (!emailRe.test(email)) {
-    return { status: 'error', message: 'Please enter a valid email address.' }
+    return { status: 'error', code: 'email', message: 'Please enter a valid email address.' }
   }
 
   const supabase = await createClient()
@@ -33,7 +41,7 @@ export async function submitContact(
 
   if (error) {
     console.error('Supabase insert error:', error.message)
-    return { status: 'error', message: 'Something went wrong. Please try again.' }
+    return { status: 'error', code: 'server', message: 'Something went wrong. Please try again.' }
   }
 
   return { status: 'success', message: "Message sent! We'll be in touch soon." }
